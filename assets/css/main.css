@@ -1,0 +1,154 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap'); */
+/* @import url('https://fonts.cdnfonts.com/css/sf-pro-display'); */
+@import '../fonts/fonts.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom styles here */
+html {
+	scroll-behavior: smooth;
+}
+
+@layer base {
+	body {
+		@apply font-sf font-light overflow-x-hidden text-black bg-background-grey_3 dark:bg-dark-1 dark:text-white/[0.8];
+	}
+}
+
+@layer components {
+	.card {
+		@apply py-1.5 px-2 rounded-lg bg-white dark:bg-dark-0 dark:text-white/[0.8] dark:border-white/[0.1];
+	}
+
+	.container {
+		@apply mx-auto px-4 max-w-[1720px];
+	}
+
+	.title {
+		@apply relative before:inline-block before:w-1.5 before:absolute before:top-0 before:h-full before:rounded-full before:bg-purple ml-3 before:-left-3 font-semibold uppercase tracking-wide;
+	}
+
+	.tbody-striped tr:nth-child(odd) {
+		background-color: rgba(70, 90, 149, 0.04);
+	}
+
+	.tbody-striped tr {
+		transition: background-color 0.2s;
+	}
+
+	.tbody-striped tr:hover {
+		background-color: rgba(70, 90, 149, 0.08);
+	}
+
+	.dark .tbody-striped tr:nth-child(odd) {
+		background-color: #292a2c;
+	}
+
+	.dark .tbody-striped tr:nth-child(even) {
+		background-color: rgba(255, 255, 255, 0.02);
+	}
+
+	.dark .tbody-striped tr:hover {
+		background-color: rgba(255, 255, 255, 0.05);
+	}
+
+	.table_config {
+		@apply bg-white rounded-lg mt-1.5 pb-3 dark:bg-dark-0;
+	}
+}
+
+* {
+	@apply box-border m-0 p-0 text-inherit font-inherit;
+}
+
+*::-webkit-scrollbar {
+	width: 6px;
+	height: 6px;
+}
+
+*::-webkit-scrollbar-thumb {
+	background-color: #6c584c99;
+	border-radius: 10px;
+}
+
+/* tailwind-compatible global CSS */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+
+input[type=number] {
+	-moz-appearance: textfield;
+}
+
+/* transitions */
+.fade-enter-active,
+.fade-leave-active {
+	transition: opacity 0.3s;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+	opacity: 0;
+}
+
+.fade-enter-to,
+.fade-leave-from {
+	opacity: 1;
+}
+
+/* For system messages (appear from left) */
+.chat-enter-active,
+.chat-leave-active {
+	transition: all 0.2s ease;
+}
+.chat-enter-from {
+	transform: translateY(10px);
+	opacity: 0;
+}
+.chat-enter-to {
+	transform: translateY(0);
+	opacity: 1;
+}
+.chat-leave-to {
+	transform: translateY(-10px);
+	opacity: 0;
+}
+
+/* Enter & leave animations */
+.list-enter-active, .list-leave-active {
+	transition: all 0.3s ease-in-out;
+}
+
+/* Item appearing */
+.list-enter-from {
+	opacity: 0;
+	transform: translateY(-10px);
+}
+
+/* Item leaving */
+.list-leave-to {
+	opacity: 0;
+	transform: scale(0.8);
+}
+
+/* Move items smoothly when reordering */
+.list-move {
+	transition: transform 0.3s ease-in-out;
+}
+
+.disabled-block {
+	background-color: #e0e0e0;
+	color: #999999;
+	opacity: 0.5;
+	cursor: not-allowed !important;
+	pointer-events: none;
+}
+
+.disabled-block:hover {
+	cursor: not-allowed !important;
+	pointer-events: none;
+}

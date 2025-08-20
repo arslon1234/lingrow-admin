@@ -1,0 +1,35 @@
+export interface EventByOtherResponse {
+  id: string;
+  driver: DriverResponse;
+  vehicle: VehicleResponse;
+  shippingDocumentNumber: string;
+  sequenceId: number;
+  recordStatus: number;
+  recordOrigin: number;
+  eventType: number;
+  eventCode: number;
+  dateTime: string;
+  accumulatedVehicleMiles: number;
+  totalVehicleMiles: number;
+  accumulatedEngineHours: number;
+  totalEngineHours: number;
+  latitude: number;
+  longitude: number;
+  calculatedLocation: string;
+  manualLocation: string;
+  distanceFromLastValidCoordinate: number;
+  isMalfunctionActive: boolean;
+  isDiagnosticActive: boolean;
+  malfunctionIndicator: boolean;
+  diagnosticIndicator: boolean;
+  malfunctionCode: number;
+  diagnosticCode: number;
+  malfunctionEventId: string;
+  diagnosticEventId: string;
+  annotation: string;
+  timeZoneOffsetFromUTC: number;
+  certifiedDate: string;
+  isRejected: boolean;
+  suggestedEventId: string;
+  editedByOtherUserEventIds: string[];
+}
