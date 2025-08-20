@@ -19,9 +19,9 @@
 				</UButton>
 			</div>
 			<div class="mt-6 space-y-2 text-white dark:text-white/[0.8]">
-				<UButton to="/overview" active-class="!text-white"
-					:class="{ '!text-white': route.path.includes('overview') }" variant="ghost"
-					:label="sidebarOpen ? 'Overview' : ''" block size="xl" :ui="{
+				<UButton to="/listening" active-class="!text-white"
+					:class="{ '!text-white': route.path.includes('listening') }" variant="ghost"
+					:label="sidebarOpen ? 'Listening' : ''" block size="xl" :ui="{
 						rounded: 'rounded-lg',
 						block: 'justify-start',
 						padding: { xl: 'px-3 py-2.5' },
@@ -31,345 +31,44 @@
 						variant: { ghost: 'hover:bg-brown-0 text-white/[0.7] dark:hover:bg-white/[0.1] dark:text-white/[0.7]' }
 					}">
 					<template #leading>
-						<MapIcon class="w-5 shrink-0" />
-					</template>
-				</UButton>
-				<UAccordion :items="[
-					{
-						innerItems: sidebarOpen
-							? [
-								{ label: 'Logs', to: '/logs' },
-								{ label: 'Driver logs', to: '/driver-logs' },
-								{ label: 'Unassigned', to: '/unassigned' }
-							]
-							: [],
-						defaultOpen: route.path.startsWith('/carriers') || route.path.includes('logs') || route.path.startsWith('/logs') || route.path === '/unassigned' || (!!route.params.id && route.path.includes('logs'))
-					}
-				]" :ui="{ container: isHoverEnabled && !sidebarOpen && '[&>div]:hidden', item: { base: 'text-end space-y-[2px]', padding: 'pb-0' } }">
-					<template #default="{ _, open }">
-						<UButton
-							:class="{ 'bg-brown-0 text-white dark:bg-white/[0.1]': open && sidebarOpen, 'text-white': open || route.path.includes('logs') || route.path.startsWith('/logs') || route.path.includes('unassigned') }"
-							variant="ghost" :label="sidebarOpen ? 'Eld' : ''" block size="xl" :ui="{
-								rounded: 'rounded-lg',
-								block: 'justify-between',
-								padding: { xl: 'px-3 py-2.5' },
-								size: { xl: 'text-xs' },
-								font: 'font-medium',
-								base: 'uppercase tracking-wide',
-								variant: { ghost: 'hover:bg-brown-0 text-white/[.7] hover:text-white  dark:hover:bg-white/[0.1]  dark:text-white/[0.7]' }
-							}">
-							<template #trailing v-if="sidebarOpen">
-								<UIcon name="i-heroicons-chevron-down-20-solid"
-									class="w-5 h-5 ms-auto transform transition-transform duration-200"
-									:class="[open && 'rotate-180']" />
-							</template>
-							<template #leading>
-								<ListIcon class="w-5 shrink-0" />
-							</template>
-						</UButton>
-					</template>
-					<template #item="{ item }">
-						<UButton v-for="itm in item.innerItems" :key="itm.to" :to="itm.to" :class="{
-							'bg-brown-0 text-white dark:bg-white/[0.1]': route.path === itm.to || (route.path.includes(itm.to) && !!route.params.id),
-							'relative w-5/6 first:before:h-4 before:h-10 before:rounded-bl-md': true
-						}" class="before:absolute before:left-0 before:bottom-4 before:-translate-x-1/2 before:border-l-2 before:border-b-2 before:border-brown-0 before:w-3 dark:before:border-white/[0.1]"
-							variant="ghost" size="xl" :label="sidebarOpen ? itm.label : ''" :ui="{
-								rounded: 'rounded-lg',
-								block: 'justify-between',
-								padding: { xl: 'px-3 py-2' },
-								size: { xl: 'text-xs' },
-								font: 'font-medium',
-								base: 'tracking-wide',
-								variant: { ghost: 'hover:bg-brown-0 text-white/[.7] hover:text-white  dark:hover:bg-white/[0.1]  dark:text-white/[0.7]' }
-							}" />
-					</template>
-				</UAccordion>
-				<UButton to="/vehicle" active-class="!text-white" variant="ghost" :label="sidebarOpen ? 'Vehicles' : ''"
-					block size="xl" :ui="{
-						rounded: 'rounded-lg',
-						block: 'justify-start',
-						padding: { xl: 'px-3 py-2.5' },
-						size: { xl: 'text-xs' },
-						font: 'font-medium',
-						base: 'uppercase tracking-wide',
-						variant: { ghost: 'hover:bg-brown-0 text-white/[.7]  dark:hover:bg-white/[0.1]  dark:text-white/[0.7]' }
-					}">
-					<template #leading>
-						<TruckIcon class="w-5 shrink-0" />
-					</template>
-				</UButton>
-				<UButton to="/drivers" active-class="!text-white" variant="ghost" :label="sidebarOpen ? 'Drivers' : ''"
-					block size="xl" :ui="{
-						rounded: 'rounded-lg',
-						block: 'justify-start',
-						padding: { xl: 'px-3 py-2.5' },
-						size: { xl: 'text-xs' },
-						font: 'font-medium',
-						base: 'uppercase tracking-wide',
-						variant: { ghost: 'hover:bg-brown-0 text-white/[.7]  dark:hover:bg-white/[0.1]  dark:text-white/[0.7]' }
-					}">
-					<template #leading>
-						<UsersIcon class="w-5 shrink-0" />
-					</template>
-				</UButton>
-				<UButton to="/ifta" active-class="!text-white" variant="ghost" :label="sidebarOpen ? 'Ifta' : ''" block
-					size="xl" :ui="{
-						rounded: 'rounded-lg',
-						block: 'justify-start',
-						padding: { xl: 'px-3 py-2.5' },
-						size: { xl: 'text-xs' },
-						font: 'font-medium',
-						base: 'uppercase tracking-wide',
-						variant: { ghost: 'hover:bg-brown-0 text-white/[.7]  dark:hover:bg-white/[0.1]  dark:text-white/[0.7]' }
-					}">
-					<template #leading>
-						<IftaIcon class="w-5 shrink-0" />
-					</template>
-				</UButton>
-				<UButton to="/alerts" active-class="!text-white" variant="ghost" :label="sidebarOpen ? 'Alerts' : ''"
-					block size="xl" :ui="{
-						rounded: 'rounded-lg',
-						block: 'justify-start',
-						padding: { xl: 'px-3 py-2.5' },
-						size: { xl: 'text-xs' },
-						font: 'font-medium',
-						base: 'uppercase tracking-wide',
-						variant: { ghost: 'hover:bg-brown-0 text-white/[.7]  dark:hover:bg-white/[0.1]  dark:text-white/[0.7]' }
-					}">
-					<template #leading>
 						<BellIcon class="w-5 shrink-0" />
 					</template>
 				</UButton>
-				<UButton to="/dvir" active-class="!text-white" :class="{ '!text-white': route.path.includes('dvir') }"
-					variant="ghost" :label="sidebarOpen ? 'Dvirs' : ''" block size="xl" :ui="{
+				<UButton to="/reading" active-class="!text-white"
+					:class="{ '!text-white': route.path.includes('reading') }" variant="ghost"
+					:label="sidebarOpen ? 'Reading' : ''" block size="xl" :ui="{
 						rounded: 'rounded-lg',
 						block: 'justify-start',
 						padding: { xl: 'px-3 py-2.5' },
 						size: { xl: 'text-xs' },
 						font: 'font-medium',
 						base: 'uppercase tracking-wide',
-						variant: { ghost: 'hover:bg-brown-0 text-white/[.7]  dark:hover:bg-white/[0.1]  dark:text-white/[0.7]' }
+						variant: { ghost: 'hover:bg-brown-0 text-white/[0.7] dark:hover:bg-white/[0.1] dark:text-white/[0.7]' }
 					}">
 					<template #leading>
 						<FileIcon class="w-5 shrink-0" />
 					</template>
 				</UButton>
-				<UButton to="/carrier" active-class="!text-white"
-					:class="{ '!text-white': route.path.includes('carrier') }" variant="ghost"
-					:label="sidebarOpen ? 'Company' : ''" block size="xl" :ui="{
+				<UButton to="/writing" active-class="!text-white"
+					:class="{ '!text-white': route.path.includes('writing') }" variant="ghost"
+					:label="sidebarOpen ? 'Writing' : ''" block size="xl" :ui="{
 						rounded: 'rounded-lg',
 						block: 'justify-start',
 						padding: { xl: 'px-3 py-2.5' },
 						size: { xl: 'text-xs' },
 						font: 'font-medium',
 						base: 'uppercase tracking-wide',
-						variant: { ghost: 'hover:bg-brown-0 text-white/[.7]  dark:hover:bg-white/[0.1]  dark:text-white/[0.7]' }
-					}">
-					<template #leading>
-						<UIcon name="i-f7:building-columns" class="w-5 h-5 shrink-0" />
-					</template>
-				</UButton>
-
-				<UButton to="/portal-users" active-class="!text-white" variant="ghost"
-					:label="sidebarOpen ? 'Portal users' : ''" block size="xl" :ui="{
-						rounded: 'rounded-lg',
-						block: 'justify-start',
-						padding: { xl: 'px-3 py-2.5' },
-						size: { xl: 'text-xs whitespace-nowrap' },
-						font: 'font-medium',
-						base: 'uppercase tracking-wide',
-						variant: { ghost: 'hover:bg-brown-0 text-white/[.7]  dark:hover:bg-white/[0.1]  dark:text-white/[0.7]' }
-					}">
-					<template #leading>
-						<UserIcon class="w-5 shrink-0" />
-					</template>
-				</UButton>
-
-				<UButton to="/chats" active-class="!text-white" variant="ghost" :label="sidebarOpen ? 'Chat' : ''" block
-					size="xl" :ui="{
-						rounded: 'rounded-lg',
-						block: 'justify-start',
-						padding: { xl: 'px-3 py-2.5' },
-						size: { xl: 'text-xs whitespace-nowrap' },
-						font: 'font-medium',
-						base: 'uppercase tracking-wide',
-						variant: { ghost: 'hover:bg-brown-0 text-white/[.7]  dark:hover:bg-white/[0.1]  dark:text-white/[0.7]' }
+						variant: { ghost: 'hover:bg-brown-0 text-white/[0.7] dark:hover:bg-white/[0.1] dark:text-white/[0.7]' }
 					}">
 					<template #leading>
 						<MessageIcon class="w-5 shrink-0" />
 					</template>
 				</UButton>
 
-				<UAccordion :items="[
-					{
-						innerItems: sidebarOpen
-							? [
-								{ label: 'Activity', to: '/tools/activity' },
-								{ label: 'Monitoring', to: '/tools/monitoring' },
-								{ label: 'Dot inspection', to: '/tools/dot-inspection' },
-								{ label: 'Deletion Menu', to: '/tools/deletion-menu' },
-								{ label: 'Audit', to: '/tools/audit' },
-								{ label: 'Users', to: '/tools/users' },
-								{ label: 'ELDs', to: '/tools/elds' },
-								{ label: 'Statistic admin', to: '/tools/statistics' },
-								{ label: 'Statistic company', to: '/tools/carrier' }
-							]
-							: [],
-						defaultOpen:
-							route.path.includes('/tools')
-					}
-				]" :ui="{ item: { base: 'text-end space-y-[2px]', padding: 'pb-0' } }">
-					<template #default="{ _, open }">
-						<UButton
-							:class="{ 'bg-brown-0 dark:bg-white/[0.1]': open && sidebarOpen, 'text-white': open || route.path.includes('/tools') }"
-							variant="ghost" :label="sidebarOpen ? 'Tools' : ''" block size="xl" :ui="{
-								rounded: 'rounded-lg',
-								block: 'justify-between',
-								padding: { xl: 'px-3 py-2.5' },
-								size: { xl: 'text-xs' },
-								font: 'font-medium',
-								base: 'uppercase tracking-wide',
-								variant: { ghost: 'hover:bg-brown-0 text-white/[.7] hover:text-white  dark:hover:bg-white/[0.1]  dark:text-white/[0.7]' }
-							}">
-							<template #trailing v-if="sidebarOpen">
-								<UIcon name="i-heroicons-chevron-down-20-solid"
-									class="w-5 h-5 ms-auto transform transition-transform duration-200"
-									:class="[open && 'rotate-180']" />
-							</template>
-							<template #leading>
-								<ToolIcon class="w-5 shrink-0" />
-							</template>
-						</UButton>
-					</template>
-					<template #item="{ item }">
-						<UButton v-for="itm in item.innerItems"
-							:class="{ 'bg-brown-0 text-white dark:bg-white/[0.1]': route.path === itm.to || (route.path.includes(itm.to) && !!route.params.id) }"
-							:to="itm.to"
-							class="w-5/6 relative before:absolute before:left-0 before:bottom-4 before:-translate-x-1/2 before:border-l-2 before:border-b-2 before:border-brown-0 before:w-3 first:before:h-4 before:h-10 before:rounded-bl-md dark:before:border-white/[0.1]"
-							variant="ghost" :label="sidebarOpen ? itm.label : ''" size="xl" :ui="{
-								rounded: 'rounded-lg',
-								block: 'justify-between',
-								padding: { xl: 'px-3 py-2' },
-								size: { xl: 'text-xs whitespace-nowrap' },
-								font: 'font-medium',
-								base: 'tracking-wide',
-								variant: { ghost: 'hover:bg-brown-0 text-white/[.7] hover:text-white  dark:hover:bg-white/[0.1]  dark:text-white/[0.7]' }
-							}">
-						</UButton>
-					</template>
-				</UAccordion>
-				<UAccordion :items="[
-					{
-						innerItems: sidebarOpen
-							? [
-								{ label: 'Issuer States', to: '/configurations/issuer-states' },
-								{ label: 'HOS Rules', to: '/configurations/hos-rules' },
-								{ label: 'Restarts', to: '/configurations/restarts' },
-								{ label: 'Rest Breaks', to: '/configurations/rest-breaks' },
-								{ label: 'Cargo Types', to: '/configurations/cargo-types' },
-								{ label: 'Vehicle Fuels', to: '/configurations/vehicle-fuels' },
-								{ label: 'ELD Connections', to: '/configurations/eld-connections' },
-								{ label: 'Maintenance Types', to: '/configurations/maintenance-types' }
-							]
-							: [],
-						defaultOpen:
-							route.path.includes('configurations')
-					}
-				]" :ui="{ item: { base: 'text-end space-y-[2px]', padding: 'pb-0' } }">
-					<template #default="{ _, open }">
-						<UButton
-							:class="{ 'bg-brown-0 dark:bg-white/[0.1]': open && sidebarOpen, 'text-white': open || route.path.includes('configurations') }"
-							variant="ghost" :label="sidebarOpen ? 'Configurations' : ''" block size="xl" :ui="{
-								rounded: 'rounded-lg',
-								block: 'justify-between',
-								padding: { xl: 'px-3 py-2.5' },
-								size: { xl: 'text-xs' },
-								font: 'font-medium',
-								base: 'uppercase tracking-wide',
-								variant: { ghost: 'hover:bg-brown-0 text-white/[.7] hover:text-white  dark:hover:bg-white/[0.1]  dark:text-white/[0.7]' }
-							}">
-							<template #trailing v-if="sidebarOpen">
-								<UIcon name="i-heroicons-chevron-down-20-solid"
-									class="w-5 h-5 shrink-0 ms-auto transform transition-transform duration-200"
-									:class="[open && 'rotate-180']" />
-							</template>
-							<template #leading>
-								<ListIcon class="w-5 shrink-0" />
-							</template>
-						</UButton>
-					</template>
-					<template #item="{ item }">
-						<UButton v-for="itm in item.innerItems"
-							:class="{ 'bg-brown-0 text-white dark:bg-white/[0.1]': route.path === itm.to || (route.path.includes(itm.to) && !!route.params.id) }"
-							:to="itm.to"
-							class="w-5/6 relative before:absolute before:left-0 before:bottom-4 before:-translate-x-1/2 before:border-l-2 before:border-b-2 before:border-brown-0 before:w-3 first:before:h-4 before:h-10 before:rounded-bl-md dark:before:border-white dark:before:border-white/[0.1]"
-							variant="ghost" :label="sidebarOpen ? itm.label : ''" size="xl" :ui="{
-								rounded: 'rounded-lg',
-								block: 'justify-between',
-								padding: { xl: 'px-3 py-2' },
-								size: { xl: 'text-xs whitespace-nowrap' },
-								font: 'font-medium',
-								base: 'tracking-wide',
-								variant: { ghost: 'hover:bg-brown-0 text-white/[.7] hover:text-white  dark:hover:bg-white/[0.1]  dark:text-white/[0.7]' }
-							}">
-						</UButton>
-					</template>
-				</UAccordion>
-				<UAccordion :items="[
-					{
-						innerItems: sidebarOpen
-							? [
-								{ label: 'Roles', to: '/user-manager/roles' },
-								{ label: 'Permisssions', to: '/user-manager/permissions' },
-							]
-							: [],
-						defaultOpen:
-							route.path.includes('user-manager')
-					}
-				]" :ui="{ item: { base: 'text-end space-y-[2px]', padding: 'pb-0' } }">
-					<template #default="{ _, open }">
-						<UButton
-							:class="{ 'bg-brown-0 dark:bg-white/[0.1]': open && sidebarOpen, 'text-white': open || route.path.includes('user-manager') }"
-							variant="ghost" :label="sidebarOpen ? 'User manager' : ''" block size="xl" :ui="{
-								rounded: 'rounded-lg',
-								block: 'justify-between',
-								padding: { xl: 'px-3 py-2.5' },
-								size: { xl: 'text-xs whitespace-nowrap' },
-								font: 'font-medium',
-								base: 'uppercase tracking-wide',
-								variant: { ghost: 'hover:bg-brown-0 text-white/[.7] hover:text-white  dark:hover:bg-white/[0.1]  dark:text-white/[0.7]' }
-							}">
-							<template #trailing v-if="sidebarOpen">
-								<UIcon name="i-heroicons-chevron-down-20-solid"
-									class="w-5 h-5 ms-auto transform transition-transform duration-200"
-									:class="[open && 'rotate-180']" />
-							</template>
-							<template #leading>
-								<ListIcon class="w-5 shrink-0" />
-							</template>
-						</UButton>
-					</template>
-					<template #item="{ item }">
-						<UButton v-for="itm in item.innerItems"
-							:class="{ 'bg-brown-0 text-white dark:bg-white/[0.1]': route.path === itm.to || (route.path.includes(itm.to) && !!route.params.id) }"
-							:to="itm.to"
-							class="w-5/6 relative before:absolute before:left-0 before:bottom-4 before:-translate-x-1/2 before:border-l-2 before:border-b-2 before:border-brown-0 before:w-3 first:before:h-4 before:h-10 before:rounded-bl-md dark:before:border-white/[0.1]"
-							variant="ghost" :label="sidebarOpen ? itm.label : ''" size="xl" :ui="{
-								rounded: 'rounded-lg',
-								block: 'justify-between',
-								padding: { xl: 'px-3 py-2' },
-								size: { xl: 'text-xs whitespace-nowrap' },
-								font: 'font-medium',
-								base: 'tracking-wide',
-								variant: { ghost: 'hover:bg-brown-0 text-white/[.7] hover:text-white  dark:hover:bg-white/[0.1]  dark:text-white/[0.7]' }
-							}">
-						</UButton>
-					</template>
-				</UAccordion>
 			</div>
 		</div>
 
-		<UPopover v-model:open="isPopoverOpen" :popper="{ placement: 'right-end', offsetDistance: 0 }">
+		<!-- <UPopover v-model:open="isPopoverOpen" :popper="{ placement: 'right-end', offsetDistance: 0 }">
 			<div :class="sidebarOpen ? 'py-2 px-3' : 'py-1 px-1'"
 				class="space-y-1 bg-brown-0 w-full max-w-[350px] rounded-lg border border-white/[.1] cursor-pointer duration-300 dark:bg-white/[0.1] dark:text-white/[0.8]">
 				<h4 :class="sidebarOpen ? 'text-sm' : 'text-xs'"
@@ -437,7 +136,7 @@
 					</div>
 				</div>
 			</template>
-		</UPopover>
+		</UPopover> -->
 	</aside>
 </template>
 

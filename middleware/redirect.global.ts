@@ -23,7 +23,7 @@ export default defineNuxtRouteMiddleware((to, from) => {
   }
 
   if (["/carriers", "/clients"].includes(to.path) && getCarrierId()) {
-    return navigateTo("/logs");
+    return navigateTo("/listening");
   }
 
   // Check if the route exists
