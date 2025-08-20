@@ -11,12 +11,6 @@ export const useOverview = async () => {
 	// destructuring stores
 	const { lastTrackings } = storeToRefs(trackingsStore);
 
-	onMounted(async () => {
-		await Promise.all([
-			trackingsStore.getDriverLastTrackings(getCarrierId() as string)
-		])
-	});
-
 	return {
 		// header search
 		search,

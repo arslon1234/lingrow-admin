@@ -14,12 +14,7 @@ export const useTrackingsStore = defineStore("tracking", () => {
     }
   }
 
-  async function getDriverLastTrackings(carrierId: string) {
-    const result = await useAxios().getRequest(ApiUrls.TRACKING_DRIVERS_LAST_EVENTS_URL, { carrierId });
-    if (result.status === 200) {
-      lastTrackings.value = result.data.successResult;
-    }
-  }
+
 
   async function getDriverEveryTrackings(model: DriverLogsDailyEventsRequest, signal?: AbortSignal) {
     const result = await useAxios().getRequest(ApiUrls.TRACKING_DRIVERS_EVERY_URL, capitalizeKeys(model), {}, signal);
@@ -33,7 +28,6 @@ export const useTrackingsStore = defineStore("tracking", () => {
     dailyTrackings,
     getDriverDailyTrackings,
     lastTrackings,
-    getDriverLastTrackings,
     everyTrackings,
     getDriverEveryTrackings
   }
