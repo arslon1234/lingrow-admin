@@ -31,11 +31,11 @@ export default defineNuxtPlugin((nuxtApp: any) => {
 		async (error) => {
 			if (error.status === 401) {
 				// call a function to logout the user
-				try {
-					authStore.logout();
-				} catch (error) {
-					console.error(error);
-				}
+				// try {
+				// 	authStore.logout();
+				// } catch (error) {
+				// 	console.error(error);
+				// }
 			} else if (error.status === 403 || error.response?.data?.code === 'EXPIRED') {
 				try {
 					await authStore.refreshToken();
