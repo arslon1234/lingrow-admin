@@ -4,7 +4,6 @@ import { useAuthStore } from '~/store/auth';
 export const scheduleTokenRefresh = async () => {
 	const expire_time = getExpireTime();
 	const authStore = useAuthStore();
-	console.log(expire_time);
 	if (expire_time) {
 		const expirationTime = dayjs(expire_time);
 		const refreshTime = expirationTime.subtract(2, 'minute').diff(dayjs(), 'millisecond');
