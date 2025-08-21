@@ -1,4 +1,7 @@
 export class ApiUrls {
+  // Audio Upload
+  public static AUDIO_UPLOAD: string = '/api/v1/files/upload';
+
   // Auth
   public static AUTH_LOGIN_URL: string = '/api/auth/login';
   public static AUTH_LOGOUT_URL: string = '/api/auth/logout';
