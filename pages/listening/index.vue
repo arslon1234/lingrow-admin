@@ -13,7 +13,11 @@
 			</div>
 		</section>
 		<section class="main-layout mt-4">
-			<QuestionComposer/>
+			<QuestionComposer />
+			<div class="w-full mt-4 grid grid-cols-12 gap-4">
+				<QuestionComponents class="col-span-3" />
+				<QuestionLayout class="col-span-9" />
+			</div>
 		</section>
 	</main>
 </template>
@@ -21,6 +25,8 @@
 <script setup>
 import AudioUpload from '~/components/modal/AudioUpload.vue';
 import QuestionComposer from '~/components/listening/QuestionComposer.vue';
+import QuestionComponents from '~/components/listening/QuestionComponents.vue';
+import QuestionLayout from '~/components/listening/QuestionLayout.vue';
 import { useListeningComposable } from '~/composables/pages/listening';
 
 const { audioUpload, statusModal, handleFileUpload } = await useListeningComposable()

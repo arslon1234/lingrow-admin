@@ -29,7 +29,7 @@
 </template>
 
 <script setup lang="ts">
-const questionType = ref('')
+const questionType = ref('noteCompletion')
 
 const handleChange =(event: any)=>{
     console.log(event)

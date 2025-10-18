@@ -479,20 +479,20 @@ function verticalEventPosition(code: number) {
 	}
 }
 
-function getFillColor(type: string) {
-  switch (type) {
-    case OfficialViolations.Cycle:
-      return '#f77963';
-    case OfficialViolations.Shift:
-      return '#63b3f7';
-    case OfficialViolations.Driving:
-      return '#63f78c';
-    case OfficialViolations.RestBreak:
-      return '#f7e763';
-    default:
-      return '#cccccc';
-  }
-}
+// function getFillColor(type: string) {
+//   switch (type) {
+//     case OfficialViolations.Cycle:
+//       return '#f77963';
+//     case OfficialViolations.Shift:
+//       return '#63b3f7';
+//     case OfficialViolations.Driving:
+//       return '#63f78c';
+//     case OfficialViolations.RestBreak:
+//       return '#f7e763';
+//     default:
+//       return '#cccccc';
+//   }
+// }
 // tooltip
 const lineToolTipDuration = computed(() => {
 	const duration: number = lineToolTip.value.duration;
