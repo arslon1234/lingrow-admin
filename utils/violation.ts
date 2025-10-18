@@ -1,11 +1,3 @@
-// enum ViolationType {
-//     ThirtyMinutesBreak,
-//     Shift,
-//     Cycle,
-//     DriveTime
-// };
-
-
 // Violation descriptions
 enum OfficialViolations {
     Shift = "14 - Hour on duty limit",
