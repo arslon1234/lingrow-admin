@@ -6,6 +6,7 @@ declare interface ComponentConfig {
   maxLength?: number
   beforeText?: string
   afterText?: string
+  correctAnswer?: string
   options?: string[]
   multiSelect?: boolean
   url?: string
@@ -23,4 +24,13 @@ declare interface Component {
   id: number
   type: string
   config: ComponentConfig
+}
+
+interface QuestionData {
+  questionType: string
+  components: Component[]
+  metadata: {
+    totalComponents: number
+    createdAt: string
+  }
 }

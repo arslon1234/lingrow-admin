@@ -17,7 +17,7 @@
                         <Eye size={18} />
                         {{ previewMode ? 'Edit' : 'Preview' }}
                     </button>
-                    <button
+                    <button @click="saveQuestion"
                         className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 flex items-center gap-2">
                         <Save size={18} />
                         Save
@@ -29,15 +29,34 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
+import { storeToRefs } from 'pinia'
 import { useListeningStore } from '~/store/listening'
 const listeningStore = useListeningStore()
 
-const { previewMode } = storeToRefs(listeningStore)
-const questionType = ref('noteCompletion')
+const { previewMode, components } = storeToRefs(listeningStore)
+const questionType = ref('NOTE_COMPLETION')
 
+const saveQuestion = () => {
+  const questionData: QuestionData = {
+    questionType: questionType.value,
+    components: components.value,
+    metadata: {
+      totalComponents: components.value.length,
+      createdAt: new Date().toISOString()
+    }
+  }
+  
+//   jsonOutput.value = JSON.stringify(questionData, null, 2)
+//   showJsonModal.value = true
+  
+  // Also log to console
+  console.log('Question Data:', questionData)
+}
 const handleChange = (event: any) => {
     console.log(event)
 }
+
 </script>
 
 <style lang="scss" scoped></style>

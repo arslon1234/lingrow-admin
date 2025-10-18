@@ -19,7 +19,7 @@
                 <component 
                   v-if="component.type === 'HEADER'" 
                   :is="`h${component.config.level}`"
-                  class="font-bold mb-2"
+                  class="font-bold mb-2 text-center"
                 >
                   {{ component.config.text }}
                 </component>
@@ -176,6 +176,13 @@
                     @input="listeningStore.updateComponent(component.id, { ...component.config, afterText: ($event.target as HTMLInputElement).value })"
                     class="w-full border rounded px-3 py-2"
                     placeholder="Text after blank"
+                  />
+                  <input
+                    type="text"
+                    :value="component.config.correctAnswer"
+                    @input="listeningStore.updateComponent(component.id, { ...component.config, correctAnswer: ($event.target as HTMLInputElement).value })"
+                    class="w-full border rounded px-3 py-2"
+                    placeholder="Enter correct answer"
                   />
                 </div>
 
