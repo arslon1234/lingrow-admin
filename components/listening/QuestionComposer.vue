@@ -7,15 +7,15 @@
                 <div className="flex-1">
                     <label className="block text-sm font-medium mb-2">Question Type</label>
                     <USelect v-model="questionType" :options="IELTS_LISTENING_QUESTION_TYPES" option-attribute="name"
-                        value-attribute="key" placeholder="Select question type" size="xl" class="w-wull" @change="handleChange" />
+                        value-attribute="key" placeholder="Select question type" size="xl" class="w-wull"
+                        @change="handleChange" />
                 </div>
 
                 <div className="flex gap-2 items-end">
-                    <button
+                    <button @click="previewMode = !previewMode"
                         className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 flex items-center gap-2">
                         <Eye size={18} />
-                        Preview
-                        <!-- {previewMode ? 'Edit' : 'Preview'} -->
+                        {{ previewMode ? 'Edit' : 'Preview' }}
                     </button>
                     <button
                         className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 flex items-center gap-2">
@@ -29,9 +29,13 @@
 </template>
 
 <script setup lang="ts">
+import { useListeningStore } from '~/store/listening'
+const listeningStore = useListeningStore()
+
+const { previewMode } = storeToRefs(listeningStore)
 const questionType = ref('noteCompletion')
 
-const handleChange =(event: any)=>{
+const handleChange = (event: any) => {
     console.log(event)
 }
 </script>

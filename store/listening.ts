@@ -4,6 +4,7 @@ import { addSuccess } from '~/helpers/notification';
 
 export const useListeningStore = defineStore('listening', () => {
 	const components = reactive<Component[]>([]);
+	const previewMode = ref(false);
 
 	async function audioUpload(formData: FormData) {
 		const result = await useAxios().postRequest(ApiUrls.AUDIO_UPLOAD, formData);
@@ -60,14 +61,18 @@ export const useListeningStore = defineStore('listening', () => {
 	}
 
 	return {
+    // REACTIVE VALUES
+    previewMode,
+
+    // FUNCTIONS
 		components,
 		getDefaultConfig,
 		addComponent,
 		deleteComponent,
 		moveComponent,
 		updateComponent,
-    updateOption,
-    addOption,
+		updateOption,
+		addOption,
 
 		// API REQUESTS
 		audioUpload

@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-white rounded-lg shadow-lg p-4">
+    <div v-if="!previewMode" class="bg-white rounded-lg shadow-lg p-4">
         <h2 className="font-bold mb-4">Components</h2>
         <div v-for="[category, items] in Object.entries(availableComponents)" :key="category" class="mb-4">
             <h3 className="text-xs font-semibold text-gray-500 mb-2">{{ category }}</h3>
@@ -17,7 +17,7 @@
 <script setup lang="ts">
 import { useListeningStore } from '~/store/listening';
 const listeningStore = useListeningStore()
-const { components } = storeToRefs(listeningStore)
+const { previewMode } = storeToRefs(listeningStore)
 
 const addComponent = (componentType: string) => {
     const newComponent: Component = {
@@ -25,8 +25,7 @@ const addComponent = (componentType: string) => {
         type: componentType,
         config: listeningStore.getDefaultConfig(componentType)
     }
-    listeningStore.addComponent({...newComponent})
-
+    listeningStore.addComponent({ ...newComponent })
 }
 </script>
 
