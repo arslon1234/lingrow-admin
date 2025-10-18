@@ -77,3 +77,19 @@ export const availableComponents = {
 	MEDIA: ['IMAGE', 'MAP'],
 	STRUCTURE: ['TABLE_GRID', 'NUMBERED_LIST', 'BULLET_LIST']
 };
+
+export const defaults: Record<string, ComponentConfig> = {
+	HEADER: { text: 'Heading', level: 3 },
+	SUBHEADER: { text: 'Subheading' },
+	PARAGRAPH: { text: 'Enter paragraph text...' },
+	TEXT_LINE: { text: 'Text line' },
+	INPUT_LINE: { label: 'Question 1', placeholder: 'Answer', maxLength: 50 },
+	INPUT_INLINE: { beforeText: 'The answer is', afterText: 'here', placeholder: '___' },
+	MCQ_OPTIONS: { options: ['Option A', 'Option B', 'Option C', 'Option D'], multiSelect: false },
+	IMAGE: { url: '', alt: '', caption: '' },
+	MAP: { url: '', hotspots: [] },
+	TABLE_GRID: { rows: 3, columns: 3, headers: [] },
+	INSTRUCTION_BOX: { text: 'Instructions go here', variant: 'info' },
+	NUMBERED_LIST: { items: ['Item 1', 'Item 2'] },
+	BULLET_LIST: { items: ['Point 1', 'Point 2'] }
+};
