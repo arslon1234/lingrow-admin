@@ -4,8 +4,8 @@
 		class="fixed left-0 top-0 overflow-y-auto flex flex-col gap-y-6 justify-between py-6 px-4 basis-[246px] bg-background-brown_2 h-screen w-[246px] duration-300 z-50 dark:bg-dark-bg_sidebar-0">
 		<div class="grow">
 			<h2 :class="{ 'text-center': !sidebarOpen }" class="text-xl font-semibold text-white">{{ sidebarOpen ?
-				'MockAI' :
-				'AI' }}</h2>
+				'Lingrow' :
+				'EN' }}</h2>
 			<div class="h-[1px] bg-brown-0 w-full relative mt-4 dark:bg-brown">
 				<UButton @click="toggleSidebar"
 					class="absolute -right-4 top-0 -translate-y-1/2  dark:bg-white/[0.1] dark:hover:bg-white/[0.2]"

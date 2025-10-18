@@ -12,14 +12,15 @@
 				}" color="white" icon="i-heroicons-magnifying-glass-20-solid" size="lg" placeholder="Search listening" />
 			</div>
 		</section>
-		<section class="grid grid-cols-12 gap-x-1.5 mt-1.5">
-			<!-- Your content here -->
+		<section class="main-layout mt-4">
+			<QuestionComposer/>
 		</section>
 	</main>
 </template>
 
 <script setup>
 import AudioUpload from '~/components/modal/AudioUpload.vue';
+import QuestionComposer from '~/components/listening/QuestionComposer.vue';
 import { useListeningComposable } from '~/composables/pages/listening';
 
 const { audioUpload, statusModal, handleFileUpload } = await useListeningComposable()

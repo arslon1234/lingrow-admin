@@ -3,14 +3,6 @@ import { addError } from '~/helpers/notification';
 export function useAxios() {
 	const { $axios } = useNuxtApp() as unknown as { $axios: any };
 
-	// async function getRequest(url: string, params: object = {}, headers: object = {}, signal?: AbortSignal) {
-	// 	try {
-	// 		let res = await $axios.get(url, { params, headers, signal } );
-	// 		return res;
-	// 	} catch (error) {
-	// 		handleError(error);
-	// 	}
-	// }
 	async function getRequest(url: string, params: object = {}, headers: object = {}, signal?: AbortSignal) {
 		try {
 			const config: any = {
