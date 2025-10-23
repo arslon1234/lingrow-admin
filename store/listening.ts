@@ -5,7 +5,7 @@ import { addSuccess } from '~/helpers/notification';
 export const useListeningStore = defineStore('listening', () => {
 	const components = reactive<Component[]>([]);
 	const previewMode = ref(false);
-
+	const questionType = ref('NOTE_COMPLETION');
 	async function audioUpload(formData: FormData) {
 		const result = await useAxios().postRequest(ApiUrls.AUDIO_UPLOAD, formData);
 		if (result.status === 200) {
@@ -61,10 +61,11 @@ export const useListeningStore = defineStore('listening', () => {
 	}
 
 	return {
-    // REACTIVE VALUES
-    previewMode,
+		// REACTIVE VALUES
+		previewMode,
+		questionType,
 
-    // FUNCTIONS
+		// FUNCTIONS
 		components,
 		getDefaultConfig,
 		addComponent,

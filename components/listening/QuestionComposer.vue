@@ -34,24 +34,19 @@ import { storeToRefs } from 'pinia'
 import { useListeningStore } from '~/store/listening'
 const listeningStore = useListeningStore()
 
-const { previewMode, components } = storeToRefs(listeningStore)
-const questionType = ref('NOTE_COMPLETION')
+const { previewMode, components, questionType } = storeToRefs(listeningStore)
 
 const saveQuestion = () => {
-  const questionData: QuestionData = {
-    questionType: questionType.value,
-    components: components.value,
-    metadata: {
-      totalComponents: components.value.length,
-      createdAt: new Date().toISOString()
+    const questionData: QuestionData = {
+        questionType: questionType.value,
+        components: components.value,
+        metadata: {
+            totalComponents: components.value.length,
+            createdAt: new Date().toISOString()
+        }
     }
-  }
-  
-//   jsonOutput.value = JSON.stringify(questionData, null, 2)
-//   showJsonModal.value = true
-  
-  // Also log to console
-  console.log('Question Data:', questionData)
+
+    console.log('Question Data:', questionData)
 }
 const handleChange = (event: any) => {
     console.log(event)
