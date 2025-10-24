@@ -11,6 +11,7 @@
                 </button>
             </div>
         </div> -->
+        
         <div v-for="[category, items] in categorizedComponents" :key="category" class="mb-4">
             <h3 class="text-xs font-semibold text-gray-500 uppercase mb-2">
                 {{ category }}
