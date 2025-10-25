@@ -159,23 +159,23 @@ import User1Icon from '../assets/icons/user-02.svg';
 
 // stores
 import { useIndex } from '~/store';
-import { useAuthStore } from '~/store/auth';
-import { useCarrierStore } from '~/store/carrier';
+// import { useAuthStore } from '~/store/auth';
+// import { useCarrierStore } from '~/store/carrier';
 
 // store variables
-const authStore = useAuthStore();
-const carrierStore = useCarrierStore();
+// const authStore = useAuthStore();
+// const carrierStore = useCarrierStore();
 
 // destructuring stores
 const { sidebar } = storeToRefs(useIndex());
-const { carriers } = storeToRefs(carrierStore);
+// const { carriers } = storeToRefs(carrierStore);
 
 // carriers
 const isPopoverOpen = ref(false);
 const searchCarrier = ref('');
 const carrierId = ref(getCarrierId());
-const selectedCarrier = computed(() => carriers.value.find((carrier) => carrier.id === carrierId.value));
-const filteredCarriers = computed(() => carriers.value.filter((carrier) => carrier.name.toLowerCase().includes(searchCarrier.value.toLowerCase())));
+// const selectedCarrier = computed(() => carriers.value.find((carrier) => carrier.id === carrierId.value));
+// const filteredCarriers = computed(() => carriers.value.filter((carrier) => carrier.name.toLowerCase().includes(searchCarrier.value.toLowerCase())));
 
 // watching selected carrier
 watch(carrierId, (newCarrier) => {
@@ -246,9 +246,9 @@ const isDark = computed({
 
 watch(isPopoverOpen, async (newValue) => {
 	if (newValue) {
-		if (!route.path.includes('dot-inspection') && !route.path.includes('activity')) {
-			await carrierStore.getCarriesFilter();
-		}
+		// if (!route.path.includes('dot-inspection') && !route.path.includes('activity')) {
+		// 	await carrierStore.getCarriesFilter();
+		// }
 	}
 });
 </script>
