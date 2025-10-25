@@ -7,21 +7,21 @@
                 <div className="flex-1">
                     <label className="block text-sm font-medium mb-2">Question Type</label>
                     <USelect v-model="questionType" :options="IELTS_LISTENING_QUESTION_TYPES" option-attribute="name"
-                        value-attribute="key" placeholder="Select question type" size="xl" class="w-wull"
+                        value-attribute="key" placeholder="Select question type" size="lg" class="w-wull"
                         @change="handleChange" />
                 </div>
 
                 <div className="flex gap-2 items-end">
-                    <button @click="previewMode = !previewMode"
-                        className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 flex items-center gap-2">
-                        <Eye size={18} />
+                    <UButton variant="solid" size="lg" @click="previewMode = !previewMode">
+                        <preview-icon v-if="previewMode" />
+                        <edit-icon v-else />
                         {{ previewMode ? 'Edit' : 'Preview' }}
-                    </button>
-                    <button @click="saveQuestion"
-                        className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 flex items-center gap-2">
-                        <Save size={18} />
+                    </UButton>
+
+                    <UButton variant="solid" class="bg-green-3 hover:bg-green-700" size="lg" @click="saveQuestion">
+                        <save-icon />
                         Save
-                    </button>
+                    </UButton>
                 </div>
             </div>
         </div>
@@ -29,9 +29,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useListeningStore } from '~/store/listening'
+import EditIcon from '~/components/icons/EditIcon.vue'
+import PreviewIcon from '~/components/icons/PreviewIcon.vue'
+import SaveIcon from '~/components/icons/SaveIcon.vue'
 const listeningStore = useListeningStore()
 
 const { previewMode, components, questionType } = storeToRefs(listeningStore)
