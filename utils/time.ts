@@ -1,11 +1,5 @@
 import dayjs, { Dayjs } from "dayjs";
 
-const hosTimeRemainder: HosTimeRemainder = {
-	breakDuration: 28800,
-	drivingDuration: 39600,
-	shiftDuration: 50400,
-	cycleDuration: 252000
-}
 
 function add(date: Dayjs, num: number, measure: "week" | "day" | "hour" | "minute" | "second") {
 	return date.add(num, measure);

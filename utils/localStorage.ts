@@ -88,7 +88,7 @@ export const removeUser = () => {
 };
 
 // ROLES
-export const setRoles = (roles: RoleResponse[] = []) => {
+export const setRoles = (roles: any[] = []) => {
 	localStorage.setItem('roles', JSON.stringify(roles));
 };
 

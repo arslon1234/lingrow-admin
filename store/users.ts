@@ -3,7 +3,7 @@ import { ApiUrls } from "~/api/apis";
 import { addError, addSuccess } from "~/helpers/notification";
 
 export const useUsersStore = defineStore("users", () => {
-  const users = ref<UsersResponse[]>([]);
+  const users = ref<any[]>([]);
   const usersTotal = ref<number>(0);
 
   
@@ -19,7 +19,7 @@ export const useUsersStore = defineStore("users", () => {
     }
   }
 
-  async function addUser(model: UsersRequest): Promise<boolean> {
+  async function addUser(model: any): Promise<boolean> {
     const result = await useAxios().postRequest(ApiUrls.USERS_URL, model);
     if (result.status === 200) {
       addSuccess(successMessages.created);
@@ -30,7 +30,7 @@ export const useUsersStore = defineStore("users", () => {
     }
   }
 
-  async function updateUser(model: UsersRequest, id: string): Promise<boolean> {
+  async function updateUser(model: any, id: string): Promise<boolean> {
     const result = await useAxios().putRequest(`${ApiUrls.USERS_URL}/${id}`, model);
     if (result.status === 200) {
       addSuccess(successMessages.updated);

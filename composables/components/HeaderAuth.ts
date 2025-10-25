@@ -80,9 +80,9 @@ export const useHeaderAuthComposable = async () => {
 
   async function updateUser() {
     // const roleIds = (user?.roles?.map((role: RoleResponse) => role.id) ?? []);
-    const roleIds = (user?.roles?.map((role: RoleResponse) => role.id) ?? []);
+    const roleIds = (user?.roles?.map((role: any) => role.id) ?? []);
 
-    const updateUserRequest: UsersRequest = {
+    const updateUserRequest: any = {
       userName: formUser.username ?? '',
       firstName: formUser.name.split(' ')[0],
       lastName: formUser.name.split(' ')[1],

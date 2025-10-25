@@ -102,7 +102,7 @@ const getAbbreviation = (words: string) => {
   return words.trim().split(" ").map(word => word[0]).join("");
 };
 
-export const getTimeZoneShortNameObject = (timeZone: TimeZoneResponse) => {
+export const getTimeZoneShortNameObject = (timeZone: any) => {
   if (timeZone.shortName) {
     return {
       id: timeZone.id,
