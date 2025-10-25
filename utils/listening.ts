@@ -113,12 +113,14 @@ export const defaults: Record<string, ComponentConfig> = {
 	PARAGRAPH: { text: 'Enter paragraph text...' },
 	TEXT_LINE: { text: 'Text line' },
 	INPUT_LINE: { label: 'Question 1', placeholder: 'Answer', maxLength: 50 },
-	INPUT_INLINE: { beforeText: 'The answer is', afterText: 'here', placeholder: '___', correctAnswer: '', questionNumber: 1, },
-	MCQ_OPTIONS: { options: ['A) ', 'B) ', 'C) '], multiSelect: false,  questionText: '', questionNumber: 1, },
+	INPUT_INLINE: { beforeText: 'The answer is', afterText: 'here', placeholder: '___', correctAnswer: '', questionNumber: 1 },
+	MCQ_OPTIONS: { options: ['A) ', 'B) ', 'C) '], multiSelect: false, questionText: '', questionNumber: 1 },
 	IMAGE: { url: '', alt: '', caption: '' },
 	MAP: { url: '', hotspots: [] },
 	TABLE_GRID: { rows: 3, columns: 3, headers: [] },
-	INSTRUCTION_BOX: { text: 'Instructions go here', variant: 'info' },
+	INSTRUCTION_BOX: {
+		text: 'Complete the sentences below. Write NO MORE THAN TWO WORDS for each answer.'
+	},
 	NUMBERED_LIST: { items: ['Item 1', 'Item 2'] },
 	BULLET_LIST: { items: ['Point 1', 'Point 2'] }
 };

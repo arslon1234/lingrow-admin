@@ -41,6 +41,14 @@
                 :value="component.config.text"
                 @input="listeningStore.updateComponent(component.id, { ...component.config, text: ($event.target as HTMLTextAreaElement).value })"
                 class="w-full border rounded px-3 py-2" placeholder="Enter text..." :rows="2" />
+            
+                <!-- INSTRUCTION_BOX -->
+            <div v-else-if="component.type === 'INSTRUCTION_BOX'" class="space-y-2">
+                <label class="block text-sm font-medium mb-1">Instructions</label>
+                <textarea :value="component.config.text"
+                    @input="listeningStore.updateComponent(component.id, { ...component.config, text: ($event.target as HTMLTextAreaElement).value })"
+                    class="w-full border rounded px-3 py-2" placeholder="Enter instruction text..." rows="1" />
+            </div>
 
             <!-- INPUT_LINE -->
             <div v-else-if="component.type === 'INPUT_LINE'" class="space-y-2">

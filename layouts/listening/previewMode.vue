@@ -24,10 +24,18 @@
                     class="w-full border rounded px-3 py-2 bg-gray-50" readonly />
             </div>
 
+            <!-- Instruction Box -->
+            <div v-else-if="component.type === 'INSTRUCTION_BOX'"
+                class="mb-4 p-4 rounded-lg bg-gray-50 border-l-4 border-gray-400">
+                <p class="text-sm text-gray-700 italic">
+                    {{ component.config.text }}
+                </p>
+            </div>
+
             <!-- Input Inline -->
             <p v-else-if="component.type === 'INPUT_INLINE'" class="mb-2">
                 {{ component.config.beforeText }}
-                 <span class="font-bold">{{ component.config.questionNumber || 1 }}.</span>
+                <span class="font-bold">{{ component.config.questionNumber || 1 }}.</span>
                 <input type="text" :placeholder="component.config.placeholder || '___'"
                     class="border-b-2 border-gray-400 px-2 py-1 mx-1 w-32 bg-gray-50" />
                 {{ component.config.afterText }}
