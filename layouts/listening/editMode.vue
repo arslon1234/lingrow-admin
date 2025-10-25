@@ -40,8 +40,7 @@
                 v-else-if="component.type === 'SUBHEADER' || component.type === 'TEXT_LINE' || component.type === 'PARAGRAPH'"
                 :value="component.config.text"
                 @input="listeningStore.updateComponent(component.id, { ...component.config, text: ($event.target as HTMLTextAreaElement).value })"
-                class="w-full border rounded px-3 py-2" placeholder="Enter text..."
-                :rows="component.type === 'PARAGRAPH' ? 4 : 2" />
+                class="w-full border rounded px-3 py-2" placeholder="Enter text..." :rows="2" />
 
             <!-- INPUT_LINE -->
             <div v-else-if="component.type === 'INPUT_LINE'" class="space-y-2">
@@ -58,23 +57,34 @@
                 <input type="text" :value="component.config.beforeText"
                     @input="listeningStore.updateComponent(component.id, { ...component.config, beforeText: ($event.target as HTMLInputElement).value })"
                     class="w-full border rounded px-3 py-2" placeholder="Text before blank" />
+
                 <input type="text" :value="component.config.afterText"
                     @input="listeningStore.updateComponent(component.id, { ...component.config, afterText: ($event.target as HTMLInputElement).value })"
                     class="w-full border rounded px-3 py-2" placeholder="Text after blank" />
-                <input type="text" :value="component.config.correctAnswer"
-                    @input="listeningStore.updateComponent(component.id, { ...component.config, correctAnswer: ($event.target as HTMLInputElement).value })"
-                    class="w-full border rounded px-3 py-2" placeholder="Enter correct answer" />
+
+                <div class="flex gap-2">
+                    <input type="number" :value="component.config.questionNumber"
+                        @input="listeningStore.updateComponent(component.id, { ...component.config, questionNumber: parseInt(($event.target as HTMLInputElement).value) })"
+                        class="w-20 border rounded px-3 py-2" placeholder="No." min="1" />
+                    <input type="text" :value="component.config.correctAnswer"
+                        @input="listeningStore.updateComponent(component.id, { ...component.config, correctAnswer: ($event.target as HTMLInputElement).value })"
+                        class="flex-1 border rounded px-3 py-2" placeholder="Enter correct answer" />
+                </div>
             </div>
 
             <!-- MCQ_OPTIONS -->
             <div v-else-if="component.type === 'MCQ_OPTIONS'" class="space-y-2">
-                <!-- Question Text Input -->
                 <div class="mb-3">
                     <label class="block text-sm font-medium mb-1">Question Text</label>
-                    <textarea :value="component.config.questionText || ''"
-                        @input="listeningStore.updateComponent(component.id, { ...component.config, questionText: ($event.target as HTMLTextAreaElement).value })"
-                        class="w-full border rounded px-3 py-2" placeholder="Enter the question text here..."
-                        rows="2" />
+                    <div class="flex gap-2 items-start">
+                        <input type="number" :value="component.config.questionNumber"
+                            @input="listeningStore.updateComponent(component.id, { ...component.config, questionNumber: parseInt(($event.target as HTMLInputElement).value) })"
+                            class="w-20 border rounded px-3 py-2" placeholder="No." min="1" />
+                        <textarea :value="component.config.questionText || ''"
+                            @input="listeningStore.updateComponent(component.id, { ...component.config, questionText: ($event.target as HTMLTextAreaElement).value })"
+                            class="flex-1 border rounded px-3 py-2" placeholder="Enter the question text here..."
+                            rows="1" />
+                    </div>
                 </div>
 
                 <!-- Options -->

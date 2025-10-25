@@ -1,3 +1,4 @@
+import { number } from 'zod';
 import { useAxios } from '~/api';
 import { ApiUrls } from '~/api/apis';
 import { addSuccess } from '~/helpers/notification';
@@ -44,9 +45,14 @@ export const useListeningStore = defineStore('listening', () => {
 	}
 
 	function addOption(componentId: number) {
+		// const component = components.find((c) => c.id === componentId);
+		// if (component && component.config.options) {
+		// 	component.config.options.push('');
+		// }
 		const component = components.find((c) => c.id === componentId);
 		if (component && component.config.options) {
-			component.config.options.push('');
+			const nextLetter = String.fromCharCode(65 + component.config.options.length);
+			component.config.options.push(`${nextLetter}) `);
 		}
 	}
 

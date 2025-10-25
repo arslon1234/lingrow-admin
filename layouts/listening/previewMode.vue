@@ -27,6 +27,7 @@
             <!-- Input Inline -->
             <p v-else-if="component.type === 'INPUT_INLINE'" class="mb-2">
                 {{ component.config.beforeText }}
+                 <span class="font-bold">{{ component.config.questionNumber || 1 }}.</span>
                 <input type="text" :placeholder="component.config.placeholder || '___'"
                     class="border-b-2 border-gray-400 px-2 py-1 mx-1 w-32 bg-gray-50" />
                 {{ component.config.afterText }}
@@ -36,7 +37,8 @@
             <div v-else-if="component.type === 'MCQ_OPTIONS'" class="mb-4">
                 <!-- Question Text -->
                 <p v-if="component.config.questionText" class="font-medium mb-3 text-gray-800">
-                    {{ component.config.questionText }}
+                    <span class="font-bold">{{ component.config.questionNumber || 1 }}.</span> {{
+                        component.config.questionText }}
                 </p>
 
                 <!-- Options -->
