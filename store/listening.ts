@@ -5,7 +5,7 @@ import { addSuccess } from '~/helpers/notification';
 export const useListeningStore = defineStore('listening', () => {
 	const components = reactive<Component[]>([]);
 	const previewMode = ref(false);
-	const questionType = ref('NOTE_COMPLETION');
+	const questionType = ref('MULTIPLE_CHOICE');
 	async function audioUpload(formData: FormData) {
 		const result = await useAxios().postRequest(ApiUrls.AUDIO_UPLOAD, formData);
 		if (result.status === 200) {
@@ -50,6 +50,16 @@ export const useListeningStore = defineStore('listening', () => {
 		}
 	}
 
+	function removeOption(componentId: string, optionIndex: number) {
+		const component = components.find((c) => c.id == Number(componentId));
+		if (component && component.config.options) {
+			// Kamida 2 ta option qolishi kerak
+			if (component.config.options.length > 2) {
+				component.config.options.splice(optionIndex, 1);
+			}
+		}
+	}
+
 	function moveComponent(id: number, direction: 'up' | 'down') {
 		const index = components.findIndex((c) => c.id === id);
 		if ((direction === 'up' && index > 0) || (direction === 'down' && index < components.length - 1)) {
@@ -74,6 +84,7 @@ export const useListeningStore = defineStore('listening', () => {
 		updateComponent,
 		updateOption,
 		addOption,
+		removeOption,
 
 		// API REQUESTS
 		audioUpload

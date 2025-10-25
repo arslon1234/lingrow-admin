@@ -114,7 +114,7 @@ export const defaults: Record<string, ComponentConfig> = {
 	TEXT_LINE: { text: 'Text line' },
 	INPUT_LINE: { label: 'Question 1', placeholder: 'Answer', maxLength: 50 },
 	INPUT_INLINE: { beforeText: 'The answer is', afterText: 'here', placeholder: '___', correctAnswer: '' },
-	MCQ_OPTIONS: { options: ['Option A', 'Option B', 'Option C'], multiSelect: false },
+	MCQ_OPTIONS: { options: ['Option A', 'Option B', 'Option C'], multiSelect: false,  questionText: '' },
 	IMAGE: { url: '', alt: '', caption: '' },
 	MAP: { url: '', hotspots: [] },
 	TABLE_GRID: { rows: 3, columns: 3, headers: [] },

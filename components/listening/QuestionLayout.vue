@@ -23,9 +23,9 @@
 
 <script setup lang="ts">
 import { useListeningStore } from '~/store/listening';
-
 import PreviewMode from '~/layouts/listening/previewMode.vue';
 import EditMode from '~/layouts/listening/editMode.vue';
+
 const listeningStore = useListeningStore()
 const { components, previewMode } = storeToRefs(listeningStore)
 

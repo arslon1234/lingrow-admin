@@ -18,6 +18,7 @@ declare interface ComponentConfig {
   headers?: string[]
   variant?: string
   items?: string[]
+  questionText?: string
 }
 
 declare interface Component {
