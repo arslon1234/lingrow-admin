@@ -11,10 +11,10 @@ export default defineNuxtConfig({
 		}
 	},
 	hooks: {
-    'prerender:routes' ({ routes }) {
-      routes.clear() // Do not generate any routes (except the defaults)
-    }
-  },
+		'prerender:routes'({ routes }) {
+			routes.clear(); // Do not generate any routes (except the defaults)
+		}
+	},
 	app: {
 		pageTransition: {
 			name: 'fade',
@@ -30,9 +30,9 @@ export default defineNuxtConfig({
 	},
 	ssr: false,
 	devServer: {
-		port: parseInt(process.env.LOCAL_PORT as string) ?? 8001,
+		port: parseInt(process.env.LOCAL_PORT as string) ?? 8001
 	},
-	modules: ['@pinia/nuxt', '@nuxt/ui', '@nuxtjs/tailwindcss', 'dayjs-nuxt', 'nuxt-rating'],
+	modules: ['@pinia/nuxt', '@nuxt/ui', '@nuxtjs/tailwindcss', 'dayjs-nuxt', 'nuxt-rating', '@nuxt/image'],
 	dayjs: {
 		locales: ['en', 'fr'],
 		plugins: ['relativeTime', 'utc', 'timezone'],
@@ -47,7 +47,7 @@ export default defineNuxtConfig({
 		plugins: [svgLoader()],
 		worker: {
 			format: 'iife'
-		},
+		}
 		// optimizeDeps: {
 		// 	include: ['~/utils/violation'],
 		// },
