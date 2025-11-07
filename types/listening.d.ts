@@ -23,7 +23,8 @@ declare interface ComponentConfig {
   hasHeaderRow?: boolean
   hasHeaderColumn?: boolean
   bordered?: boolean,
-  data?: string[][]
+  data?: string[][],
+  title?: string
 }
 
 declare interface Component {
