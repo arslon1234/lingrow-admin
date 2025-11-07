@@ -83,6 +83,9 @@
             <!-- MCQ_OPTIONS -->
             <MCQ v-else-if="component.type === 'MCQ_OPTIONS'" :component="component" />
 
+             <!-- TABLE -->
+            <Table v-else-if="component.type === 'TABLE_GRID'" :component="component" />
+
             <!-- IMAGE Edit Mode -->
             <Images v-else-if="component.type === 'IMAGE'" :component="component" />
         </div>
@@ -96,6 +99,7 @@ import UpIcon from '~/components/icons/UpIcon.vue';
 import DownIcon from '~/components/icons/DownIcon.vue';
 import Images from './question-types/Images.vue';
 import MCQ from './question-types/MCQ.vue';
+import Table from './question-types/Table.vue';
 const listeningStore = useListeningStore()
 
 defineProps(['components'])

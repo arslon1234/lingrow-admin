@@ -19,7 +19,11 @@ declare interface ComponentConfig {
   variant?: string
   items?: string[]
   questionText?: string,
-  questionNumber?: number
+  questionNumber?: number,
+  hasHeaderRow?: boolean
+  hasHeaderColumn?: boolean
+  bordered?: boolean,
+  data?: string[][]
 }
 
 declare interface Component {
