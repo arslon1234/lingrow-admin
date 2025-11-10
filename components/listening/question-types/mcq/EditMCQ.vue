@@ -1,48 +1,132 @@
 <template>
-    <div class="space-y-2">
-        <div class="mb-3">
-                    <label class="block text-sm font-medium mb-1">Question Text</label>
-                    <div class="flex gap-2 items-start">
-                        <input type="number" :value="component.config.questionNumber"
-                            @input="listeningStore.updateComponent(component.id, { ...component.config, questionNumber: parseInt(($event.target as HTMLInputElement).value) })"
-                            class="w-20 border rounded px-3 py-2" placeholder="No." min="1" />
-                        <textarea :value="component.config.questionText || ''"
-                            @input="listeningStore.updateComponent(component.id, { ...component.config, questionText: ($event.target as HTMLTextAreaElement).value })"
-                            class="flex-1 border rounded px-3 py-2" placeholder="Enter the question text here..."
-                            rows="1" />
-                    </div>
+    <div class="space-y-4">
+        <!-- Question Text Section -->
+        <div class="space-y-2">
+            <label class="block text-sm font-medium mb-2">Question Text</label>
+            <div class="flex gap-2 items-center">
+                <UFormGroup label="Q#" size="sm" class="w-20">
+                    <UInput type="number" :model-value="component.config.questionNumber"
+                        @update:model-value="listeningStore.updateComponent(component.id, { ...component.config, questionNumber: parseInt($event) })"
+                        placeholder="1" size="sm" />
+                </UFormGroup>
+
+                <UFormGroup label="Question" size="sm" class="flex-1">
+                    <UInput :model-value="component.config.questionText || ''"
+                        @update:model-value="listeningStore.updateComponent(component.id, { ...component.config, questionText: $event })"
+                        placeholder="Enter the question text here..." size="sm" />
+                </UFormGroup>
+            </div>
+        </div>
+
+        <UDivider />
+
+        <!-- Answer Options -->
+        <div class="space-y-3">
+            <div class="flex items-center justify-between">
+                <label class="block text-sm font-medium">Answer Options</label>
+                <UButton icon="i-heroicons-plus-circle" color="primary" variant="ghost" size="xs"
+                    @click="listeningStore.addOption(component.id)">
+                    Add Option
+                </UButton>
+            </div>
+
+            <div v-for="(option, idx) in component.config.options" :key="idx" class="flex gap-2 items-center">
+                <UInput :model-value="option"
+                    @update:model-value="listeningStore.updateOption(component.id, idx, $event)"
+                    :placeholder="`Option ${String.fromCharCode(65 + idx)}`" size="sm" class="flex-1" />
+
+                <UButton icon="i-heroicons-trash" color="red" variant="ghost" size="xs"
+                    @click="listeningStore.removeOption(component.id, idx)"
+                    :disabled="component.config.options.length <= 2" />
+            </div>
+
+            <UAlert v-if="component.config.options.length < 2" icon="i-heroicons-information-circle" color="amber"
+                variant="soft" size="xs" title="Minimum 2 options required" />
+        </div>
+
+        <UDivider />
+
+        <!-- Correct Answer Section -->
+        <div class="space-y-3">
+            <label class="block text-sm font-medium">Correct Answer</label>
+
+            <!-- Single Select -->
+            <div v-if="!component.config.multiSelect">
+                <USelectMenu :model-value="component.config.correctAnswer || ''"
+                    @update:model-value="listeningStore.updateComponent(component.id, { ...component.config, correctAnswer: $event })"
+                    :options="component.config.options.map((opt: string, idx: number) => ({
+                        label: opt || `Option ${String.fromCharCode(65 + idx)}`,
+                        value: opt
+                    }))" value-attribute="value" option-attribute="label" placeholder="Select correct answer"
+                    size="sm">
+                    <template #label>
+                        <span v-if="component.config.correctAnswer" class="flex items-center gap-2">
+                            <UIcon name="i-heroicons-check-circle" class="w-4 h-4 text-green-500" />
+                            {{ component.config.correctAnswer }}
+                        </span>
+                        <span v-else class="text-gray-400">Select correct answer</span>
+                    </template>
+                </USelectMenu>
+            </div>
+
+            <!-- Multi Select -->
+            <!-- <div v-else class="space-y-2">
+                <div v-for="(option, idx) in component.config.options" :key="`correct-${idx}`"
+                    class="flex items-center gap-2 p-2 border rounded hover:bg-gray-50 dark:hover:bg-gray-800">
+                    <UCheckbox :model-value="isCorrectAnswer(option)"
+                        @update:model-value="toggleCorrectAnswer(option, $event)"
+                        :label="`${String.fromCharCode(65 + idx)}) ${option || 'Empty option'}`" />
                 </div>
+            </div> -->
 
-                <!-- Options -->
-                <label class="block text-sm font-medium mb-1">Answer Options</label>
-                <div v-for="(option, idx) in component.config.options" :key="idx" class="flex gap-2 items-center">
-                    <input type="text" :value="option"
-                        @input="listeningStore.updateOption(component.id, idx, ($event.target as HTMLInputElement).value)"
-                        class="flex-1 border rounded px-3 py-2" :placeholder="`Option ${idx + 1}`" />
+            <!-- Multi-select Toggle -->
+            <!-- <div class="flex items-center gap-2 pt-2">
+                <UCheckbox :model-value="component.config.multiSelect || false" @update:model-value="listeningStore.updateComponent(component.id, {
+                    ...component.config,
+                    multiSelect: $event,
+                    correctAnswer: $event ? [] : ''
+                })" label="Allow multiple correct answers" />
+            </div> -->
+        </div>
 
-                    <button @click="listeningStore.removeOption(component.id, idx)"
-                        class="text-red-500 hover:text-red-700 p-2 cursor-pointer"
-                        :disabled="component.config.options.length <= 2"
-                        :class="{ 'opacity-30 cursor-not-allowed': component.config.options.length <= 2 }">
-                        <delete-icon />
-                    </button>
-                </div>
-
-                <button @click="listeningStore.addOption(component.id)"
-                    class="text-purple-700 hover:text-purple-800 text-sm">
-                    + Add Option
-                </button>
+        <UDivider />
     </div>
 </template>
 
 <script setup lang="ts">
-import { useListeningStore } from '~/store/listening';
+import { useListeningStore } from '~/store/listening'
+
 const listeningStore = useListeningStore()
+const props = defineProps(['component'])
 
-defineProps(['component'])
+const isCorrectAnswer = (option: string): boolean => {
+    if (props.component.config.multiSelect) {
+        return Array.isArray(props.component.config.correctAnswer) &&
+            props.component.config.correctAnswer.includes(option)
+    }
+    return props.component.config.correctAnswer === option
+}
 
+const toggleCorrectAnswer = (option: string, checked: boolean) => {
+    let correctAnswers = Array.isArray(props.component.config.correctAnswer)
+        ? [...props.component.config.correctAnswer]
+        : []
+
+    if (checked) {
+        if (!correctAnswers.includes(option)) {
+            correctAnswers.push(option)
+        }
+    } else {
+        correctAnswers = correctAnswers.filter((ans: string) => ans !== option)
+    }
+
+    listeningStore.updateComponent(props.component.id, {
+        ...props.component.config,
+        correctAnswer: correctAnswers
+    })
+}
 </script>
 
-<style lang="scss" scoped>
-
+<style scoped>
+/* Custom styles if needed */
 </style>

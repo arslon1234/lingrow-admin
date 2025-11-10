@@ -108,7 +108,7 @@ export const QUESTION_TYPE_COMPONENTS: Record<string, string[]> = {
 	LABELING: ['HEADER', 'INSTRUCTION_BOX', 'IMAGE', 'MAP', 'INPUT_LINE', 'NUMBERED_LIST']
 };
 export const defaults: Record<string, ComponentConfig> = {
-	HEADER: { text: 'Heading' },
+	HEADER: { text: '' },
 	SUBHEADER: { text: 'Subheading' },
 	PARAGRAPH: { text: 'Enter paragraph text...' },
 	TEXT_LINE: { text: 'Text line' },
