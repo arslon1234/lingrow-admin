@@ -1,5 +1,5 @@
 <template>
-    <div class="space-y-4">
+    <div class="space-y-3">
         <!-- List Title/Instruction -->
         <UFormGroup label="List Title (Optional)" size="sm">
             <UTextarea 
@@ -14,7 +14,7 @@
         <UDivider />
 
         <!-- Bullet Style Selection -->
-        <div class="flex gap-3 items-end">
+        <div class="flex gap-2 items-end">
             <UFormGroup label="Bullet Style" size="sm" class="flex-1">
                 <USelectMenu
                     :model-value="component.config.bulletStyle || 'disc'"
@@ -39,16 +39,6 @@
                 @click="addListItem"
             >
                 Add Item
-            </UButton>
-
-            <UButton 
-                icon="i-heroicons-arrow-path" 
-                color="gray" 
-                variant="soft"
-                size="sm"
-                @click="resetList"
-            >
-                Reset
             </UButton>
         </div>
 
@@ -345,24 +335,6 @@
                 </UButton>
             </div>
         </div>
-
-        <!-- Helper Text -->
-        <UAlert
-            icon="i-heroicons-information-circle"
-            color="blue"
-            variant="soft"
-            title="Bullet List Guide"
-        >
-            <template #description>
-                <ul class="text-sm space-y-1 mt-2">
-                    <li><strong>Text Only:</strong> Static bullet point without input</li>
-                    <li><strong>Text with Input:</strong> Bullet point with embedded answer blank</li>
-                    <li><strong>Input Only:</strong> Just an input field with question number</li>
-                    <li><strong>Sub-bullet:</strong> Indented nested bullet point (for sub-points)</li>
-                    <li>• Choose bullet style (•, ○, ▪, -) for the entire list</li>
-                </ul>
-            </template>
-        </UAlert>
     </div>
 </template>
 
@@ -501,12 +473,4 @@ const saveListData = () => {
     })
 }
 
-const resetList = () => {
-    listeningStore.updateComponent(props.component.id, {
-        bulletStyle: 'disc',
-        title: '',
-        items: []
-    })
-    initializeList()
-}
 </script>

@@ -1,5 +1,5 @@
 <template>
-    <div class="space-y-4">
+    <div class="space-y-3">
         <!-- Table Title -->
         <UFormGroup label="Table Title / Instruction" size="sm">
             <UTextarea 
@@ -14,7 +14,7 @@
         <UDivider />
 
         <!-- Table Dimensions Control -->
-        <div class="flex gap-3 items-end flex-wrap">
+        <div class="flex gap-2 items-end flex-wrap">
             <UFormGroup label="Rows" size="sm" class="w-24">
                 <UInput 
                     type="number" 
@@ -37,15 +37,6 @@
                 />
             </UFormGroup>
 
-            <UButton 
-                icon="i-heroicons-arrow-path" 
-                color="gray" 
-                variant="soft"
-                size="sm"
-                @click="resetTable"
-            >
-                Reset Table
-            </UButton>
         </div>
 
         <!-- Table Style Options -->
@@ -359,23 +350,6 @@
                 </tbody>
             </table>
         </div>
-
-        <!-- Helper Text -->
-        <UAlert
-            icon="i-heroicons-information-circle"
-            color="blue"
-            variant="soft"
-            title="Table Editor Guide"
-        >
-            <template #description>
-                <ul class="text-sm space-y-1 mt-2">
-                    <li><strong>Text Only:</strong> Simple text without inputs</li>
-                    <li><strong>Text with Input:</strong> Text before and/or after an input (e.g., "Easy to <u>11</u> ...")</li>
-                    <li><strong>Input Only:</strong> Just an input field with question number</li>
-                    <li><strong>Bullet Point:</strong> Bullet list item with input (e.g., "- Did not have any <u>12</u> ...")</li>
-                </ul>
-            </template>
-        </UAlert>
     </div>
 </template>
 
@@ -568,19 +542,6 @@ const toggleBordered = (value: boolean) => {
         ...props.component.config,
         bordered: value
     })
-}
-
-const resetTable = () => {
-    listeningStore.updateComponent(props.component.id, {
-        rows: 4,
-        columns: 4,
-        hasHeaderRow: true,
-        hasHeaderColumn: true,
-        bordered: true,
-        title: '',
-        data: []
-    })
-    initializeTable()
 }
 </script>
 

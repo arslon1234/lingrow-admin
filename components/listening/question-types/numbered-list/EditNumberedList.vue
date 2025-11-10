@@ -1,5 +1,5 @@
 <template>
-    <div class="space-y-4">
+    <div class="space-y-3">
         <!-- List Title/Instruction -->
         <UFormGroup label="List Title (Optional)" size="sm">
             <UInput 
@@ -32,16 +32,6 @@
                 @click="addListItem"
             >
                 Add Item
-            </UButton>
-
-            <UButton 
-                icon="i-heroicons-arrow-path" 
-                color="gray" 
-                variant="soft"
-                size="sm"
-                @click="resetList"
-            >
-                Reset
             </UButton>
         </div>
 
@@ -243,24 +233,6 @@
                 </UButton>
             </div>
         </div>
-
-        <!-- Helper Text -->
-        <UAlert
-            icon="i-heroicons-information-circle"
-            color="blue"
-            variant="soft"
-            title="Numbered List Guide"
-        >
-            <template #description>
-                <ul class="text-sm space-y-1 mt-2">
-                    <li><strong>Input Field:</strong> Creates an answer blank for students (1. _____)</li>
-                    <li><strong>Text Only:</strong> Static text without input field</li>
-                    <li><strong>Text with Input:</strong> Text before/after the input (e.g., "The building is _____ meters high")</li>
-                    <li>• Set starting question number to match your test format</li>
-                    <li>• Question numbers auto-increment based on position</li>
-                </ul>
-            </template>
-        </UAlert>
     </div>
 </template>
 
@@ -395,14 +367,6 @@ const saveListData = () => {
     })
 }
 
-const resetList = () => {
-    listeningStore.updateComponent(props.component.id, {
-        startNumber: 1,
-        title: '',
-        items: []
-    })
-    initializeList()
-}
 </script>
 
 <style scoped>
