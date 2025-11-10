@@ -103,10 +103,10 @@ import { useListeningStore } from '~/store/listening';
 import DeleteIcon from '~/components/icons/DeleteIcon.vue';
 import UpIcon from '~/components/icons/UpIcon.vue';
 import DownIcon from '~/components/icons/DownIcon.vue';
-import Images from './question-types/Images.vue';
+import Images from './question-types/image/edit.vue';
 import MCQ from './question-types/MCQ.vue';
-import Table from './question-types/Table.vue';
-import NumberedList from './question-types/NumberedList.vue';
+import Table from './question-types/table/edit.vue';
+import NumberedList from './question-types/numbered-list/edit.vue';
 import BulletList from './question-types/BulletList.vue';
 
 const listeningStore = useListeningStore()

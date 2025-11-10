@@ -58,159 +58,15 @@
                 </div>
             </div>
 
-            <!-- QuestionPreview.vue - IMAGE Preview -->
-            <div v-else-if="component.type === 'IMAGE'" class="my-6">
-                <UCard v-if="component.config.url">
-                    <NuxtImg :src="component.config.url" :alt="component.config.alt || 'Question image'"
-                        class="w-full rounded-lg" loading="lazy" />
-                    <template v-if="component.config.caption" #footer>
-                        <p class="text-sm text-gray-600 dark:text-gray-400 text-center italic">
-                            {{ component.config.caption }}
-                        </p>
-                    </template>
-                </UCard>
-
-                <UAlert v-else icon="i-heroicons-photo" color="red" variant="subtle" title="No image available"
-                    description="Image will be displayed here once uploaded" />
-            </div>
+            <!-- IMAGE Preview -->
+            <image-preview v-else-if="component.type === 'IMAGE'" :component="component" />
 
             <!-- TABLE_GRID Preview -->
-            <div v-else-if="component.type === 'TABLE_GRID'" class="my-6">
-                <!-- Table Title/Instruction -->
-                <div v-if="component.config.title" class="mb-4 p-3 bg-gray-100 dark:bg-gray-800 rounded-lg">
-                    <p class="text-sm font-medium text-gray-700 dark:text-gray-300 italic whitespace-pre-wrap">
-                        {{ component.config.title }}
-                    </p>
-                </div>
+            <table-grid-preview v-else-if="component.type === 'TABLE_GRID'" :component="component" />
 
-                <!-- Table -->
-                <div class="overflow-x-auto">
-                    <table class="w-full" :class="{ 'border-collapse': component.config.bordered ?? true }">
-                        <tbody>
-                            <tr v-for="(row, rowIndex) in component.config.data" :key="`preview-row-${rowIndex}`">
-                                <td v-for="(cell, colIndex) in row" :key="`preview-cell-${rowIndex}-${colIndex}`"
-                                    :class="getPreviewCellClasses(component.config, rowIndex, colIndex)"
-                                    class="p-3 align-top">
-                                    <!-- Header cells -->
-                                    <div v-if="isPreviewHeaderCell(component.config, rowIndex, colIndex)"
-                                        class="font-semibold text-center">
-                                        {{ cell.content }}
-                                    </div>
-
-                                    <!-- Regular cells with sections -->
-                                    <div v-else class="space-y-2">
-                                        <template v-for="(section, sectionIndex) in cell.sections"
-                                            :key="`section-${sectionIndex}`">
-                                            <!-- TEXT ONLY -->
-                                            <p v-if="section.type === 'text'" class="text-sm whitespace-pre-wrap">
-                                                {{ section.text }}
-                                            </p>
-
-                                            <!-- TEXT WITH INPUT -->
-                                            <div v-else-if="section.type === 'text_input'"
-                                                class="text-sm flex flex-wrap items-center gap-1">
-                                                <span v-if="section.beforeText">{{ section.beforeText }}</span>
-                                                <span class="font-bold">{{ section.questionNumber }}</span>
-                                                <input type="text" :placeholder="section.placeholder"
-                                                    class="border-b border-gray-400 px-1 py-0.5 bg-transparent focus:outline-none focus:border-primary-500 min-w-[120px] inline-block" />
-                                                <span v-if="section.afterText">{{ section.afterText }}</span>
-                                            </div>
-
-                                            <!-- INPUT ONLY -->
-                                            <div v-else-if="section.type === 'input'"
-                                                class="text-sm flex items-center gap-1">
-                                                <span class="font-bold">{{ section.questionNumber }}</span>
-                                                <input type="text" :placeholder="section.placeholder"
-                                                    class="border-b border-gray-400 px-1 py-0.5 bg-transparent focus:outline-none focus:border-primary-500 flex-1" />
-                                            </div>
-
-                                            <!-- BULLET POINT -->
-                                            <div v-else-if="section.type === 'bullet'" class="text-sm space-y-1">
-                                                <div class="flex flex-wrap items-center gap-1">
-                                                    <span v-if="section.beforeText">{{ section.beforeText }}</span>
-                                                    <span class="font-bold">{{ section.questionNumber }}</span>
-                                                    <input type="text" :placeholder="section.placeholder"
-                                                        class="border-b border-gray-400 px-1 py-0.5 bg-transparent focus:outline-none focus:border-primary-500 min-w-[100px] inline-block"
-                                                        readonly />
-                                                    <span v-if="section.afterText">{{ section.afterText }}</span>
-                                                </div>
-                                                <p v-if="section.additionalText"
-                                                    class="pl-4 text-gray-700 dark:text-gray-300">
-                                                    {{ section.additionalText }}
-                                                </p>
-                                            </div>
-                                        </template>
-
-                                        <!-- Empty cell -->
-                                        <p v-if="!cell.sections || cell.sections.length === 0"
-                                            class="text-gray-400 text-xs italic">
-                                            Empty cell
-                                        </p>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-            </div>
 
             <!-- NUMBERED_LIST Preview -->
-            <div v-else-if="component.type === 'NUMBERED_LIST'" class="my-6">
-                <!-- List Title -->
-                <div v-if="component.config.title" class="mb-4">
-                    <p class="font-semibold text-gray-800 dark:text-gray-200">
-                        {{ component.config.title }}
-                    </p>
-                </div>
-
-                <!-- List Items -->
-                <div class="space-y-3">
-                    <div v-for="(item, index) in component.config.items" :key="`preview-item-${index}`"
-                        class="flex items-start gap-3">
-                        <!-- Question Number -->
-                        <span class="font-bold text-gray-800 dark:text-gray-200 min-w-[2rem] mt-2">
-                            {{ (component.config.startNumber || 1) + index }}.
-                        </span>
-
-                        <!-- TEXT ONLY -->
-                        <div v-if="item.type === 'text'" class="flex-1 pt-2">
-                            <p class="text-gray-700 dark:text-gray-300 whitespace-pre-wrap">
-                                {{ item.text }}
-                            </p>
-                        </div>
-
-                        <!-- INPUT FIELD -->
-                        <div v-else-if="item.type === 'input'" class="flex-1 space-y-1">
-                            <label v-if="item.label" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                                {{ item.label }}
-                            </label>
-                            <input type="text" :placeholder="item.placeholder"
-                                class="w-full border-b-2 border-gray-400 px-3 py-2 bg-gray-50 dark:bg-gray-900 focus:outline-none focus:border-primary-500" />
-                        </div>
-
-                        <!-- TEXT WITH INPUT -->
-                        <div v-else-if="item.type === 'text_input'" class="flex-1 pt-2">
-                            <div class="flex flex-wrap items-center gap-2">
-                                <span v-if="item.beforeText" class="text-gray-700 dark:text-gray-300">
-                                    {{ item.beforeText }}
-                                </span>
-                                <input type="text" :placeholder="item.placeholder"
-                                    class="border-b-2 border-gray-400 px-2 py-1 bg-gray-50 dark:bg-gray-900 focus:outline-none focus:border-primary-500 min-w-[150px]" />
-                                <span v-if="item.afterText" class="text-gray-700 dark:text-gray-300">
-                                    {{ item.afterText }}
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Empty State -->
-                <div v-if="!component.config.items || component.config.items.length === 0"
-                    class="text-center py-6 text-gray-400 text-sm border-2 border-dashed rounded-lg">
-                    No items in this numbered list
-                </div>
-            </div>
+            <numbered-list-preview v-else-if="component.type === 'NUMBERED_LIST'" :component="component" />
 
             <!-- BULLET_LIST Preview -->
             <div v-else-if="component.type === 'BULLET_LIST'" class="my-6">
@@ -228,7 +84,7 @@
                         <!-- Bullet Symbol -->
                         <span class="mt-2 text-gray-600 dark:text-gray-400 select-none">
                             {{ getBulletSymbolPreview(component.config.bulletStyle || 'disc', item.type ===
-                            'sub_bullet') }}
+                                'sub_bullet') }}
                         </span>
 
                         <!-- TEXT ONLY -->
@@ -301,31 +157,11 @@
 </template>
 
 <script setup lang="ts">
+import ImagePreview from './question-types/image/preview.vue';
+import TableGridPreview from './question-types/table/preview.vue';
+import NumberedListPreview from './question-types/numbered-list/preview.vue';
+
 defineProps(['components'])
-
-const isPreviewHeaderCell = (config: any, rowIndex: number, colIndex: number): boolean => {
-    const hasHeaderRow = config.hasHeaderRow ?? true
-    const hasHeaderColumn = config.hasHeaderColumn ?? false
-
-    return (hasHeaderRow && rowIndex === 0) || (hasHeaderColumn && colIndex === 0)
-}
-
-const getPreviewCellClasses = (config: any, rowIndex: number, colIndex: number): string => {
-    const classes = []
-    const bordered = config.bordered ?? true
-
-    if (bordered) {
-        classes.push('border border-gray-300 dark:border-gray-700')
-    }
-
-    if (isPreviewHeaderCell(config, rowIndex, colIndex)) {
-        classes.push('bg-gray-100 dark:bg-gray-800')
-    } else {
-        classes.push('bg-white dark:bg-gray-950')
-    }
-
-    return classes.join(' ')
-}
 
 const getBulletListClass = (style: string): string => {
     return 'list-none'
@@ -335,7 +171,7 @@ const getBulletSymbolPreview = (style: string, isSubBullet: boolean): string => 
     if (isSubBullet) {
         return '○' // Sub-bullets always use circle
     }
-    
+
     const symbols: Record<string, string> = {
         disc: '•',
         circle: '○',
