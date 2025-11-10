@@ -91,6 +91,9 @@
 
             <!-- NUMBERED_LIST -->
             <NumberedList v-else-if="component.type === 'NUMBERED_LIST'" :component="component" />
+
+            <!-- NUMBERED_LIST -->
+            <BulletList v-else-if="component.type === 'BULLET_LIST'" :component="component" />
         </div>
     </div>
 </template>
@@ -104,6 +107,8 @@ import Images from './question-types/Images.vue';
 import MCQ from './question-types/MCQ.vue';
 import Table from './question-types/Table.vue';
 import NumberedList from './question-types/NumberedList.vue';
+import BulletList from './question-types/BulletList.vue';
+
 const listeningStore = useListeningStore()
 
 defineProps(['components'])

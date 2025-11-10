@@ -25,7 +25,8 @@ declare interface ComponentConfig {
   bordered?: boolean,
   data?: string[][],
   title?: string,
-  startNumber?: number
+  startNumber?: number,
+  bulletStyle?: string,
 }
 
 declare interface Component {
