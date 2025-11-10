@@ -24,7 +24,8 @@ declare interface ComponentConfig {
   hasHeaderColumn?: boolean
   bordered?: boolean,
   data?: string[][],
-  title?: string
+  title?: string,
+  startNumber?: number
 }
 
 declare interface Component {
