@@ -1,5 +1,5 @@
 <template>
-    <div className="w-full mx-auto">
+    <div className="w-full mx-auto sticky top-12 z-10">
         <div className="bg-white rounded-lg shadow-lg hover:shadow-xl p-6 mb-6">
             <h1 className="text-2xl font-bold mb-4">IELTS Question Composer</h1>
 

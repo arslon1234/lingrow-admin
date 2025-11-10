@@ -1,5 +1,5 @@
 <template>
-    <div v-if="!previewMode" class="bg-white rounded-lg shadow-lg p-4 h-[calc(100vh-200px)] flex flex-col sticky top-4">
+    <div v-if="!previewMode" class="bg-white rounded-lg shadow-lg p-4 h-[calc(100vh-200px)] flex flex-col">
         <h2 className="font-bold mb-4">Components</h2>
         <div v-for="[category, items] in categorizedComponents" :key="category" class="mb-4">
             <h3 class="text-xs font-semibold text-gray-500 uppercase mb-2">

@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<TheSidebar @sidebarToggle="slotToggle" />
-		<div :style="{maxWidth: `calc(100% - ${toggleWidth}px)`}" class="ml-auto p-1.5 duration-300">
+		<div :style="{maxWidth: `calc(100% - ${toggleWidth}px)`}" class="ml-auto px-1.5 duration-300">
 			<slot />
 		</div>
 	</div>
