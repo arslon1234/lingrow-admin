@@ -85,7 +85,7 @@ export const QUESTION_TYPE_COMPONENTS: Record<string, string[]> = {
 
 	PLAN_LABELLING: ['HEADER', 'INSTRUCTION_BOX', 'IMAGE', 'INPUT_LINE', 'NUMBERED_LIST'],
 
-	MAP_LABELLING: ['HEADER', 'INSTRUCTION_BOX', 'MAP', 'INPUT_LINE', 'NUMBERED_LIST'],
+	MAP_LABELLING: ['HEADER', 'SUBHEADER', 'INSTRUCTION_BOX', 'MAP', 'INPUT_LINE', 'NUMBERED_LIST'],
 
 	DIAGRAM_LABELLING: ['HEADER', 'INSTRUCTION_BOX', 'IMAGE', 'INPUT_LINE', 'NUMBERED_LIST'],
 
@@ -108,7 +108,7 @@ export const QUESTION_TYPE_COMPONENTS: Record<string, string[]> = {
 	LABELING: ['HEADER', 'INSTRUCTION_BOX', 'IMAGE', 'MAP', 'INPUT_LINE', 'NUMBERED_LIST']
 };
 export const defaults: Record<string, ComponentConfig> = {
-	HEADER: { text: 'Heading', level: 3 },
+	HEADER: { text: 'Heading' },
 	SUBHEADER: { text: 'Subheading' },
 	PARAGRAPH: { text: 'Enter paragraph text...' },
 	TEXT_LINE: { text: 'Text line' },

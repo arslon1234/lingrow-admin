@@ -2,8 +2,7 @@
     <div class="border-2 border-dashed border-gray-300 rounded-lg p-6">
         <div v-for="component in components" :key="component.id">
             <!-- Header -->
-            <component v-if="component.type === 'HEADER'" :is="`h${component.config.level}`"
-                class="font-bold mb-2 text-center">
+            <component v-if="component.type === 'HEADER'" is="h3" class="font-bold mb-2 text-center">
                 {{ component.config.text }}
             </component>
 
@@ -21,7 +20,7 @@
             <div v-else-if="component.type === 'INPUT_LINE'" class="mb-3">
                 <label class="block text-sm font-medium mb-1">{{ component.config.label }}</label>
                 <input type="text" :placeholder="component.config.placeholder"
-                    class="w-full border rounded px-3 py-2 bg-gray-50" readonly />
+                    class="w-full border rounded px-3 py-2 bg-gray-50" />
             </div>
 
             <!-- Instruction Box -->
@@ -59,7 +58,7 @@
 
             <!-- MAP Preview -->
             <map-preview v-else-if="component.type === 'MAP'" :component="component" />
-            
+
             <!-- Default -->
             <div v-else class="text-gray-400 italic mb-2">
                 [{{ component.type }}

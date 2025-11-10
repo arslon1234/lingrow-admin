@@ -22,61 +22,82 @@
 
             <!-- HEADER -->
             <div v-if="component.type === 'HEADER'" class="space-y-2">
-                <input type="text" :value="component.config.text"
-                    @input="listeningStore.updateComponent(component.id, { ...component.config, text: ($event.target as HTMLInputElement).value })"
-                    class="w-full border rounded px-3 py-2" placeholder="Header text" />
-                <select :value="component.config.level"
-                    @change="listeningStore.updateComponent(component.id, { ...component.config, level: parseInt(($event.target as HTMLSelectElement).value) })"
-                    class="border rounded px-3 py-2">
-                    <option :value="1">h1</option>
-                    <option :value="2">h2</option>
-                    <option :value="3">h3</option>
-                    <option :value="4">h4</option>
-                </select>
+                <UFormGroup label="Header Text" size="sm">
+                    <UInput :model-value="component.config.text"
+                        @update:model-value="listeningStore.updateComponent(component.id, { ...component.config, text: $event })"
+                        placeholder="Enter header text" size="md" />
+                </UFormGroup>
             </div>
 
             <!-- SUBHEADER, TEXT_LINE, PARAGRAPH -->
-            <textarea
-                v-else-if="component.type === 'SUBHEADER' || component.type === 'TEXT_LINE' || component.type === 'PARAGRAPH'"
-                :value="component.config.text"
-                @input="listeningStore.updateComponent(component.id, { ...component.config, text: ($event.target as HTMLTextAreaElement).value })"
-                class="w-full border rounded px-3 py-2" placeholder="Enter text..." :rows="2" />
+            <div v-else-if="component.type === 'SUBHEADER' || component.type === 'TEXT_LINE' || component.type === 'PARAGRAPH'"
+                class="space-y-2">
+                <UFormGroup
+                    :label="component.type === 'SUBHEADER' ? 'Subheader Text' : component.type === 'PARAGRAPH' ? 'Paragraph Text' : 'Text Line'"
+                    size="md">
+                    <UTextarea :model-value="component.config.text"
+                        @update:model-value="listeningStore.updateComponent(component.id, { ...component.config, text: $event })"
+                        placeholder="Enter text..." :rows="2" size="md" />
+                </UFormGroup>
+            </div>
 
             <!-- INSTRUCTION_BOX -->
             <div v-else-if="component.type === 'INSTRUCTION_BOX'" class="space-y-2">
-                <label class="block text-sm font-medium mb-1">Instructions</label>
-                <textarea :value="component.config.text"
-                    @input="listeningStore.updateComponent(component.id, { ...component.config, text: ($event.target as HTMLTextAreaElement).value })"
-                    class="w-full border rounded px-3 py-2" placeholder="Enter instruction text..." rows="1" />
+                <UFormGroup label="Instructions" size="md">
+                    <UTextarea :model-value="component.config.text"
+                        @update:model-value="listeningStore.updateComponent(component.id, { ...component.config, text: $event })"
+                        placeholder="Write NO MORE THAN TWO WORDS for each answer..." :rows="2" size="sm" />
+                </UFormGroup>
             </div>
 
             <!-- INPUT_LINE -->
-            <div v-else-if="component.type === 'INPUT_LINE'" class="space-y-2">
-                <input type="text" :value="component.config.label"
-                    @input="listeningStore.updateComponent(component.id, { ...component.config, label: ($event.target as HTMLInputElement).value })"
-                    class="w-full border rounded px-3 py-2" placeholder="Question label" />
-                <input type="text" :value="component.config.placeholder"
-                    @input="listeningStore.updateComponent(component.id, { ...component.config, placeholder: ($event.target as HTMLInputElement).value })"
-                    class="w-full border rounded px-3 py-2 text-sm" placeholder="Input placeholder" />
+            <div v-else-if="component.type === 'INPUT_LINE'" class="space-y-3">
+                <UFormGroup label="Question Label" size="sm">
+                    <UInput :model-value="component.config.label"
+                        @update:model-value="listeningStore.updateComponent(component.id, { ...component.config, label: $event })"
+                        placeholder="Question 1 or Name:" size="sm" />
+                </UFormGroup>
+
+                <UFormGroup label="Input Placeholder" size="sm">
+                    <UInput :model-value="component.config.placeholder"
+                        @update:model-value="listeningStore.updateComponent(component.id, { ...component.config, placeholder: $event })"
+                        placeholder="Answer or ___________" size="sm" />
+                </UFormGroup>
+
+                <UFormGroup label="Correct Answer" size="sm">
+                    <UInput :model-value="component.config.correctAnswer"
+                        @update:model-value="listeningStore.updateComponent(component.id, { ...component.config, correctAnswer: $event })"
+                        placeholder="Enter correct answer" icon="i-heroicons-check-circle" color="green" size="sm" />
+                </UFormGroup>
             </div>
 
             <!-- INPUT_INLINE -->
-            <div v-else-if="component.type === 'INPUT_INLINE'" class="space-y-2">
-                <input type="text" :value="component.config.beforeText"
-                    @input="listeningStore.updateComponent(component.id, { ...component.config, beforeText: ($event.target as HTMLInputElement).value })"
-                    class="w-full border rounded px-3 py-2" placeholder="Text before blank" />
+            <div v-else-if="component.type === 'INPUT_INLINE'" class="space-y-3">
+                <UFormGroup label="Text Before Blank" size="sm">
+                    <UInput :model-value="component.config.beforeText"
+                        @update:model-value="listeningStore.updateComponent(component.id, { ...component.config, beforeText: $event })"
+                        placeholder="Text before blank" size="sm" />
+                </UFormGroup>
 
-                <input type="text" :value="component.config.afterText"
-                    @input="listeningStore.updateComponent(component.id, { ...component.config, afterText: ($event.target as HTMLInputElement).value })"
-                    class="w-full border rounded px-3 py-2" placeholder="Text after blank" />
+                <UFormGroup label="Text After Blank" size="sm">
+                    <UInput :model-value="component.config.afterText"
+                        @update:model-value="listeningStore.updateComponent(component.id, { ...component.config, afterText: $event })"
+                        placeholder="Text after blank" size="sm" />
+                </UFormGroup>
 
-                <div class="flex gap-2">
-                    <input type="number" :value="component.config.questionNumber"
-                        @input="listeningStore.updateComponent(component.id, { ...component.config, questionNumber: parseInt(($event.target as HTMLInputElement).value) })"
-                        class="w-20 border rounded px-3 py-2" placeholder="No." min="1" />
-                    <input type="text" :value="component.config.correctAnswer"
-                        @input="listeningStore.updateComponent(component.id, { ...component.config, correctAnswer: ($event.target as HTMLInputElement).value })"
-                        class="flex-1 border rounded px-3 py-2" placeholder="Enter correct answer" />
+                <div class="grid grid-cols-6 gap-3">
+                    <UFormGroup label="Question #" size="sm">
+                        <UInput type="number" :model-value="component.config.questionNumber"
+                            @update:model-value="listeningStore.updateComponent(component.id, { ...component.config, questionNumber: parseInt($event) })"
+                            placeholder="1" size="sm" />
+                    </UFormGroup>
+
+                    <UFormGroup label="Correct Answer" size="sm" class="col-span-5">
+                        <UInput :model-value="component.config.correctAnswer"
+                            @update:model-value="listeningStore.updateComponent(component.id, { ...component.config, correctAnswer: $event })"
+                            placeholder="Enter correct answer" icon="i-heroicons-check-circle" color="green"
+                            size="sm" />
+                    </UFormGroup>
                 </div>
             </div>
 
