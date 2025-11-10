@@ -95,6 +95,8 @@
             <!-- NUMBERED_LIST -->
             <BulletList v-else-if="component.type === 'BULLET_LIST'" :component="component" />
 
+            <!-- MAP -->
+            <edit-map v-else-if="component.type === 'MAP'" :component="component" />
         </div>
     </div>
 </template>
@@ -109,6 +111,7 @@ import MCQ from './question-types/mcq/EditMCQ.vue';
 import Table from './question-types/table/EditTable.vue';
 import NumberedList from './question-types/numbered-list/EditNumberedList.vue';
 import BulletList from './question-types/bullet-list/EditBulletList.vue';
+import EditMap from './question-types/map/EditMap.vue';
 
 const listeningStore = useListeningStore()
 

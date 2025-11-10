@@ -10,7 +10,7 @@
         <!-- List Items -->
         <div class="space-y-3">
             <div v-for="(item, index) in component.config.items" :key="`preview-item-${index}`"
-                class="flex items-start gap-3">
+                class="flex items-center gap-3">
                 <!-- Question Number -->
                 <span class="font-bold text-gray-800 dark:text-gray-200 min-w-[2rem] mt-2">
                     {{ (component.config.startNumber || 1) + index }}.

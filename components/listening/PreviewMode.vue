@@ -57,6 +57,9 @@
             <!-- BULLET_LIST Preview -->
             <bullet-list-preview v-else-if="component.type === 'BULLET_LIST'" :component="component" />
 
+            <!-- MAP Preview -->
+            <map-preview v-else-if="component.type === 'MAP'" :component="component" />
+            
             <!-- Default -->
             <div v-else class="text-gray-400 italic mb-2">
                 [{{ component.type }}
@@ -71,6 +74,7 @@ import TableGridPreview from './question-types/table/PreviewTable.vue';
 import NumberedListPreview from './question-types/numbered-list/PreviewNumberedList.vue';
 import BulletListPreview from './question-types/bullet-list/PreviewBulletList.vue';
 import McqPreview from './question-types/mcq/PreviewMCQ.vue';
+import MapPreview from './question-types/map/PreviewMap.vue';
 
 defineProps(['components'])
 
