@@ -285,7 +285,7 @@ const listItems = ref<ListItem[]>([])
 
 const initializeList = () => {
     const existingItems = props.component.config.items || []
-    
+    console.log(existingItems, 'existingItems')
     if (existingItems.length > 0) {
         listItems.value = existingItems.map((item: any) => ({
             type: item.type || 'input',

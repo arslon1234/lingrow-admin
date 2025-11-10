@@ -83,7 +83,7 @@
             <!-- MCQ_OPTIONS -->
             <MCQ v-else-if="component.type === 'MCQ_OPTIONS'" :component="component" />
 
-             <!-- TABLE -->
+            <!-- TABLE -->
             <Table v-else-if="component.type === 'TABLE_GRID'" :component="component" />
 
             <!-- IMAGE Edit Mode -->
@@ -94,6 +94,7 @@
 
             <!-- NUMBERED_LIST -->
             <BulletList v-else-if="component.type === 'BULLET_LIST'" :component="component" />
+
         </div>
     </div>
 </template>
@@ -103,11 +104,11 @@ import { useListeningStore } from '~/store/listening';
 import DeleteIcon from '~/components/icons/DeleteIcon.vue';
 import UpIcon from '~/components/icons/UpIcon.vue';
 import DownIcon from '~/components/icons/DownIcon.vue';
-import Images from './question-types/image/edit.vue';
-import MCQ from './question-types/MCQ.vue';
-import Table from './question-types/table/edit.vue';
-import NumberedList from './question-types/numbered-list/edit.vue';
-import BulletList from './question-types/BulletList.vue';
+import Images from './question-types/image/EditImage.vue';
+import MCQ from './question-types/mcq/EditMCQ.vue';
+import Table from './question-types/table/EditTable.vue';
+import NumberedList from './question-types/numbered-list/EditNumberedList.vue';
+import BulletList from './question-types/bullet-list/EditBulletList.vue';
 
 const listeningStore = useListeningStore()
 

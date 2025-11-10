@@ -121,6 +121,6 @@ export const defaults: Record<string, ComponentConfig> = {
 	INSTRUCTION_BOX: {
 		text: 'Complete the sentences below. Write NO MORE THAN TWO WORDS for each answer.'
 	},
-	NUMBERED_LIST: { items: ['Item 1', 'Item 2'] },
-	BULLET_LIST: { items: ['Point 1', 'Point 2'] }
+	NUMBERED_LIST: { items: ['Item 1'] },
+	BULLET_LIST: { items: ['Point 1'] }
 };
