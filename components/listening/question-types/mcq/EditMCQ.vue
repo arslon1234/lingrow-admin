@@ -69,24 +69,6 @@
                 </USelectMenu>
             </div>
 
-            <!-- Multi Select -->
-            <!-- <div v-else class="space-y-2">
-                <div v-for="(option, idx) in component.config.options" :key="`correct-${idx}`"
-                    class="flex items-center gap-2 p-2 border rounded hover:bg-gray-50 dark:hover:bg-gray-800">
-                    <UCheckbox :model-value="isCorrectAnswer(option)"
-                        @update:model-value="toggleCorrectAnswer(option, $event)"
-                        :label="`${String.fromCharCode(65 + idx)}) ${option || 'Empty option'}`" />
-                </div>
-            </div> -->
-
-            <!-- Multi-select Toggle -->
-            <!-- <div class="flex items-center gap-2 pt-2">
-                <UCheckbox :model-value="component.config.multiSelect || false" @update:model-value="listeningStore.updateComponent(component.id, {
-                    ...component.config,
-                    multiSelect: $event,
-                    correctAnswer: $event ? [] : ''
-                })" label="Allow multiple correct answers" />
-            </div> -->
         </div>
 
         <UDivider />
@@ -99,32 +81,6 @@ import { useListeningStore } from '~/store/listening'
 const listeningStore = useListeningStore()
 const props = defineProps(['component'])
 
-const isCorrectAnswer = (option: string): boolean => {
-    if (props.component.config.multiSelect) {
-        return Array.isArray(props.component.config.correctAnswer) &&
-            props.component.config.correctAnswer.includes(option)
-    }
-    return props.component.config.correctAnswer === option
-}
-
-const toggleCorrectAnswer = (option: string, checked: boolean) => {
-    let correctAnswers = Array.isArray(props.component.config.correctAnswer)
-        ? [...props.component.config.correctAnswer]
-        : []
-
-    if (checked) {
-        if (!correctAnswers.includes(option)) {
-            correctAnswers.push(option)
-        }
-    } else {
-        correctAnswers = correctAnswers.filter((ans: string) => ans !== option)
-    }
-
-    listeningStore.updateComponent(props.component.id, {
-        ...props.component.config,
-        correctAnswer: correctAnswers
-    })
-}
 </script>
 
 <style scoped>
