@@ -1,3 +1,4 @@
+
 export const IELTS_LISTENING_QUESTION_TYPES = [
 	{
 		key: 'MULTIPLE_CHOICE',
@@ -75,13 +76,13 @@ export const COMPONENT_CATEGORIES = {
 	TEXT: ['HEADER', 'SUBHEADER', 'PARAGRAPH', 'TEXT_LINE', 'INSTRUCTION_BOX'],
 	INPUT: ['INPUT_LINE', 'INPUT_INLINE', 'MCQ_OPTIONS'],
 	MEDIA: ['IMAGE', 'MAP'],
-	STRUCTURE: ['TABLE_GRID', 'NUMBERED_LIST', 'BULLET_LIST']
+	STRUCTURE: ['TABLE_GRID', 'NUMBERED_LIST', 'BULLET_LIST', 'MATCHING']
 };
 
 export const QUESTION_TYPE_COMPONENTS: Record<string, string[]> = {
 	MULTIPLE_CHOICE: ['HEADER', 'SUBHEADER', 'PARAGRAPH', 'INSTRUCTION_BOX', 'MCQ_OPTIONS', 'IMAGE'],
 
-	MATCHING: ['HEADER', 'SUBHEADER', 'INSTRUCTION_BOX', 'PARAGRAPH', 'TABLE_GRID', 'NUMBERED_LIST'],
+	MATCHING: ['HEADER', 'SUBHEADER', 'INSTRUCTION_BOX', 'PARAGRAPH', 'TABLE_GRID', 'NUMBERED_LIST', 'MATCHING'],
 
 	PLAN_LABELLING: ['HEADER', 'INSTRUCTION_BOX', 'IMAGE', 'INPUT_LINE', 'NUMBERED_LIST'],
 
@@ -117,10 +118,32 @@ export const defaults: Record<string, ComponentConfig> = {
 	MCQ_OPTIONS: { options: ['A) ', 'B) ', 'C) '], multiSelect: false, questionText: '', questionNumber: 1 },
 	IMAGE: { url: '', alt: '', caption: '' },
 	MAP: { url: '', hotspots: [] },
-	TABLE_GRID: { rows: 3, columns: 3, headers: [] },
+	TABLE_GRID: { rows: 3, columns: 3, headers: [], data: [] },
 	INSTRUCTION_BOX: {
 		text: 'Complete the sentences below. Write NO MORE THAN TWO WORDS for each answer.'
 	},
 	NUMBERED_LIST: { items: ['Item 1'] },
-	BULLET_LIST: { items: ['Point 1'] }
+	BULLET_LIST: { items: ['Point 1'] },
+	MATCHING: {
+		questionText: 'What is the students\' opinion about each of the following?',
+		instruction: 'Choose SIX answers from the box and write the correct letter, A–H, next to Questions 25–30.',
+		startNumber: 25,
+		optionsTitle: 'Opinions',
+		itemsTitle: 'Items',
+		matchingOptions: [
+			{ id: 'A', text: 'This is only relevant to young people.' },
+			{ id: 'B', text: 'This may have disappointing results.' },
+			{ id: 'C', text: 'This already seems to be widespread.' },
+			{ id: 'D', text: 'Retailers should do more to encourage this.' },
+			{ id: 'E', text: 'More financial support is needed for this.' }
+		],
+		matchingItems: [
+			{ id: 1, text: 'Item 1', correctAnswer: '' },
+			{ id: 2, text: 'Item 2', correctAnswer: '' },
+			{ id: 3, text: 'Item 3', correctAnswer: '' },
+			{ id: 4, text: 'Item 4', correctAnswer: '' },
+			{ id: 5, text: 'Item 5', correctAnswer: '' },
+			{ id: 6, text: 'Item 6', correctAnswer: '' }
+		]
+	}
 };

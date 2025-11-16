@@ -59,6 +59,9 @@
             <!-- MAP Preview -->
             <map-preview v-else-if="component.type === 'MAP'" :component="component" />
 
+            <!-- MATCHING Preview -->
+            <matching-preview v-else-if="component.type === 'MATCHING'" :component="component" />
+
             <!-- Default -->
             <div v-else class="text-gray-400 italic mb-2">
                 [{{ component.type }}
@@ -74,6 +77,7 @@ import NumberedListPreview from './question-types/numbered-list/PreviewNumberedL
 import BulletListPreview from './question-types/bullet-list/PreviewBulletList.vue';
 import McqPreview from './question-types/mcq/PreviewMCQ.vue';
 import MapPreview from './question-types/map/PreviewMap.vue';
+import MatchingPreview from './question-types/matching/preview.vue'
 
 defineProps(['components'])
 

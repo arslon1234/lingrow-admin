@@ -1,3 +1,14 @@
+declare interface MatchingOption {
+  id: string
+  text: string
+}
+
+declare interface MatchingItem {
+  id: number
+  text: string
+  correctAnswer: string
+}
+
 declare interface ComponentConfig {
   text?: string
   level?: number
@@ -7,7 +18,7 @@ declare interface ComponentConfig {
   beforeText?: string
   afterText?: string
   correctAnswer?: string
-  options?: string[]
+  options?: string[]  // MCQ uchun
   multiSelect?: boolean
   url?: string
   alt?: string
@@ -17,16 +28,23 @@ declare interface ComponentConfig {
   columns?: number
   headers?: string[]
   variant?: string
-  items?: string[]
-  questionText?: string,
-  questionNumber?: number,
+  items?: string[]  // NUMBERED_LIST va BULLET_LIST uchun
+  questionText?: string
+  questionNumber?: number
   hasHeaderRow?: boolean
   hasHeaderColumn?: boolean
-  bordered?: boolean,
-  data?: string[][],
-  title?: string,
-  startNumber?: number,
-  bulletStyle?: string,
+  bordered?: boolean
+  data?: any[][]
+  title?: string
+  startNumber?: number
+  bulletStyle?: string
+  
+  // Matching component uchun alohida fieldlar
+  instruction?: string
+  optionsTitle?: string
+  itemsTitle?: string
+  matchingOptions?: MatchingOption[]
+  matchingItems?: MatchingItem[]
 }
 
 declare interface Component {

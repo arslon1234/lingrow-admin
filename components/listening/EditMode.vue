@@ -118,6 +118,9 @@
 
             <!-- MAP -->
             <edit-map v-else-if="component.type === 'MAP'" :component="component" />
+
+            <!-- MATCHING -->
+            <edit-matching v-else-if="component.type === 'MATCHING'" :component="component" />
         </div>
     </div>
 </template>
@@ -133,6 +136,7 @@ import Table from './question-types/table/EditTable.vue';
 import NumberedList from './question-types/numbered-list/EditNumberedList.vue';
 import BulletList from './question-types/bullet-list/EditBulletList.vue';
 import EditMap from './question-types/map/EditMap.vue';
+import EditMatching from './question-types/matching/edit.vue'
 
 const listeningStore = useListeningStore()
 
