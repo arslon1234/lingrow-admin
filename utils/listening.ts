@@ -1,4 +1,3 @@
-
 export const IELTS_LISTENING_QUESTION_TYPES = [
 	{
 		key: 'MULTIPLE_CHOICE',
@@ -115,7 +114,14 @@ export const defaults: Record<string, ComponentConfig> = {
 	TEXT_LINE: { text: 'Text line' },
 	INPUT_LINE: { label: 'Question 1', placeholder: 'Answer', maxLength: 50 },
 	INPUT_INLINE: { beforeText: 'The answer is', afterText: 'here', placeholder: '___', correctAnswer: '', questionNumber: 1 },
-	MCQ_OPTIONS: { options: ['A) ', 'B) ', 'C) '], multiSelect: false, questionText: '', questionNumber: 1 },
+	MCQ_OPTIONS: {
+		options: ['A) ', 'B) ', 'C) ', 'D) '],
+		multiSelect: false,
+		questionText: '',
+		questionNumber: 1,
+		questionNumberEnd: null, // Multi-select uchun
+		correctAnswer: '' // Single: string, Multi: array
+	},
 	IMAGE: { url: '', alt: '', caption: '' },
 	MAP: { url: '', hotspots: [] },
 	TABLE_GRID: { rows: 3, columns: 3, headers: [], data: [] },
@@ -125,7 +131,7 @@ export const defaults: Record<string, ComponentConfig> = {
 	NUMBERED_LIST: { items: ['Item 1'] },
 	BULLET_LIST: { items: ['Point 1'] },
 	MATCHING: {
-		questionText: 'What is the students\' opinion about each of the following?',
+		questionText: "What is the students' opinion about each of the following?",
 		instruction: 'Choose SIX answers from the box and write the correct letter, A–H, next to Questions 25–30.',
 		startNumber: 25,
 		optionsTitle: 'Opinions',

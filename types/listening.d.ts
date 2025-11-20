@@ -45,6 +45,7 @@ declare interface ComponentConfig {
   itemsTitle?: string
   matchingOptions?: MatchingOption[]
   matchingItems?: MatchingItem[]
+  questionNumberEnd?: any
 }
 
 declare interface Component {
