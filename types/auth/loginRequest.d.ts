@@ -1,4 +1,4 @@
 declare interface LoginRequest {
-  username: string;
-  password: string;
+  phoneNumber: string;
+  tempPassword: string;
 }

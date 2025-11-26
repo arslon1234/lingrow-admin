@@ -19,21 +19,60 @@
 				</UButton>
 			</div>
 			<div class="mt-6 space-y-2 text-white dark:text-white/[0.8]">
-				<UButton to="/listening" active-class="!text-white"
-					:class="{ '!text-white': route.path.includes('listening') }" variant="ghost"
-					:label="sidebarOpen ? 'Listening' : ''" block size="xl" :ui="{
-						rounded: 'rounded-lg',
-						block: 'justify-start',
-						padding: { xl: 'px-3 py-2.5' },
-						size: { xl: 'text-xs' },
-						font: 'font-medium',
-						base: 'uppercase tracking-wide',
-						variant: { ghost: 'hover:bg-brown-0 text-white/[0.7] dark:hover:bg-white/[0.1] dark:text-white/[0.7]' }
-					}">
-					<template #leading>
-						<BellIcon class="w-5 shrink-0" />
-					</template>
-				</UButton>
+				<!-- Listening with submenu -->
+				<div>
+					<UButton @click="toggleListening" active-class="!text-white"
+						:class="{ '!text-white': route.path.includes('listening') }" variant="ghost"
+						:label="sidebarOpen ? 'Listening' : ''" block size="xl" :ui="{
+							rounded: 'rounded-lg',
+							block: 'justify-start',
+							padding: { xl: 'px-3 py-2.5' },
+							size: { xl: 'text-xs' },
+							font: 'font-medium',
+							base: 'uppercase tracking-wide',
+							variant: { ghost: 'hover:bg-brown-0 text-white/[0.7] dark:hover:bg-white/[0.1] dark:text-white/[0.7]' }
+						}">
+						<template #leading>
+							<BellIcon class="w-5 shrink-0" />
+						</template>
+						<template #trailing v-if="sidebarOpen">
+							<UIcon name="i-heroicons-chevron-down-20-solid"
+								class="w-4 h-4 ms-auto transform transition-transform duration-200"
+								:class="{ 'rotate-180': listeningOpen }" />
+						</template>
+					</UButton>
+					
+					<!-- Submenu items -->
+					<div v-if="sidebarOpen" 
+						class="overflow-hidden transition-all duration-300"
+						:class="listeningOpen ? 'max-h-32 opacity-100 mt-1' : 'max-h-0 opacity-0'">
+						<UButton to="/listening/books" active-class="!text-white"
+							:class="{ '!text-white': route.path === '/listening/books' }" variant="ghost"
+							label="Books" block size="xl" :ui="{
+								rounded: 'rounded-lg',
+								block: 'justify-start',
+								padding: { xl: 'px-3 py-2.5 pl-11' },
+								size: { xl: 'text-xs' },
+								font: 'font-medium',
+								base: 'uppercase tracking-wide',
+								variant: { ghost: 'hover:bg-brown-0 text-white/[0.7] dark:hover:bg-white/[0.1] dark:text-white/[0.7]' }
+							}" />
+						
+						<UButton to="/listening/questions" active-class="!text-white"
+							:class="{ '!text-white': route.path === '/listening/questions' }" variant="ghost"
+							label="Questions" block size="xl" :ui="{
+								rounded: 'rounded-lg',
+								block: 'justify-start',
+								padding: { xl: 'px-3 py-2.5 pl-11' },
+								size: { xl: 'text-xs' },
+								font: 'font-medium',
+								base: 'uppercase tracking-wide',
+								variant: { ghost: 'hover:bg-brown-0 text-white/[0.7] dark:hover:bg-white/[0.1] dark:text-white/[0.7]' }
+							}" />
+					</div>
+				</div>
+
+				<!-- Reading -->
 				<UButton to="/reading" active-class="!text-white"
 					:class="{ '!text-white': route.path.includes('reading') }" variant="ghost"
 					:label="sidebarOpen ? 'Reading' : ''" block size="xl" :ui="{
@@ -49,6 +88,8 @@
 						<FileIcon class="w-5 shrink-0" />
 					</template>
 				</UButton>
+
+				<!-- Writing -->
 				<UButton to="/writing" active-class="!text-white"
 					:class="{ '!text-white': route.path.includes('writing') }" variant="ghost"
 					:label="sidebarOpen ? 'Writing' : ''" block size="xl" :ui="{
@@ -200,6 +241,9 @@ const emit = defineEmits(['sidebarToggle']);
 const sidebarOpen = ref(sidebar.value === 'open');
 const isHoverEnabled = ref(sidebar.value !== 'open');
 
+// Listening submenu state
+const listeningOpen = ref(false);
+
 // color mode
 const colorMode = useColorMode();
 
@@ -211,6 +255,11 @@ const openSidebar = () => {
 // Close the sidebar
 const closeSidebar = () => {
 	if (isHoverEnabled.value) sidebarOpen.value = false;
+};
+
+// Toggle listening submenu
+const toggleListening = () => {
+	listeningOpen.value = !listeningOpen.value;
 };
 
 // Toggle the sidebar
