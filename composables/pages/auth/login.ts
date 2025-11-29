@@ -1,9 +1,10 @@
 import { z } from 'zod';
 import { useAuthStore } from '~/store/auth';
+
 export const useLoginComposable = async () => {
 	const authStore = useAuthStore();
 	const { loading } = storeToRefs(authStore);
-
+	const router = useRouter()
 	const form = reactive({
 		phoneNumber: '',
 		tempPassword: ''
@@ -53,6 +54,7 @@ export const useLoginComposable = async () => {
 
 	const handleSubmit = async () => {
 		await authStore.login(form);
+		router.push('/listening/books')
 	};
 
 	return {

@@ -10,15 +10,25 @@
             <UDivider />
 
             <form @submit.prevent="handleSubmit" class="space-y-4">
-                 <div class="space-y-2">
+                <div class="space-y-2">
                     <label class="text-sm font-medium text-gray-700 dark:text-gray-300">
                         Book Type <span class="text-red-500">*</span>
                     </label>
-                    <USelectMenu v-model="formData.type" :options="bookTypes" placeholder="Select book type" size="xl"
+                    <USelectMenu 
+                        v-model="selectedBookType" 
+                        :options="BookTypes" 
+                        placeholder="Select book type" 
+                        size="lg"
+                        option-attribute="label"
                         :ui="{
                             rounded: 'rounded-lg',
                             padding: { xl: 'px-4 py-3' },
-                        }" />
+                        }" 
+                    >
+                        <template #label>
+                            {{ selectedBookType?.label || 'Select book type' }}
+                        </template>
+                    </USelectMenu>
                     <p v-if="errors.type" class="text-xs text-red-500">{{ errors.type }}</p>
                 </div>
 
@@ -26,7 +36,7 @@
                     <label class="text-sm font-medium text-gray-700 dark:text-gray-300">
                         Book Name <span class="text-red-500">*</span>
                     </label>
-                    <UInput v-model="formData.name" placeholder="Enter book name" size="xl" :ui="{
+                    <UInput v-model="formData.title" placeholder="Enter book name" size="lg" :ui="{
                         rounded: 'rounded-lg',
                         padding: { xl: 'px-4 py-3' },
                         color: {
@@ -35,20 +45,20 @@
                             }
                         }
                     }" />
-                    <p v-if="errors.name" class="text-xs text-red-500">{{ errors.name }}</p>
+                    <p v-if="errors.title" class="text-xs text-red-500">{{ errors.title }}</p>
                 </div>
             </form>
 
             <UDivider />
 
             <div class="flex items-center justify-end gap-x-3">
-                <UButton @click="closeModal" class="w-28 justify-center" size="xl" label="Cancel" variant="solid" :ui="{
+                <UButton @click="closeModal" class="w-28 justify-center" size="lg" label="Cancel" variant="solid" :ui="{
                     rounded: 'rounded-lg',
                     variant: {
                         solid: 'bg-grey-2 hover:bg-grey-1 dark:bg-dark-button-0 dark:hover:bg-white/[0.05]',
                     },
                 }" />
-                <UButton @click="handleSubmit" class="w-28 justify-center" size="xl"
+                <UButton @click="handleSubmit" class="w-28 justify-center" size="lg"
                     :label="isEditMode ? 'Update' : 'Create'" variant="solid" color="primary" :disabled="!isFormValid"
                     :loading="loading" />
             </div>
@@ -58,37 +68,26 @@
 
 <script setup lang="ts">
 import { computed, ref, watch } from "vue";
-
-interface BookData {
-    id?: string;
-    name: string;
-    type: string;
-}
+import { z } from "zod";
+import { BookTypes } from "~/helpers/constants";
+import { listeningBookSchema } from "~/schemas/listening/listeningSchema";
 
 const props = defineProps<{
     modelValue: boolean;
     loading: boolean;
-    bookData?: BookData | null;
+    bookData?: ListeningBookData | null;
 }>();
 
 const emit = defineEmits<{
     (e: "update:modelValue", value: boolean): void;
-    (e: "submit", data: { formData: BookData }): void;
+    (e: "submit", data: { formData: ListeningBookData }): void;
 }>();
 
-// Book types
-const bookTypes = [
-    'Fiction',
-    'Non-Fiction',
-    'Science Fiction',
-    'Mystery',
-    'Romance',
-    'Thriller',
-    'Biography',
-    'Self-Help',
-    'Educational',
-    'Other'
-];
+// Edit mode schema (with optional id)
+const bookSchemaWithId = listeningBookSchema.extend({
+    id: z.string().optional(),
+});
+
 
 // Internal value for v-model
 const internalValue = computed({
@@ -100,27 +99,47 @@ const internalValue = computed({
 const isEditMode = computed(() => !!props.bookData && !!props.bookData.id);
 
 // Form data
-const formData = ref<BookData>({
-    name: '',
-    type: '',
+const formData = ref<ListeningBookData>({
+    title: '',
+    materialType: '',
 });
+
+// Selected book type object
+const selectedBookType = ref<ListeningBookType | undefined>(undefined);
 
 // File handling
 const selectedFile = ref<File | null>(null);
 const fileInput = ref<HTMLInputElement | null>(null);
 
 // Validation errors
-const errors = ref({
-    name: '',
-    type: '',
+const errors = ref<Record<string, string>>({
+    title: '',
+    materialType: '',
+});
+
+// Watch selectedBookType and update formData.type
+watch(selectedBookType, (newType) => {
+    if (newType) {
+        formData.value.materialType = newType.key;
+        // Clear type error when selection is made
+        errors.value.materialType = '';
+    } else {
+        formData.value.materialType = '';
+    }
+});
+
+// Watch name input to clear error on change
+watch(() => formData.value.title, () => {
+    if (formData.value.title.trim()) {
+        errors.value.title = '';
+    }
 });
 
 // Form validation
 const isFormValid = computed(() => {
     return (
-        formData.value.name.trim() !== '' &&
-        formData.value.type !== '' &&
-        (isEditMode.value || selectedFile.value !== null) // Audio required only for create
+        formData.value.title.trim() !== '' &&
+        formData.value.materialType !== ''
     );
 });
 
@@ -130,29 +149,35 @@ function closeModal() {
     resetForm();
 }
 
-
-// Validate form
+// Validate form with Zod
 function validateForm(): boolean {
-    let isValid = true;
-    errors.value = { name: '', type: '' };
+    try {
+        // Clear previous errors
+        errors.value = { title: '', materialType: '' };
 
-    if (!formData.value.name.trim()) {
-        errors.value.name = 'Book name is required';
-        isValid = false;
+        // Validate using Zod
+        const schema = isEditMode.value ? bookSchemaWithId : listeningBookSchema;
+        schema.parse(formData.value);
+
+        return true;
+    } catch (error) {
+        if (error instanceof z.ZodError) {
+            // Map Zod errors to errors object
+            error.errors.forEach((err) => {
+                const field = err.path[0] as string;
+                errors.value[field] = err.message;
+            });
+        }
+        return false;
     }
-
-    if (!formData.value.type) {
-        errors.value.type = 'Book type is required';
-        isValid = false;
-    }
-
-    return isValid;
 }
 
 // Submit handler
 function handleSubmit() {
-    if (!validateForm()) return;
-
+    if (!validateForm()) {
+        console.log("Validation failed:", errors.value);
+        return;
+    }
     emit("submit", {
         formData: {
             ...formData.value,
@@ -164,11 +189,12 @@ function handleSubmit() {
 // Reset form
 function resetForm() {
     formData.value = {
-        name: '',
-        type: '',
+        title: '',
+        materialType: '',
     };
+    selectedBookType.value = undefined;
     selectedFile.value = null;
-    errors.value = { name: '', type: ''};
+    errors.value = { title: '', materialType: '' };
     if (fileInput.value) {
         fileInput.value.value = '';
     }
@@ -181,9 +207,11 @@ watch(
         if (newVal && props.bookData) {
             // Populate form with bookData for edit mode
             formData.value = {
-                name: props.bookData.name || '',
-                type: props.bookData.type || '',
+                title: props.bookData.title || '',
+                materialType: props.bookData.materialType || '',
             };
+            // Find and set the selected book type
+            selectedBookType.value = BookTypes.find(bt => bt.key === props.bookData?.materialType);
         } else if (!newVal) {
             // Reset form when modal closes
             setTimeout(() => resetForm(), 300);
@@ -197,9 +225,11 @@ watch(
     (newData) => {
         if (newData && props.modelValue) {
             formData.value = {
-                name: newData.name || '',
-                type: newData.type || '',
+                title: newData.title || '',
+                materialType: newData.materialType || '',
             };
+            // Find and set the selected book type
+            selectedBookType.value = BookTypes.find(bt => bt.key === newData.materialType);
         }
     },
     { deep: true }

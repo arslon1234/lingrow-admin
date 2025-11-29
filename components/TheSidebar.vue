@@ -109,51 +109,22 @@
 			</div>
 		</div>
 
-		<!-- <UPopover v-model:open="isPopoverOpen" :popper="{ placement: 'right-end', offsetDistance: 0 }">
+		<UPopover v-model:open="isPopoverOpen" :popper="{ placement: 'right-end', offsetDistance: 0 }">
 			<div :class="sidebarOpen ? 'py-2 px-3' : 'py-1 px-1'"
 				class="space-y-1 bg-brown-0 w-full max-w-[350px] rounded-lg border border-white/[.1] cursor-pointer duration-300 dark:bg-white/[0.1] dark:text-white/[0.8]">
 				<h4 :class="sidebarOpen ? 'text-sm' : 'text-xs'"
 					class="text-white/[.7] font-medium uppercase tracking-wide whitespace-nowrap">
-					{{ sidebarOpen ? getCarrierName() : getCarrierName().slice(0, 3) }}
+					{{ sidebarOpen ? 'Logout' : 'Out' }}
 				</h4>
-				<div class="h-[1px] w-full bg-white/[0.1]"></div>
-				<p :class="sidebarOpen ? 'text-xs px-0' : 'text-[10px] px-1'"
-					class="text-white/[.7] uppercase font-medium tracking-wide whitespace-nowrap">
-					{{ sidebarOpen ? getCarrierGroupName() : getCarrierGroupName().slice(0, 3) }}
-				</p>
 			</div>
 			<template #panel>
 				<div class="p-4 space-y-3 rounded-lg w-[340px] dark:bg-dark-0">
-					<div class="space-y-2">
-						<UInput v-model="searchCarrier" :ui="{
-							padding: { xl: 'px-3 py-2' },
-							rounded: 'rounded-lg',
-							color: { white: { outline: 'shadow-none ring-grey-border placeholder:text-sm font-normal' } }
-						}" color="white" icon="i-heroicons-magnifying-glass-20-solid" size="xl" placeholder="Search Carrier" />
-						<ul v-if="filteredCarriers.length > 0"
-							class="border max-h-60 overflow-y-auto rounded-lg border-grey-border dark:border-white/[0.1]">
-							<li @click="setCarrier(carrier); setCarrierTimeZoneId(carrier.timeZoneInfo.ianaId); carrierId = carrier.id"
-								v-for="(carrier, i) in filteredCarriers" :key="i"
-								:style="{ backgroundColor: filteredCarriers.find((n) => n === selectedCarrier) === carrier ? 'rgba(70, 90, 149, 0.1)' : '' }"
-								class="border-b border-grey-border text-sm last:border-b-0 py-2 px-4 duration-200 first:rounded-t-lg last:rounded-b-lg hover:bg-purple/[.04] cursor-pointer flex items-center justify-between dark:border-white/[0.1] dark:text-white/[0.8] dark:hover:bg-white/[0.1]">
-								{{ carrier.name }}
-								<UIcon v-if="filteredCarriers.find((n) => n === selectedCarrier) === carrier"
-									name="i-heroicons-check" class="text-purple dark:text-white/[0.8]" />
-							</li>
-						</ul>
-						<div v-else
-							class="border rounded-lg py-2 px-4 flex items-center justify-center min-h-40 font-medium uppercase">
-							no
-							data
-						</div>
-					</div>
-
 					<div class="pt-2 z-50">
-						<UButton variant="ghost"
+						<!-- <UButton variant="ghost"
 							class="w-full justify-start text-xs border border-black/[0.1] text-black font-medium rounded-lg dark:border-white/[0.1]  dark:text-white/[0.6] dark:hover:bg-white/[0.1]">
 							<User1Icon class="w-5" />
 							001
-						</UButton>
+						</UButton> -->
 						<UButton variant="ghost"
 							class="w-full justify-start text-xs border border-black/[0.1] text-black rounded-lg mt-2 dark:border-white/[0.1] dark:text-white/[0.6] dark:hover:bg-white/[0.1]">
 							<SettengsIcon class="w-5" />
@@ -177,7 +148,7 @@
 					</div>
 				</div>
 			</template>
-		</UPopover> -->
+		</UPopover>
 	</aside>
 </template>
 
@@ -200,11 +171,11 @@ import User1Icon from '../assets/icons/user-02.svg';
 
 // stores
 import { useIndex } from '~/store';
-// import { useAuthStore } from '~/store/auth';
+import { useAuthStore } from '~/store/auth';
 // import { useCarrierStore } from '~/store/carrier';
 
 // store variables
-// const authStore = useAuthStore();
+const authStore = useAuthStore();
 // const carrierStore = useCarrierStore();
 
 // destructuring stores

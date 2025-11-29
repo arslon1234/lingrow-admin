@@ -1,6 +1,6 @@
 <template>
     <main>
-        <ListeningBook v-model="showModal" :loading="isLoading" />
+        <ListeningBook v-model="showModal" :loading="isLoading" @submit="handleSubmitBook" />
         <section class="card flex justify-between items-center sticky top-0 z-10">
             <h1 class="title">Listening Books</h1>
             <div class="flex items-center gap-3">
@@ -15,11 +15,11 @@
         <section class="main-layout mt-4 ">
             <div class="flex items-center justify-between w-full">
                 <div class="w-1/2">
-                    <UTabs :items="items" v-model="bookType" class="w-full">
-                    <template #item="{ item }">
-                        <p>{{ item.label }}</p>
-                    </template>
-                </UTabs>
+                    <UTabs :items="BookTypes" v-model="bookType" class="w-full">
+                        <template #item="{ item }">
+                            <p>{{ item.label }}</p>
+                        </template>
+                    </UTabs>
                 </div>
                 <UButton @click="openCreateModal" class="shrink-0" size="lg">Create book</UButton>
             </div>
@@ -29,31 +29,31 @@
 
 <script setup lang="ts">
 import ListeningBook from '~/components/modal/ListeningBook.vue';
+import { BookTypes } from '~/helpers/constants';
+import { useAxios } from '~/api';
+import { ApiUrls } from '~/api/apis';
 
 const router = useRouter()
 const route = useRoute()
-const {setQueries, getQueryParams} = useQueryParams(route, router)
+const { setQueries, getQueryParams } = useQueryParams(route, router)
 const showModal = ref(false);
 const isLoading = ref(false);
 const selectedBook = ref(null);
 const bookType = ref(getQueryParams('bookType') || 0)
-const items = [{
-    key: 'MOCK',
-    label: 'Mock exam',
-    description: 'Make changes to your account here. Click save when you\'re done.'
-}, {
-    key: 'PRACTICE',
-    label: 'Practice',
-    description: 'Change your password here. After saving, you\'ll be logged out.'
-}]
 
 watch(bookType, (value) => {
-  setQueries({ bookType: value })
+    setQueries({ bookType: value })
 })
 
 function openCreateModal() {
     selectedBook.value = null;
     showModal.value = true;
+}
+
+function handleSubmitBook({ formData }: { formData: ListeningBookData }) {
+    if(!formData.id){
+        useAxios().postRequest(ApiUrls.MATERIALS, {...formData})
+    }
 }
 </script>
 

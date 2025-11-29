@@ -12,12 +12,12 @@ import { userService } from '~/helpers/user';
 
 export const useAuthStore = defineStore('auth', () => {
 	// Token cookies
-	const accessTokenCookie = useCookie('access_token');
-	const refreshTokenCookie = useCookie('refresh_token');
+	const accessTokenCookie = useCookie('accessToken');
+	const refreshTokenCookie = useCookie('refreshToken');
 
 	const loading = ref(false);
 
-  /**
+	/**
 	 * @param model - Login Request Credentials
 	 */
 	async function login(model: LoginRequest) {
@@ -29,12 +29,12 @@ export const useAuthStore = defineStore('auth', () => {
 			};
 
 			const result = await useAxios().postRequest(ApiUrls.AUTH_LOGIN_URL, modelRequest);
-			if (result?.status === 200 && result.data?.successResult) {
+			if (result?.status === 200) {
 				console.log(result);
-				const { accessToken, refreshToken, user } = result.data.successResult;
+				const { accessToken, refreshToken } = result.data;
 
 				// // Save tokens and user data
-				// setSession(token, refreshToken, add(dayjs(), 10, "hour").format());
+				setSession(accessToken, refreshToken, add(dayjs(), 10, 'hour').format());
 				// saveUserData(user);
 
 				// // Initialize services
@@ -67,15 +67,15 @@ export const useAuthStore = defineStore('auth', () => {
 	 */
 	async function refreshToken() {
 		try {
-			const result = await useAxios().getRequest(ApiUrls.AUTH_REFRESH_TOKEN_URL, {
-				token: refreshTokenCookie.value
+			const result = await useAxios().postRequest(ApiUrls.AUTH_REFRESH_TOKEN_URL, {
+				refreshToken: refreshTokenCookie.value
 			});
 
-			if (result?.status === 200 && result.data?.successResult) {
-				const { token, refreshToken } = result.data.successResult;
+			if (result?.status === 200 && result.data) {
+				const { accessToken, refreshToken } = result.data;
 
 				// Update tokens
-				setSession(token, refreshToken, add(dayjs(), 10, 'hour').format());
+				setSession(accessToken, refreshToken, add(dayjs(), 10, 'hour').format());
 			} else {
 				throw new Error('Invalid token refresh response.');
 			}
@@ -91,12 +91,11 @@ export const useAuthStore = defineStore('auth', () => {
 	 * @param refreshToken - Refresh token
 	 * @param expireTime - Token expiration time
 	 */
-	function setSession(token: string, refreshToken: string, expireTime: string) {
-		accessTokenCookie.value = token;
+	function setSession(accessToken: string, refreshToken: string, expireTime: string) {
+		accessTokenCookie.value = accessToken;
 		refreshTokenCookie.value = refreshToken;
 		setExpireTime(expireTime);
 	}
-
 	/**
 	 * Clears tokens and expiration time.
 	 */
@@ -129,7 +128,7 @@ export const useAuthStore = defineStore('auth', () => {
 
 	return {
 		login,
-    loading,
+		loading,
 		logout,
 		refreshToken
 	};
