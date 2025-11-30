@@ -30,6 +30,7 @@
 <script setup lang="ts">
 import ListeningBook from '~/components/modal/ListeningBook.vue';
 import { BookTypes } from '~/helpers/constants';
+import { addSuccess } from '~/helpers/notification';
 import { useAxios } from '~/api';
 import { ApiUrls } from '~/api/apis';
 
@@ -50,9 +51,13 @@ function openCreateModal() {
     showModal.value = true;
 }
 
-function handleSubmitBook({ formData }: { formData: ListeningBookData }) {
+async function handleSubmitBook({ formData }: { formData: ListeningBookData }) {
     if(!formData.id){
-        useAxios().postRequest(ApiUrls.MATERIALS, {...formData})
+        const res = await useAxios().postRequest(ApiUrls.MATERIALS, {...formData})
+        if(res.status === 201){
+            showModal.value = false
+            addSuccess('Material successfully created')
+        }
     }
 }
 </script>

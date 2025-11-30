@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useAuthStore } from '~/store/auth';
 
 export default defineNuxtPlugin((nuxtApp: any) => {
-	const accessToken = useCookie('accessToken');
+	// const accessToken = useCookie('accessToken');
 	const authStore = useAuthStore();
 
 	const axiosInstance = axios.create({
@@ -12,6 +12,7 @@ export default defineNuxtPlugin((nuxtApp: any) => {
 	axiosInstance.interceptors.request.use(
 		(config: any) => {
 			// config.headers['Lang'] = nuxtApp.$i18n.locale.value;
+			const accessToken = useCookie('accessToken');
 			if (accessToken.value) {
 				config.headers['Authorization'] = `Bearer ${accessToken.value}`;
 			} else {

@@ -41,14 +41,13 @@
 								:class="{ 'rotate-180': listeningOpen }" />
 						</template>
 					</UButton>
-					
+
 					<!-- Submenu items -->
-					<div v-if="sidebarOpen" 
-						class="overflow-hidden transition-all duration-300"
+					<div v-if="sidebarOpen" class="overflow-hidden transition-all duration-300"
 						:class="listeningOpen ? 'max-h-32 opacity-100 mt-1' : 'max-h-0 opacity-0'">
 						<UButton to="/listening/books" active-class="!text-white"
-							:class="{ '!text-white': route.path === '/listening/books' }" variant="ghost"
-							label="Books" block size="xl" :ui="{
+							:class="{ '!text-white': route.path === '/listening/books' }" variant="ghost" label="Books"
+							block size="xl" :ui="{
 								rounded: 'rounded-lg',
 								block: 'justify-start',
 								padding: { xl: 'px-3 py-2.5 pl-11' },
@@ -57,7 +56,7 @@
 								base: 'uppercase tracking-wide',
 								variant: { ghost: 'hover:bg-brown-0 text-white/[0.7] dark:hover:bg-white/[0.1] dark:text-white/[0.7]' }
 							}" />
-						
+
 						<UButton to="/listening/questions" active-class="!text-white"
 							:class="{ '!text-white': route.path === '/listening/questions' }" variant="ghost"
 							label="Questions" block size="xl" :ui="{
@@ -114,7 +113,7 @@
 				class="space-y-1 bg-brown-0 w-full max-w-[350px] rounded-lg border border-white/[.1] cursor-pointer duration-300 dark:bg-white/[0.1] dark:text-white/[0.8]">
 				<h4 :class="sidebarOpen ? 'text-sm' : 'text-xs'"
 					class="text-white/[.7] font-medium uppercase tracking-wide whitespace-nowrap">
-					{{ sidebarOpen ? 'Logout' : 'Out' }}
+					{{ sidebarOpen ? `${currentUser?.firstName} ${currentUser?.lastName}` : 'Out' }}
 				</h4>
 			</div>
 			<template #panel>
@@ -172,36 +171,20 @@ import User1Icon from '../assets/icons/user-02.svg';
 // stores
 import { useIndex } from '~/store';
 import { useAuthStore } from '~/store/auth';
+import { useUsersStore } from '~/store/users';
 // import { useCarrierStore } from '~/store/carrier';
 
 // store variables
 const authStore = useAuthStore();
-// const carrierStore = useCarrierStore();
+const usersStore = useUsersStore()
 
 // destructuring stores
 const { sidebar } = storeToRefs(useIndex());
+const { currentUser } = storeToRefs(usersStore)
 // const { carriers } = storeToRefs(carrierStore);
 
 // carriers
 const isPopoverOpen = ref(false);
-const searchCarrier = ref('');
-const carrierId = ref(getCarrierId());
-// const selectedCarrier = computed(() => carriers.value.find((carrier) => carrier.id === carrierId.value));
-// const filteredCarriers = computed(() => carriers.value.filter((carrier) => carrier.name.toLowerCase().includes(searchCarrier.value.toLowerCase())));
-
-// watching selected carrier
-watch(carrierId, (newCarrier) => {
-	if (newCarrier) {
-		// Reload the page when selectedCarrier changes
-		window.location.reload();
-	}
-});
-const setCarrier = (row) => {
-	console.log(row)
-	setCarrierId(row.id);
-	setCarrierName(row.name);
-	setCarrierGroupName(row.provider.name);
-};
 // route
 const route = useRoute();
 
@@ -264,11 +247,11 @@ const isDark = computed({
 	}
 });
 
-watch(isPopoverOpen, async (newValue) => {
-	if (newValue) {
-		// if (!route.path.includes('dot-inspection') && !route.path.includes('activity')) {
-		// 	await carrierStore.getCarriesFilter();
-		// }
-	}
-});
+// watch(isPopoverOpen, async (newValue) => {
+// 	if (newValue) {
+// 		if (!route.path.includes('dot-inspection') && !route.path.includes('activity')) {
+// 			await carrierStore.getCarriesFilter();
+// 		}
+// 	}
+// });
 </script>

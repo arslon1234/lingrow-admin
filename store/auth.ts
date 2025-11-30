@@ -6,6 +6,9 @@ import { defineStore } from 'pinia';
 import { useAxios } from '~/api';
 import { ApiUrls } from '~/api/apis';
 
+// importing stores
+import { useUsersStore } from './users';
+
 // importing helpers
 import { addSuccess } from '~/helpers/notification';
 import { userService } from '~/helpers/user';
@@ -14,7 +17,7 @@ export const useAuthStore = defineStore('auth', () => {
 	// Token cookies
 	const accessTokenCookie = useCookie('accessToken');
 	const refreshTokenCookie = useCookie('refreshToken');
-
+	const usersStore = useUsersStore()
 	const loading = ref(false);
 
 	/**
@@ -33,14 +36,15 @@ export const useAuthStore = defineStore('auth', () => {
 				console.log(result);
 				const { accessToken, refreshToken } = result.data;
 
-				// // Save tokens and user data
-				setSession(accessToken, refreshToken, add(dayjs(), 10, 'hour').format());
+				// Save tokens and user data
+				await setSession(accessToken, refreshToken, add(dayjs(), 10, 'hour').format());
+				await usersStore.getUsers()
 				// saveUserData(user);
 
 				// // Initialize services
 				// scheduleTokenRefresh();
 				// userService.updateUser();
-				// addSuccess('Successfully Logged in');
+				addSuccess('Successfully Logged in');
 				// navigateTo('/');
 			} else {
 				throw new Error('Invalid login response or status code.');
@@ -91,7 +95,7 @@ export const useAuthStore = defineStore('auth', () => {
 	 * @param refreshToken - Refresh token
 	 * @param expireTime - Token expiration time
 	 */
-	function setSession(accessToken: string, refreshToken: string, expireTime: string) {
+	async function setSession(accessToken: string, refreshToken: string, expireTime: string) {
 		accessTokenCookie.value = accessToken;
 		refreshTokenCookie.value = refreshToken;
 		setExpireTime(expireTime);

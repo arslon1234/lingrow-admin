@@ -1,35 +1,47 @@
-export default defineNuxtRouteMiddleware((to, from) => {
-  if (import.meta.server) return
+import { useUsersStore } from '~/store/users';
 
-  const accessToken = useCookie('accessToken')
-  const lastPage = useCookie<string | null>('lastPage')
+export default defineNuxtRouteMiddleware(async (to, from) => {
+	if (import.meta.server) return;
 
-  const isAuthPage = to.path.startsWith('/auth')
-  const fromIsAuth = from.path?.startsWith('/auth')
+	const usersStore = useUsersStore();
+	const accessToken = useCookie('accessToken');
+  const refreshToken = useCookie('refreshToken')
+	const lastPage = useCookie<string | null>('lastPage');
 
-  // ✅ auth bo‘lmagan sahifalarni saqlab boramiz
-  if (!isAuthPage) {
-    lastPage.value = to.fullPath
-  }
+	const isAuthPage = to.path.startsWith('/auth');
+	const fromIsAuth = from.path?.startsWith('/auth');
 
-  // ✅ token YO‘Q → protected page
-  if (!accessToken.value && !isAuthPage) {
-    return navigateTo('/auth/login')
-  }
+	if (!isAuthPage) {
+		lastPage.value = to.fullPath;
+	}
 
-  // ✅ token BOR → auth page
-  if (accessToken.value && isAuthPage) {
-    // 🔥 AGAR auth page’dan chiqayotgan bo‘lsa → har doim books
-    if (fromIsAuth) {
-      return navigateTo('/listening/books')
-    }
+	if (!accessToken.value && !isAuthPage) {
+		return navigateTo('/auth/login');
+	}
 
-    // aks holda eski sahifaga
-    return navigateTo(lastPage.value || '/listening/books')
-  }
+	if (accessToken.value && !isAuthPage) {
+		if (!usersStore.currentUser) {
+			try {
+				await usersStore.getUsers();
+			} catch (error) {
+				console.error('Failed to fetch user:', error);
 
-  // ✅ 404
-  if (to.matched.length === 0) {
-    return navigateTo(accessToken.value ? '/listening/books' : '/auth/login')
-  }
-})
+				accessToken.value = null;
+				return navigateTo('/auth/login');
+			}
+		}
+	}
+
+
+	if (accessToken.value && isAuthPage) {
+		if (fromIsAuth) {
+			return navigateTo('/listening/books');
+		}
+
+		return navigateTo(lastPage.value || '/listening/books');
+	}
+
+	if (to.matched.length === 0) {
+		return navigateTo(accessToken.value ? '/listening/books' : '/auth/login');
+	}
+});

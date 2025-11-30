@@ -1,10 +1,12 @@
 import { z } from 'zod';
 import { useAuthStore } from '~/store/auth';
-
+import { useUsersStore } from '~/store/users';
+import { addError } from '~/helpers/notification';
 export const useLoginComposable = async () => {
 	const authStore = useAuthStore();
+	const usersStore = useUsersStore();
 	const { loading } = storeToRefs(authStore);
-	const router = useRouter()
+	const router = useRouter();
 	const form = reactive({
 		phoneNumber: '',
 		tempPassword: ''
@@ -54,7 +56,19 @@ export const useLoginComposable = async () => {
 
 	const handleSubmit = async () => {
 		await authStore.login(form);
-		router.push('/listening/books')
+
+		if (usersStore.currentUser) {
+			const { roles } = usersStore.currentUser;
+			const isAdmin = roles.some((item: any) => item.name === 'SUPER_ADMIN');
+			console.log(isAdmin)
+			if (isAdmin) {
+				router.push('/listening/books');
+			}else {
+				authStore.logout()
+				addError('But you have no permission')
+			}
+		}
+		
 	};
 
 	return {
