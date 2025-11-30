@@ -63,10 +63,10 @@ export default defineNuxtConfig({
 	},
 	runtimeConfig: {
 		public: {
-			BASE_URL: process.env.BASE_URL ?? process.env.BASE_URL_BACKUP ?? 'http://lingrow-dev.uz:8081',
-			BASE_URL_CHAT: process.env.BASE_URL_CHAT ?? 'wss://ai.routeeld.uz/',
-			GOOGLE_MAPS_API_KEY: process.env.GOOGLE_MAPS_API_KEY ?? 'AIzaSyC0gkkJ9mycfaiKZO4SK7LUIvJMQp5DqDI',
-			GOOGLE_MAPS_MAP_ID: process.env.GOOGLE_MAPS_MAP_ID ?? 'fd5c5000ce539c3b'
+			BASE_URL: process.env.BASE_URL
+			// BASE_URL_CHAT: process.env.BASE_URL_CHAT ?? 'wss://ai.routeeld.uz/',
+			// GOOGLE_MAPS_API_KEY: process.env.GOOGLE_MAPS_API_KEY ?? 'AIzaSyC0gkkJ9mycfaiKZO4SK7LUIvJMQp5DqDI',
+			// GOOGLE_MAPS_MAP_ID: process.env.GOOGLE_MAPS_MAP_ID ?? 'fd5c5000ce539c3b'
 		}
 	},
 	build: {
