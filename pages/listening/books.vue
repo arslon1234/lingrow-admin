@@ -3,19 +3,10 @@
         <!-- MODALS -->
         <ListeningBook v-model="showModal" :loading="isLoading" @submit="handleSubmitBook" />
 
-        <!-- MAIN SECTION -->
-        <section class="card flex justify-between items-center sticky top-0 z-10">
-            <h1 class="title">Listening Books</h1>
-            <div class="flex items-center gap-3">
-                <UInput class="min-w-[264px]" :ui="{
-                    base: 'placeholder:font-medium',
-                    rounded: 'rounded-lg',
-                    color: { white: { outline: 'shadow-none ring-grey-border' } }
-                }" color="white" icon="i-heroicons-magnifying-glass-20-solid" size="lg"
-                    placeholder="Search listening books" />
-            </div>
-        </section>
-        <section class="mt-4">
+        <!-- THE MAIN HEADER -->
+        <TheMainHeader title="Listening Books" placeholder="Search listening book..."/>
+
+        <section>
             <div class="flex items-center justify-between w-full">
                 <div class="w-1/2">
                     <UTabs :items="BookTypes" value="key" v-model="bookTypeIndex" class="w-full">
@@ -30,16 +21,27 @@
         </section>
 
         <!-- Reusable Table -->
-            <TheTable :columns="columns" :rows="materials?.content || []" :loading="materialsStore?.isLoading"
-                :search-keys="['title', 'materialType']" search-placeholder="Search books by title or type..."
-                show-actions empty-icon="i-heroicons-book-open" empty-label="No books found"
-                empty-description="Create your first book to get started" :page-size="10">
-            </TheTable>
+        <TheTable :columns="columns" :rows="materials?.content || []" :loading="materialsStore?.isLoading"
+            :search-keys="['title', 'materialType']" search-placeholder="Search books by title or type..." show-actions
+            empty-icon="i-heroicons-book-open" empty-label="No books found"
+            empty-description="Create your first book to get started" :page-size="10">
+
+            <template #actions-column="{ row }">
+                <div class="flex items-center gap-2">
+                    <UButton icon="i-heroicons-pencil-square" size="sm" color="gray" variant="ghost"
+                        @click="handleEdit(row)" />
+                    <UButton icon="i-heroicons-eye" size="sm" color="gray" variant="ghost" @click="handleView(row)" />
+                    <UButton icon="i-heroicons-trash" size="sm" color="red" variant="ghost"
+                        @click="handleDelete(row)" />
+                </div>
+            </template>
+        </TheTable>
     </main>
 </template>
 
 <script setup lang="ts">
 import ListeningBook from '~/components/modal/ListeningBook.vue';
+import TheMainHeader from '~/components/TheMainHeader.vue';
 import TheTable from '~/components/TheTable.vue';
 import { BookTypes } from '~/helpers/constants';
 import { addSuccess } from '~/helpers/notification';
@@ -97,6 +99,16 @@ async function handleSubmitBook({ formData }: { formData: ListeningBookData }) {
             showModal.value = false
         }
     }
+}
+
+async function handleEdit(row: any) {
+
+}
+async function handleDelete(row: any) {
+
+}
+async function handleView(row: any) {
+
 }
 
 onMounted(() => {
