@@ -1,13 +1,15 @@
+interface UserPermissions {}
+interface UserRoles {
+	name: string;
+	description: string;
+	permissions: UserPermissions[];
+}
 declare interface UserResponse {
-	id: string;
-	userName: string;
+	userId: string;
+	phoneNumber: string;
 	firstName: string;
 	lastName: string;
-	email: string;
-	phoneNumber: string;
-	carriersCount: number;
-	driversCount: number;
-	state: number;
-	roles: GroupResponse[];
-	toolCodes: Array<number> | null;
+	telegramUsername: string;
+	isActive: string;
+	roles: UserRoles[];
 }

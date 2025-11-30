@@ -1,6 +1,9 @@
 <template>
-    <main>
+    <main class="space-y-4">
+        <!-- MODALS -->
         <ListeningBook v-model="showModal" :loading="isLoading" @submit="handleSubmitBook" />
+
+        <!-- MAIN SECTION -->
         <section class="card flex justify-between items-center sticky top-0 z-10">
             <h1 class="title">Listening Books</h1>
             <div class="flex items-center gap-3">
@@ -12,7 +15,7 @@
                     placeholder="Search listening books" />
             </div>
         </section>
-        <section class="main-layout mt-4 ">
+        <section class="mt-4">
             <div class="flex items-center justify-between w-full">
                 <div class="w-1/2">
                     <UTabs :items="BookTypes" value="key" v-model="bookTypeIndex" class="w-full">
@@ -21,25 +24,34 @@
                         </template>
                     </UTabs>
                 </div>
-                <UButton @click="openCreateModal" class="shrink-0" size="lg">Create book</UButton>
+                <UButton @click="openCreateModal" icon="i-heroicons-plus" class="shrink-0" size="lg">Create book
+                </UButton>
             </div>
         </section>
+
+        <!-- Reusable Table -->
+            <TheTable :columns="columns" :rows="materials?.content || []" :loading="materialsStore?.isLoading"
+                :search-keys="['title', 'materialType']" search-placeholder="Search books by title or type..."
+                show-actions empty-icon="i-heroicons-book-open" empty-label="No books found"
+                empty-description="Create your first book to get started" :page-size="10">
+            </TheTable>
     </main>
 </template>
 
 <script setup lang="ts">
 import ListeningBook from '~/components/modal/ListeningBook.vue';
+import TheTable from '~/components/TheTable.vue';
 import { BookTypes } from '~/helpers/constants';
 import { addSuccess } from '~/helpers/notification';
 import { useMaterialsStore } from '~/store/materials';
 
 const materialsStore = useMaterialsStore()
-const { materials } = storeToRefs(materialsStore)
+const { materials, isLoading } = storeToRefs(materialsStore)
+console.log(materials)
 const router = useRouter()
 const route = useRoute()
 const { setQueries, getQueryParams } = useQueryParams(route, router)
 const showModal = ref(false);
-const isLoading = ref(false);
 const selectedBook = ref(null);
 const bookTypeKey = ref(getQueryParams('bookType') || "MOCK_TEST")
 const bookTypeIndex = ref(
@@ -49,6 +61,15 @@ const params = computed<GetMaterialBookParams>(() => ({
     type: bookTypeKey.value,
     status: 'DRAFT'
 }))
+
+const columns: any = [
+    { key: 'title', label: 'Book Title' },
+    { key: 'materialType', label: 'Type' },
+    { key: 'status', label: 'Status' },
+    { key: 'createdAt', label: 'Created Date' },
+    { key: 'actions', label: 'Actions' }
+];
+
 watch(bookTypeIndex, (index) => {
     const key = BookTypes[index]?.key
     if (!key) return
@@ -71,7 +92,10 @@ async function handleSubmitBook({ formData }: { formData: ListeningBookData }) {
     }
     if (!formData.id) {
         const response = await materialsStore.createMaterial(data)
-        console.log(response)
+        if (response.status === 201) {
+            addSuccess('Material book successfully created')
+            showModal.value = false
+        }
     }
 }
 

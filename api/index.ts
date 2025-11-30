@@ -9,7 +9,7 @@ export function useAxios() {
 				params,
 				headers,
 				paramsSerializer: {
-					indexes: null 
+					indexes: null
 				}
 			};
 			if (signal) {
@@ -28,13 +28,16 @@ export function useAxios() {
 		}
 	}
 
-	async function postRequest(url: string, body: object = {}, headers: object = {}) {
+	async function postRequest(url: string, body: object = {}, loading?: Ref<boolean>, headers: object = {}) {
 		try {
+			if (loading) loading.value = true;
 			let res = await $axios.post(url, body, { headers });
 			// addSuccess("Created");
 			return res;
 		} catch (error) {
 			handleError(error);
+		} finally {
+			if (loading) loading.value = false;
 		}
 	}
 
