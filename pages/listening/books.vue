@@ -66,7 +66,7 @@ const columns: any = [
     { key: 'title', label: 'Book Title' },
     { key: 'materialType', label: 'Type' },
     { key: 'status', label: 'Status' },
-    { key: 'createdAt', label: 'Created Date' },
+    { key: 'publisher', label: 'Publisher' },
     { key: 'actions', label: 'Actions' }
 ];
 
