@@ -112,8 +112,13 @@
 			<div :class="sidebarOpen ? 'py-2 px-3' : 'py-1 px-1'"
 				class="space-y-1 bg-brown-0 w-full max-w-[350px] rounded-lg border border-white/[.1] cursor-pointer duration-300 dark:bg-white/[0.1] dark:text-white/[0.8]">
 				<h4 :class="sidebarOpen ? 'text-sm' : 'text-xs'"
-					class="text-white/[.7] font-medium uppercase tracking-wide whitespace-nowrap">
-					{{ sidebarOpen ? `${currentUser?.firstName} ${currentUser?.lastName}` : 'Out' }}
+					class="text-white/[.7] font-medium uppercase tracking-wide whitespace-wrap">
+					<template v-if="sidebarOpen">
+						{{ currentUser?.firstName }} {{ currentUser?.lastName }}
+					</template>
+					<template v-else>
+						<LogautIcon class="w-5 h-5" />
+					</template>
 				</h4>
 			</div>
 			<template #panel>

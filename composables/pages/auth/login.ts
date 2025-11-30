@@ -59,7 +59,7 @@ export const useLoginComposable = async () => {
 
 		if (usersStore.currentUser) {
 			const { roles } = usersStore.currentUser;
-			const isAdmin = roles.some((item: any) => item.name === 'SUPER_ADMIN');
+			const isAdmin = roles.some((item: any) => item.name === 'ADMIN');
 			console.log(isAdmin)
 			if (isAdmin) {
 				router.push('/listening/books');
