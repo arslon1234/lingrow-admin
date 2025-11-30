@@ -70,21 +70,21 @@
 import { computed, ref, watch } from "vue";
 import { z } from "zod";
 import { BookTypes } from "~/helpers/constants";
-import { listeningBookSchema } from "~/schemas/listening/listeningSchema";
+import { materialBookSchema } from "~/schemas/material/materialSchema";
 
 const props = defineProps<{
     modelValue: boolean;
     loading: boolean;
-    bookData?: ListeningBookData | null;
+    bookData?: MaterialBookData | null;
 }>();
 
 const emit = defineEmits<{
     (e: "update:modelValue", value: boolean): void;
-    (e: "submit", data: { formData: ListeningBookData }): void;
+    (e: "submit", data: { formData: MaterialBookData }): void;
 }>();
 
 // Edit mode schema (with optional id)
-const bookSchemaWithId = listeningBookSchema.extend({
+const bookSchemaWithId = materialBookSchema.extend({
     id: z.string().optional(),
 });
 
@@ -99,13 +99,13 @@ const internalValue = computed({
 const isEditMode = computed(() => !!props.bookData && !!props.bookData.id);
 
 // Form data
-const formData = ref<ListeningBookData>({
+const formData = ref<MaterialBookData>({
     title: '',
     materialType: '',
 });
 
 // Selected book type object
-const selectedBookType = ref<ListeningBookType | undefined>(undefined);
+const selectedBookType = ref<MaterialBookType | undefined>(undefined);
 
 // File handling
 const selectedFile = ref<File | null>(null);
@@ -156,7 +156,7 @@ function validateForm(): boolean {
         errors.value = { title: '', materialType: '' };
 
         // Validate using Zod
-        const schema = isEditMode.value ? bookSchemaWithId : listeningBookSchema;
+        const schema = isEditMode.value ? bookSchemaWithId : materialBookSchema;
         schema.parse(formData.value);
 
         return true;

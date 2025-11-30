@@ -15,7 +15,7 @@
         <section class="main-layout mt-4 ">
             <div class="flex items-center justify-between w-full">
                 <div class="w-1/2">
-                    <UTabs :items="BookTypes" v-model="bookType" class="w-full">
+                    <UTabs :items="BookTypes" value="key" v-model="bookTypeIndex" class="w-full">
                         <template #item="{ item }">
                             <p>{{ item.label }}</p>
                         </template>
@@ -31,19 +31,31 @@
 import ListeningBook from '~/components/modal/ListeningBook.vue';
 import { BookTypes } from '~/helpers/constants';
 import { addSuccess } from '~/helpers/notification';
-import { useAxios } from '~/api';
-import { ApiUrls } from '~/api/apis';
+import { useMaterialsStore } from '~/store/materials';
 
+const materialsStore = useMaterialsStore()
+const { materials } = storeToRefs(materialsStore)
 const router = useRouter()
 const route = useRoute()
 const { setQueries, getQueryParams } = useQueryParams(route, router)
 const showModal = ref(false);
 const isLoading = ref(false);
 const selectedBook = ref(null);
-const bookType = ref(getQueryParams('bookType') || 0)
+const bookTypeKey = ref(getQueryParams('bookType') || "MOCK_TEST")
+const bookTypeIndex = ref(
+    BookTypes.findIndex(i => i.key === bookTypeKey.value)
+)
+const params = computed<GetMaterialBookParams>(() => ({
+    type: bookTypeKey.value,
+    status: 'DRAFT'
+}))
+watch(bookTypeIndex, (index) => {
+    const key = BookTypes[index]?.key
+    if (!key) return
 
-watch(bookType, (value) => {
-    setQueries({ bookType: value })
+    bookTypeKey.value = key
+    setQueries({ bookType: key })
+    materialsStore.getMaterials(params.value)
 })
 
 function openCreateModal() {
@@ -52,14 +64,20 @@ function openCreateModal() {
 }
 
 async function handleSubmitBook({ formData }: { formData: ListeningBookData }) {
-    if(!formData.id){
-        const res = await useAxios().postRequest(ApiUrls.MATERIALS, {...formData})
-        if(res.status === 201){
-            showModal.value = false
-            addSuccess('Material successfully created')
-        }
+    const data = {
+        ...formData,
+        skillType: 'LISTENING',
+        isStrictFormat: formData.materialType === 'MOCK_TEST'
+    }
+    if (!formData.id) {
+        const response = await materialsStore.createMaterial(data)
+        console.log(response)
     }
 }
+
+onMounted(() => {
+    materialsStore.getMaterials(params.value)
+})
 </script>
 
 <style lang="scss" scoped></style>

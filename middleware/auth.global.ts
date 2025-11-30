@@ -5,7 +5,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 
 	const usersStore = useUsersStore();
 	const accessToken = useCookie('accessToken');
-  const refreshToken = useCookie('refreshToken')
+	const refreshToken = useCookie('refreshToken');
 	const lastPage = useCookie<string | null>('lastPage');
 
 	const isAuthPage = to.path.startsWith('/auth');
@@ -31,7 +31,6 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 			}
 		}
 	}
-
 
 	if (accessToken.value && isAuthPage) {
 		if (fromIsAuth) {

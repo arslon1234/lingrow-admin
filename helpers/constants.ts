@@ -1,7 +1,7 @@
 export const BookTypes = [
 	{
 		key: 'MOCK_TEST',
-		label: 'Mock exam',
+		label: 'Mock test',
 		description: "Make changes to your account here. Click save when you're done."
 	},
 	{
