@@ -6,7 +6,7 @@ export default defineNuxtPlugin((nuxtApp: any) => {
 	const authStore = useAuthStore();
 
 	const axiosInstance = axios.create({
-		baseURL: nuxtApp.$config.public.BASE_URL
+		baseURL: nuxtApp.$config.public.API_BASE_URL
 	});
 
 	axiosInstance.interceptors.request.use(
