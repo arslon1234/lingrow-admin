@@ -27,7 +27,7 @@ html {
 	}
 
 	.title {
-		@apply relative before:inline-block before:w-1.5 before:absolute before:top-0 before:h-full before:rounded-full before:bg-purple ml-3 before:-left-3 font-semibold uppercase tracking-wide;
+		@apply relative before:inline-block before:w-1.5 before:absolute before:top-0 before:h-full before:rounded-full before:bg-green-600 ml-3 before:-left-3 font-semibold uppercase tracking-wide;
 	}
 
 	.tbody-striped tr:nth-child(odd) {
