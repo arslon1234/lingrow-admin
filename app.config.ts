@@ -1,11 +1,11 @@
 export default defineAppConfig({
 	ui: {
-		primary: 'purple',
+		primary: 'green',
 		button: {
 			base: 'duration-200 ease-in-out !shadow-none',
 			rounded: 'rounded-lg',
 			font: 'font-semibold',
-			variant: { solid: 'bg-primary-800 hover:bg-primary-600 dark:bg-dark-button-1 dark:text-white' }
+			variant: { solid: 'bg-primary-500 hover:bg-primary-600 dark:bg-dark-button-1 dark:text-white' }
 		},
 		badge: {
 			font: 'font-semibold'
