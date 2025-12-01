@@ -4,7 +4,7 @@
         <ListeningBook v-model="showModal" :loading="isLoading" :book-data="bookData" @submit="handleSubmitBook" />
 
         <!-- THE MAIN HEADER -->
-        <TheMainHeader title="Listening Books" placeholder="Search listening book..." />
+        <TheMainHeader title="Listening Materials" placeholder="Search listening materials..." />
 
         <section>
             <div class="flex items-center justify-between w-full">

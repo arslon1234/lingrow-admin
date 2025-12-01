@@ -46,7 +46,7 @@
 					<div v-if="sidebarOpen" class="overflow-hidden transition-all duration-300"
 						:class="listeningOpen ? 'max-h-32 opacity-100 mt-1' : 'max-h-0 opacity-0'">
 						<UButton to="/listening/books" active-class="!text-white"
-							:class="{ '!text-white': route.path === '/listening/books' }" variant="ghost" label="Books"
+							:class="{ '!text-white': route.path === '/listening/books' }" variant="ghost" label="Materials"
 							block size="xl" :ui="{
 								rounded: 'rounded-lg',
 								block: 'justify-start',
