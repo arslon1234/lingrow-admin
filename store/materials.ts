@@ -1,6 +1,5 @@
 import { useAxios } from '~/api';
 import { ApiUrls } from '~/api/apis';
-import { addError, addSuccess } from '~/helpers/notification';
 
 export const useMaterialsStore = defineStore('materials', () => {
 	const materials = ref<any>(null);
@@ -14,15 +13,23 @@ export const useMaterialsStore = defineStore('materials', () => {
 	async function createMaterial(formData: CreateMaterialBookRequest) {
 		const response = await useAxios().postRequest(ApiUrls.MATERIALS, { ...formData }, isLoading);
 		return response;
-		// if (response.status === 201) {
-		//     addSuccess('Material successfully created')
-		// }
+	}
+
+	async function deleteMaterial(materialId: string | number) {
+		const response = await useAxios().deleteRequest(`${ApiUrls.MATERIALS}/${materialId}`);
+		return response;
+	}
+	async function updateMaterial(materialId: string | number, formData: CreateMaterialBookRequest) {
+		const response = await useAxios().putRequest(`${ApiUrls.MATERIALS}/${materialId}`, formData);
+		return response;
 	}
 
 	return {
 		isLoading,
 		materials,
 		getMaterials,
-		createMaterial
+		createMaterial,
+		deleteMaterial,
+		updateMaterial
 	};
 });

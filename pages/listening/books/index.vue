@@ -1,10 +1,10 @@
 <template>
     <main class="space-y-4">
         <!-- MODALS -->
-        <ListeningBook v-model="showModal" :loading="isLoading" @submit="handleSubmitBook" />
+        <ListeningBook v-model="showModal" :loading="isLoading" :book-data="bookData" @submit="handleSubmitBook" />
 
         <!-- THE MAIN HEADER -->
-        <TheMainHeader title="Listening Books" placeholder="Search listening book..."/>
+        <TheMainHeader title="Listening Books" placeholder="Search listening book..." />
 
         <section>
             <div class="flex items-center justify-between w-full">
@@ -30,9 +30,10 @@
                 <div class="flex items-center gap-2">
                     <UButton icon="i-heroicons-pencil-square" size="sm" color="gray" variant="ghost"
                         @click="handleEdit(row)" />
-                    <UButton icon="i-heroicons-eye" size="sm" color="gray" variant="ghost" @click="handleView(row)" />
+                    <UButton icon="i-heroicons-eye" size="sm" color="gray" variant="ghost"
+                        @click="handleView(row.id)" />
                     <UButton icon="i-heroicons-trash" size="sm" color="red" variant="ghost"
-                        @click="handleDelete(row)" />
+                        @click="handleDelete(row.id)" />
                 </div>
             </template>
         </TheTable>
@@ -49,13 +50,14 @@ import { useMaterialsStore } from '~/store/materials';
 
 const materialsStore = useMaterialsStore()
 const { materials, isLoading } = storeToRefs(materialsStore)
-console.log(materials)
+
 const router = useRouter()
 const route = useRoute()
 const { setQueries, getQueryParams } = useQueryParams(route, router)
 const showModal = ref(false);
 const selectedBook = ref(null);
 const bookTypeKey = ref(getQueryParams('bookType') || "MOCK_TEST")
+const bookData = ref(null)
 const bookTypeIndex = ref(
     BookTypes.findIndex(i => i.key === bookTypeKey.value)
 )
@@ -80,35 +82,59 @@ watch(bookTypeIndex, (index) => {
     setQueries({ bookType: key })
     materialsStore.getMaterials(params.value)
 })
-
+watch(showModal, (val) => {
+    if (!val) {
+        bookData.value = null
+    }
+})
 function openCreateModal() {
     selectedBook.value = null;
     showModal.value = true;
 }
 
 async function handleSubmitBook({ formData }: { formData: ListeningBookData }) {
+    const skillType = "LISTENING"
     const data = {
         ...formData,
-        skillType: 'LISTENING',
-        isStrictFormat: formData.materialType === 'MOCK_TEST'
+        isStrictFormat: formData.materialType === 'MOCK_TEST',
+        skillType
     }
     if (!formData.id) {
         const response = await materialsStore.createMaterial(data)
         if (response.status === 201) {
+            materialsStore.getMaterials(params.value)
             addSuccess('Material book successfully created')
+            showModal.value = false
+        }
+    } else {
+        const updateData = {
+            isStrictFormat: formData.materialType === 'MOCK_TEST',
+            title: formData.title,
+            materialType: formData.materialType,
+            skillType
+        }
+        const response = await materialsStore.updateMaterial(formData.id, updateData)
+        if (response.status === 200) {
+            materialsStore.getMaterials(params.value)
+            addSuccess('Material book successfully updated')
             showModal.value = false
         }
     }
 }
 
 async function handleEdit(row: any) {
-
+    bookData.value = row
+    showModal.value = true
 }
-async function handleDelete(row: any) {
-
+async function handleDelete(materialId: string | number) {
+    const response = await materialsStore.deleteMaterial(materialId)
+    if (response.status === 204) {
+        materialsStore.getMaterials(params.value)
+        addSuccess('Material book successfully deleted')
+    }
 }
-async function handleView(row: any) {
-
+async function handleView(materialId: string | number) {
+    router.push(`/listening/books/${materialId}`)
 }
 
 onMounted(() => {
