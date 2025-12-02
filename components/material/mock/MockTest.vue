@@ -1,8 +1,12 @@
 <template>
     <div>
+        <!-- MODALS -->
+        <TestMaterial v-model="showModal" :loading="false" @submit="handleSubmitBook" />
+
+        <!-- MAIN CONTENT -->
         <div class="flex items-center justify-between mb-6">
             <h3 class="text-xl font-semibold text-gray-900">Mock Test Content</h3>
-            <UButton icon="i-heroicons-plus" size="md">Add Section</UButton>
+            <UButton icon="i-heroicons-plus" size="md" @click="openCreateTestModal">Add Test</UButton>
         </div>
 
         <div class="space-y-4">
@@ -29,9 +33,30 @@
     </div>
 </template>
 
-<script>
-export default {
+<script setup lang="ts">
+import TestMaterial from '~/components/modal/TestMaterial.vue';
+import { addSuccess } from '~/helpers/notification';
+import { useMaterialsStore } from '~/store/materials';
+const materialsStore = useMaterialsStore()
 
+const router = useRouter();
+const route = useRoute();
+const { setQueries, getQueryParams } = useQueryParams(route, router);
+const materialId = getQueryParams('bookId')
+const showModal = ref(false)
+
+const openCreateTestModal = () => {
+    showModal.value = true
+}
+const handleSubmitBook = async ({ formData }: { formData: TestMaterials }) => {
+    if (!formData.id) {
+        const response = await materialsStore.createMaterialTest(materialId, formData)
+        if (response.status === 201) {
+            // await materialsStore.getMaterials(apiParams.value);
+            addSuccess('Material test successfully created');
+            showModal.value = false;
+        }
+    }
 }
 </script>
 

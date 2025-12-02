@@ -16,22 +16,22 @@
                         size="md" />
 
                     <!-- TYPE FILTER -->
-                    <USelectMenu v-model="selectedBookType" :options="bookTypeOptions" value-attribute="value"
+                    <USelectMenu v-model="selectedBookType" :options="BookTypeOptions" value-attribute="value"
                         option-attribute="label" placeholder="All Types" size="md">
                         <template #label>
                             <span v-if="selectedBookType">
-                                {{bookTypeOptions.find((t) => t.value === selectedBookType)?.label}}
+                                {{BookTypeOptions.find((t) => t.value === selectedBookType)?.label}}
                             </span>
                             <span v-else class="text-gray-500">All Types</span>
                         </template>
                     </USelectMenu>
 
                     <!-- STATUS FILTER -->
-                    <USelectMenu v-model="selectedStatus" :options="statusOptions" value-attribute="value"
+                    <USelectMenu v-model="selectedStatus" :options="StatusOptions" value-attribute="value"
                         option-attribute="label" placeholder="All Status" size="md">
                         <template #label>
                             <span v-if="selectedStatus">
-                                {{statusOptions.find((s) => s.value === selectedStatus)?.label}}
+                                {{StatusOptions.find((s) => s.value === selectedStatus)?.label}}
                             </span>
                             <span v-else class="text-gray-500">All Status</span>
                         </template>
@@ -56,9 +56,9 @@
 
                     <div v-else class="p-2">
                         <button v-for="book in filteredBooks" :key="book.id" @click="selectBook(book.id)"
-                            class="w-full text-left px-4 py-3 rounded-lg mb-2 transition-all  hover:bg-green-100"
+                            class="w-full text-left px-4 py-3 rounded-lg mb-2 transition-all  hover:bg-purple-100"
                             :class="{
-                                'bg-green-100 border-l-2 border-green-400': selectedBookId == book.id,
+                                'bg-purple-100 border-l-[3px] border-purple-400': selectedBookId == book.id,
                                 'border-gray-200 hover:border-gray-300': selectedBookId != book.id
                             }">
                             <div class="flex items-start justify-between gap-2">
@@ -96,7 +96,7 @@
 
                 <div v-else-if="selectedBook" class="p-8">
                     <!-- BOOK HEADER -->
-                    <div class="bg-white rounded-xl shadow-sm p-4 mb-6">
+                    <div class="bg-white rounded-xl shadow-sm p-4 mb-4">
                         <div class="flex items-start justify-between mb-4">
                             <div class="flex-1">
                                 <h2 class="text-2xl font-bold text-gray-900 mb-2">
@@ -159,6 +159,8 @@ import OfficialTest from '~/components/material/official/OfficialTest.vue';
 import Book from '~/components/material/book/Book.vue';
 import TheMaterialHeader from '~/components/material/TheMaterialHeader.vue';
 import { addSuccess } from '~/helpers/notification';
+import { formatMaterialType, getStatusClass } from '~/helpers/materials'
+import { BookTypeOptions, StatusOptions } from '~/helpers/constants';
 import { useMaterialsStore } from '~/store/materials';
 
 const materialsStore = useMaterialsStore();
@@ -174,32 +176,18 @@ const searchQuery = ref('');
 const selectedBookType = ref<GetMaterialBookParams['type']>('MOCK_TEST');
 const selectedStatus = ref<GetMaterialBookParams['status']>('DRAFT');
 const selectedBookId = ref<string | null>(getQueryParams('bookId') || null);
-const skillType = ref(getQueryParams('skillType') || 'LISTENING')
-
-// Options for filters
-const bookTypeOptions: Array<{ value: GetMaterialBookParams['type']; label: string }> = [
-    { value: 'BOOK', label: 'Book' },
-    { value: 'MOCK_TEST', label: 'Mock Test' },
-    { value: 'PRACTICE_SET', label: 'Practice Set' },
-    { value: 'OFFICIAL_TEST', label: 'Official Test' }
-];
-
-const statusOptions: Array<{ value: GetMaterialBookParams['status']; label: string }> = [
-    { value: 'DRAFT', label: 'Draft' },
-    { value: 'PUBLISHED', label: 'Published' },
-    { value: 'UNPUBLISHED', label: 'Unpublished' },
-    { value: 'ARCHIVED', label: 'Archived' }
-];
+const skillType = ref(getQueryParams('skillType') || 'ALL')
 
 // Computed params for API
 const apiParams = computed<GetMaterialBookParams>(() => ({
     status: selectedStatus.value,
-    type: selectedBookType.value
+    type: selectedBookType.value,
+    skillType: skillType.value
 }));
 
 // Filtered books
 const filteredBooks = computed(() => {
-    let books = materials.value?.content || [];
+    let books = materials.value || [];
 
     // Filter by search query
     if (searchQuery.value) {
@@ -217,29 +205,6 @@ const selectedBook = computed(() => {
     if (!selectedBookId.value) return null;
     return filteredBooks.value.find((book: any) => book.id == selectedBookId.value);
 });
-
-// Helper functions
-function formatMaterialType(type: string): string {
-    const typeMap: Record<string, string> = {
-        BOOK: 'Book',
-        MOCK_TEST: 'Mock Test',
-        PRACTICE_SET: 'Practice Set',
-        OFFICIAL_TEST: 'Official Test'
-    };
-    return typeMap[type] || type;
-}
-
-function getStatusClass(status: string): string {
-    const classMap: Record<string, string> = {
-        DRAFT: 'bg-yellow-100 text-yellow-700',
-        PUBLISHED: 'bg-green-100 text-green-700',
-        UNPUBLISHED: 'bg-gray-100 text-gray-700',
-        ARCHIVED: 'bg-red-100 text-red-700'
-    };
-    return classMap[status] || 'bg-gray-100 text-gray-700';
-}
-
-// update skillType
 
 function updateSkillType(value: string) {
     skillType.value = value
@@ -306,7 +271,6 @@ async function handleDelete(materialId: string) {
     if (response.status === 204) {
         await materialsStore.getMaterials(apiParams.value);
         addSuccess('Material book successfully deleted');
-        // Clear selection if deleted book was selected
         if (selectedBookId.value == materialId) {
             selectedBookId.value = null;
             setQueries({ bookId: null });
@@ -315,7 +279,7 @@ async function handleDelete(materialId: string) {
 }
 
 // Watch filters to reload data
-watch([selectedBookType, selectedStatus], () => {
+watch([selectedBookType, selectedStatus, skillType], () => {
     materialsStore.getMaterials(apiParams.value);
     selectedBookId.value = null;
     setQueries({ bookId: null });

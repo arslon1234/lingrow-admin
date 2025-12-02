@@ -1,6 +1,6 @@
 export default defineAppConfig({
 	ui: {
-		primary: 'green',
+		primary: 'purple',
 		button: {
 			base: 'duration-200 ease-in-out !shadow-none',
 			rounded: 'rounded-lg',
