@@ -56,9 +56,9 @@
 
                     <div v-else class="p-2">
                         <button v-for="book in filteredBooks" :key="book.id" @click="selectBook(book.id)"
-                            class="w-full text-left px-4 py-3 rounded-lg mb-2 transition-all bg-white hover:bg-green-100"
+                            class="w-full text-left px-4 py-3 rounded-lg mb-2 transition-all  hover:bg-green-100"
                             :class="{
-                                'bg-green-200 border-l-2 border-green-400': selectedBookId == book.id,
+                                'bg-green-100 border-l-2 border-green-400': selectedBookId == book.id,
                                 'border-gray-200 hover:border-gray-300': selectedBookId != book.id
                             }">
                             <div class="flex items-start justify-between gap-2">
