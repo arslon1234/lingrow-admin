@@ -10,3 +10,10 @@ export const BookTypes = [
 		description: "Change your password here. After saving, you'll be logged out."
 	}
 ];
+
+export const SkillTypes = [
+	{ label: 'Listening', value: 'LISTENING' },
+	{ label: 'Reading', value: 'READING' },
+	{ label: 'Writing', value: 'WRITING' },
+	{ label: 'Speaking', value: 'SPEAKING' }
+];

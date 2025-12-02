@@ -15,7 +15,8 @@ declare interface CreateMaterialBookRequest {
 	title: string;
 	materialType: string;
     publisher?: string,
-    isStrictFormat: boolean
+    isStrictFormat: boolean,
+	skillType?: string
 }
 
 declare interface GetMaterialBookParams {

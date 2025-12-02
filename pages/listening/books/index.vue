@@ -1,16 +1,10 @@
 <template>
     <main class="h-screen flex flex-col">
         <!-- MODALS -->
-        <ListeningBook v-model="showModal" :loading="isLoading" :book-data="bookData" @submit="handleSubmitBook" />
+        <MaterialBook v-model="showModal" :loading="isLoading" :book-data="bookData" @submit="handleSubmitBook" />
 
-        <!-- HEADER -->
-        <div class="bg-white border-b border-gray-200 px-6 py-4">
-            <div class="flex items-center justify-between">
-                <h1 class="title">Lingrow Materials</h1>
-                <UButton @click="openCreateModal" icon="i-heroicons-plus" size="md" color="primary"> Create Book
-                </UButton>
-            </div>
-        </div>
+        <!-- MATERIAL HEADER -->
+        <TheMaterialHeader @open="openCreateModal" @updateSkillType="updateSkillType"/>
 
         <!-- MAIN CONTENT -->
         <div class="flex flex-1 overflow-hidden">
@@ -259,7 +253,8 @@
 </template>
 
 <script setup lang="ts">
-import ListeningBook from '~/components/modal/ListeningBook.vue';
+import MaterialBook from '~/components/modal/MaterialBook.vue';
+import TheMaterialHeader from '~/components/material/TheMaterialHeader.vue';
 import { addSuccess } from '~/helpers/notification';
 import { useMaterialsStore } from '~/store/materials';
 
@@ -276,6 +271,7 @@ const searchQuery = ref('');
 const selectedBookType = ref<GetMaterialBookParams['type']>('MOCK_TEST');
 const selectedStatus = ref<GetMaterialBookParams['status']>('DRAFT');
 const selectedBookId = ref<string | null>(getQueryParams('bookId') || null);
+const skillType = ref(getQueryParams('skillType') || 'LISTENING')
 
 // Options for filters
 const bookTypeOptions: Array<{ value: GetMaterialBookParams['type']; label: string }> = [
@@ -340,6 +336,12 @@ function getStatusClass(status: string): string {
     return classMap[status] || 'bg-gray-100 text-gray-700';
 }
 
+// update skillType
+
+function updateSkillType(skillType: string) {
+    setQueries({ skillType })
+}
+
 // Select book
 function selectBook(bookId: string) {
     selectedBookId.value = bookId;
@@ -358,7 +360,8 @@ async function handleSubmitBook({ formData }: { formData: MaterialBookData }) {
         title: formData.title,
         materialType: formData.materialType,
         publisher: (formData as any).publisher,
-        isStrictFormat: formData.materialType === 'MOCK_TEST'
+        isStrictFormat: formData.materialType === 'MOCK_TEST',
+        skillType: 'LISTENING'
     };
 
     if (formData.id) {

@@ -26,14 +26,14 @@
 							<span class="text-xs text-gray-500">Get code from Telegram</span>
 							<UButton :to="TELEGRAM_BOT_LINK" target="_blank" variant="link" size="xs"
 								icon="i-mdi-telegram" :padded="false"
-								class="text-blue-500 hover:text-blue-600 cursor-pointer">
+								class="text-green-500 hover:text-green-600 cursor-pointer">
 								Open Bot
 							</UButton>
 						</div>
 					</UFormGroup>
 
 					<!-- Info Alert -->
-					<UAlert icon="i-heroicons-information-circle" color="blue" variant="soft"
+					<UAlert icon="i-heroicons-information-circle" color="green" variant="soft"
 						title="How to get temporary password?"
 						description="Click the 'Open Bot' link above to start our Telegram bot and receive your 6-digit temporary password." />
 
@@ -57,7 +57,7 @@
 				<p class="text-sm text-gray-500 dark:text-gray-400">
 					Don't have a Telegram account?
 					<UButton to="https://telegram.org" target="_blank" variant="link" size="sm" :padded="false"
-						class="text-blue-500 hover:text-blue-600">
+						class="text-green-500 hover:text-green-600">
 						Download Telegram
 					</UButton>
 				</p>
