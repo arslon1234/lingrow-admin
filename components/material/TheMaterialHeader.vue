@@ -2,8 +2,8 @@
     <section class="card flex justify-between items-center sticky top-0 z-10">
         <h1 class="title">Lingrow Materials</h1>
         <div class="flex items-center gap-2">
-            <div v-for="skillType in SkillTypes" :key="skillType.value">
-                <UButton @click="updateSkillType(skillType.value)" size="md" color="primary">{{ skillType.label }}
+            <div v-for="item in SkillTypes" :key="item.value">
+                <UButton @click="updateSkillType(item.value)" size="md" :color="skillType === item.value ? 'primary' : 'gray'">{{ item.label }}
                 </UButton>
             </div>
         </div>
@@ -16,12 +16,16 @@
 import { SkillTypes } from '~/helpers/constants';
 const router = useRouter();
 const route = useRoute();
-const { setQueries, getQueryParams } = useQueryParams(route, router);
-const emits = defineEmits < {
-  (e: 'open'): void
+defineProps({
+    skillType: {
+        type: String
+    }
+})
+
+const emits = defineEmits<{
+    (e: 'open'): void
     (e: 'updateSkillType', value: string): void
-}> ()
-const skillType = ref(getQueryParams('skillType') || 'LISTENING')
+}>()
 
 const openCreateModal = () => {
     emits('open')

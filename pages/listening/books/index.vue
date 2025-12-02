@@ -4,7 +4,7 @@
         <MaterialBook v-model="showModal" :loading="isLoading" :book-data="bookData" @submit="handleSubmitBook" />
 
         <!-- MATERIAL HEADER -->
-        <TheMaterialHeader @open="openCreateModal" @updateSkillType="updateSkillType"/>
+        <TheMaterialHeader @open="openCreateModal" :skillType="skillType" @updateSkillType="updateSkillType" />
 
         <!-- MAIN CONTENT -->
         <div class="flex flex-1 overflow-hidden">
@@ -126,119 +126,18 @@
                     </div>
 
                     <!-- BOOK CONTENT BASED ON TYPE -->
-                    <div class="bg-white rounded-xl shadow-sm p-4">
+                    <div class="bg-white rounded-xl shadow-md p-4">
                         <!-- MOCK TEST TYPE -->
-                        <div v-if="selectedBook.materialType === 'MOCK_TEST'">
-                            <div class="flex items-center justify-between mb-6">
-                                <h3 class="text-xl font-semibold text-gray-900">Mock Test Content</h3>
-                                <UButton icon="i-heroicons-plus" size="md">Add Section</UButton>
-                            </div>
-
-                            <div class="space-y-4">
-                                <div
-                                    class="border border-gray-200 rounded-lg p-4 hover:border-blue-300 transition-colors cursor-pointer">
-                                    <div class="flex items-center justify-between">
-                                        <div>
-                                            <h4 class="font-medium text-gray-900">Section 1</h4>
-                                            <p class="text-sm text-gray-500 mt-1">10 questions • 15 minutes</p>
-                                        </div>
-                                        <UIcon name="i-heroicons-chevron-right" class="w-5 h-5 text-gray-400" />
-                                    </div>
-                                </div>
-
-                                <div
-                                    class="border border-gray-200 rounded-lg p-4 hover:border-blue-300 transition-colors cursor-pointer">
-                                    <div class="flex items-center justify-between">
-                                        <div>
-                                            <h4 class="font-medium text-gray-900">Section 2</h4>
-                                            <p class="text-sm text-gray-500 mt-1">10 questions • 15 minutes</p>
-                                        </div>
-                                        <UIcon name="i-heroicons-chevron-right" class="w-5 h-5 text-gray-400" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <MockTest v-if="selectedBook.materialType === 'MOCK_TEST'" />
 
                         <!-- PRACTICE SET TYPE -->
-                        <div v-else-if="selectedBook.materialType === 'PRACTICE_SET'">
-                            <div class="flex items-center justify-between mb-6">
-                                <h3 class="text-xl font-semibold text-gray-900">Practice Exercises</h3>
-                                <UButton icon="i-heroicons-plus" size="md">Add Exercise</UButton>
-                            </div>
-
-                            <div class="grid grid-cols-2 gap-4">
-                                <div
-                                    class="border border-gray-200 rounded-lg p-4 hover:border-blue-300 transition-colors cursor-pointer">
-                                    <div class="flex items-center gap-3 mb-2">
-                                        <div class="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center">
-                                            <UIcon name="i-heroicons-speaker-wave" class="w-5 h-5 text-blue-600" />
-                                        </div>
-                                        <div>
-                                            <h4 class="font-medium text-gray-900">Exercise 1</h4>
-                                            <p class="text-xs text-gray-500">Audio comprehension</p>
-                                        </div>
-                                    </div>
-                                    <p class="text-sm text-gray-600">15 questions</p>
-                                </div>
-
-                                <div
-                                    class="border border-gray-200 rounded-lg p-4 hover:border-blue-300 transition-colors cursor-pointer">
-                                    <div class="flex items-center gap-3 mb-2">
-                                        <div class="w-10 h-10 rounded-lg bg-green-100 flex items-center justify-center">
-                                            <UIcon name="i-heroicons-chat-bubble-left-right"
-                                                class="w-5 h-5 text-green-600" />
-                                        </div>
-                                        <div>
-                                            <h4 class="font-medium text-gray-900">Exercise 2</h4>
-                                            <p class="text-xs text-gray-500">Conversation</p>
-                                        </div>
-                                    </div>
-                                    <p class="text-sm text-gray-600">8 questions</p>
-                                </div>
-                            </div>
-                        </div>
+                        <PracticeTest v-else-if="selectedBook.materialType === 'PRACTICE_SET'" />
 
                         <!-- OFFICIAL TEST TYPE -->
-                        <div v-else-if="selectedBook.materialType === 'OFFICIAL_TEST'">
-                            <div class="flex items-center justify-between mb-6">
-                                <h3 class="text-xl font-semibold text-gray-900">Official Test</h3>
-                                <UButton icon="i-heroicons-plus" size="md">Add Test Part</UButton>
-                            </div>
-
-                            <div class="space-y-3">
-                                <div
-                                    class="border border-gray-200 rounded-lg p-4 hover:border-blue-300 transition-colors cursor-pointer">
-                                    <div class="flex items-center justify-between">
-                                        <div>
-                                            <h4 class="font-medium text-gray-900">Part 1 - Listening</h4>
-                                            <p class="text-sm text-gray-500 mt-1">40 questions • 30 minutes</p>
-                                        </div>
-                                        <UIcon name="i-heroicons-chevron-right" class="w-5 h-5 text-gray-400" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <OfficialTest v-else-if="selectedBook.materialType === 'OFFICIAL_TEST'" />
 
                         <!-- BOOK TYPE -->
-                        <div v-else-if="selectedBook.materialType === 'BOOK'">
-                            <div class="flex items-center justify-between mb-6">
-                                <h3 class="text-xl font-semibold text-gray-900">Book Chapters</h3>
-                                <UButton icon="i-heroicons-plus" size="md">Add Chapter</UButton>
-                            </div>
-
-                            <div class="space-y-3">
-                                <div
-                                    class="border border-gray-200 rounded-lg p-4 hover:border-blue-300 transition-colors cursor-pointer">
-                                    <div class="flex items-center justify-between">
-                                        <div>
-                                            <h4 class="font-medium text-gray-900">Chapter 1: Introduction</h4>
-                                            <p class="text-sm text-gray-500 mt-1">5 lessons • 20 exercises</p>
-                                        </div>
-                                        <UIcon name="i-heroicons-chevron-right" class="w-5 h-5 text-gray-400" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <Book v-else-if="selectedBook.materialType === 'BOOK'" />
 
                         <!-- DEFAULT CONTENT -->
                         <div v-else class="text-center py-12">
@@ -254,6 +153,10 @@
 
 <script setup lang="ts">
 import MaterialBook from '~/components/modal/MaterialBook.vue';
+import MockTest from '~/components/material/mock/MockTest.vue';
+import PracticeTest from '~/components/material/practice-set/PracticeTest.vue';
+import OfficialTest from '~/components/material/official/OfficialTest.vue';
+import Book from '~/components/material/book/Book.vue';
 import TheMaterialHeader from '~/components/material/TheMaterialHeader.vue';
 import { addSuccess } from '~/helpers/notification';
 import { useMaterialsStore } from '~/store/materials';
@@ -338,8 +241,9 @@ function getStatusClass(status: string): string {
 
 // update skillType
 
-function updateSkillType(skillType: string) {
-    setQueries({ skillType })
+function updateSkillType(value: string) {
+    skillType.value = value
+    setQueries({ skillType: value })
 }
 
 // Select book
@@ -360,8 +264,7 @@ async function handleSubmitBook({ formData }: { formData: MaterialBookData }) {
         title: formData.title,
         materialType: formData.materialType,
         publisher: (formData as any).publisher,
-        isStrictFormat: formData.materialType === 'MOCK_TEST',
-        skillType: 'LISTENING'
+        skillType: skillType.value
     };
 
     if (formData.id) {
@@ -393,7 +296,6 @@ function handleEdit(book: any) {
         title: book.title,
         materialType: book.materialType,
         publisher: book.publisher,
-        isStrictFormat: book.materialType === 'MOCK_TEST'
     };
     showModal.value = true;
 }
