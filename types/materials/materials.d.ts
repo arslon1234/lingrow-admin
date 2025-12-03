@@ -8,6 +8,11 @@ declare interface MaterialReponse {
 	createdAt?: string;
 	updatedAt?: string;
 }
+declare interface MaterialTestReponse {
+	id: string;
+	title: string;
+	testNumber: number | string
+}
 declare interface MaterialBookData {
 	id?: string;
 	title: string;

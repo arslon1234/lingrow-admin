@@ -128,7 +128,7 @@
                     <!-- BOOK CONTENT BASED ON TYPE -->
                     <div class="bg-white rounded-xl shadow-md p-4">
                         <!-- MOCK TEST TYPE -->
-                        <MockTest v-if="selectedBook.materialType === 'MOCK_TEST'" />
+                        <MockTest v-if="selectedBook.materialType === 'MOCK_TEST'" :materialId="selectedBookId"/>
 
                         <!-- PRACTICE SET TYPE -->
                         <PracticeTest v-else-if="selectedBook.materialType === 'PRACTICE_SET'" />
@@ -182,7 +182,7 @@ const skillType = ref(getQueryParams('skillType') || 'ALL')
 const apiParams = computed<GetMaterialBookParams>(() => ({
     status: selectedStatus.value,
     type: selectedBookType.value,
-    skillType: skillType.value
+    skillType: skillType.value != 'ALL' ? skillType.value : null
 }));
 
 // Filtered books

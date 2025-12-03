@@ -3,6 +3,7 @@ import { ApiUrls } from '~/api/apis';
 
 export const useMaterialsStore = defineStore('materials', () => {
 	const materials = ref<MaterialReponse[]>([]);
+	const materialTests = ref<MaterialTestReponse[]>([])
 	const isLoading = ref(false);
 	async function getMaterials(params: GetMaterialBookParams) {
 		const response = await useAxios().getRequest(ApiUrls.MATERIALS, params);
@@ -29,20 +30,22 @@ export const useMaterialsStore = defineStore('materials', () => {
 		return response;
 	}
 
-	async function getTestsByMaterialId(params: GetMaterialBookParams) {
-		const response = await useAxios().getRequest(ApiUrls.MATERIALS, params);
+	async function getTestsByMaterialId(materialId: number | string) {
+		const response = await useAxios().getRequest(`${ApiUrls.MATERIALS}/${materialId}/tests`);
 		if (response.status === 200) {
-			materials.value = response.data;
+			materialTests.value = response.data;
 		}
 	}
 
 	return {
 		isLoading,
 		materials,
+		materialTests,
 		getMaterials,
 		createMaterial,
 		deleteMaterial,
 		updateMaterial,
-		createMaterialTest
+		createMaterialTest,
+		getTestsByMaterialId
 	};
 });
