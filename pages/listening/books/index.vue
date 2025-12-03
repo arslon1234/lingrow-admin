@@ -159,8 +159,8 @@ import OfficialTest from '~/components/material/official/OfficialTest.vue';
 import Book from '~/components/material/book/Book.vue';
 import TheMaterialHeader from '~/components/material/TheMaterialHeader.vue';
 import { addSuccess } from '~/helpers/notification';
-import { formatMaterialType, getStatusClass } from '~/helpers/materials'
-import { BookTypeOptions, StatusOptions } from '~/helpers/constants';
+import { formatMaterialType, getStatusClass } from '@/helpers/materials'
+import { BookTypeOptions, StatusOptions } from '@/helpers/constants';
 import { useMaterialsStore } from '~/store/materials';
 
 const materialsStore = useMaterialsStore();
