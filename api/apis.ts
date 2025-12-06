@@ -11,6 +11,9 @@ export class ApiUrls {
 	// MATERIALS
 	public static MATERIALS: string = '/api/materials';
 
+	// TESTS
+	public static TESTS: string = '/api/tests';
+
 	// USERS
 	public static USERS_URL: string = '/api/auth/me';
 }

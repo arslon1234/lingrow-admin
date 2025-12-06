@@ -68,7 +68,7 @@ import { materialTestSchema } from "~/schemas/material/materialSchema";
 const props = defineProps<{
     modelValue: boolean;
     loading: boolean;
-    bookData?: TestMaterials | null;
+    testData?: TestMaterials | null;
 }>();
 
 const emit = defineEmits<{
@@ -88,8 +88,8 @@ const internalValue = computed({
     set: (value: boolean) => emit("update:modelValue", value),
 });
 
-// Check if edit mode based on bookData presence
-const isEditMode = computed(() => !!props.bookData && !!props.bookData.id);
+// Check if edit mode based on testData presence
+const isEditMode = computed(() => !!props.testData && !!props.testData.id);
 
 // Form data
 const formData = ref<TestMaterials>({
@@ -162,7 +162,7 @@ function handleSubmit() {
     emit("submit", {
         formData: {
             ...formData.value,
-            ...(isEditMode.value && props.bookData?.id ? { id: props.bookData.id } : {})
+            ...(isEditMode.value && props.testData?.id ? { id: props.testData.id } : {})
         },
     });
 }
@@ -181,15 +181,15 @@ function resetForm() {
     }
 }
 
-// Watch modal open/close and bookData changes
+// Watch modal open/close and testData changes
 watch(
     () => props.modelValue,
     (newVal) => {
-        if (newVal && props.bookData) {
-            // Populate form with bookData for edit mode
+        if (newVal && props.testData) {
+            // Populate form with testData for edit mode
             formData.value = {
-                title: props.bookData.title || '',
-                testNumber: props.bookData.testNumber || '',
+                title: props.testData.title || '',
+                testNumber: props.testData.testNumber || '',
             };
         } else if (!newVal) {
             // Reset form when modal closes
@@ -198,9 +198,9 @@ watch(
     }
 );
 
-// Watch bookData changes
+// Watch testData changes
 watch(
-    () => props.bookData,
+    () => props.testData,
     (newData) => {
         if (newData && props.modelValue) {
             formData.value = {

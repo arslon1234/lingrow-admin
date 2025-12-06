@@ -37,6 +37,15 @@ export const useMaterialsStore = defineStore('materials', () => {
 		}
 	}
 
+	async function deleteTestByTestId(testId: number | string) {
+		const response = await useAxios().deleteRequest(`${ApiUrls.TESTS}/${testId}`);
+		return response;
+	}
+	async function updateTestByTestId(testId: number | string, formData: TestMaterials) {
+		const response = await useAxios().putRequest(`${ApiUrls.TESTS}/${testId}`, {...formData});
+		return response;
+	}
+
 	return {
 		isLoading,
 		materials,
@@ -46,6 +55,8 @@ export const useMaterialsStore = defineStore('materials', () => {
 		deleteMaterial,
 		updateMaterial,
 		createMaterialTest,
-		getTestsByMaterialId
+		getTestsByMaterialId,
+		deleteTestByTestId,
+		updateTestByTestId
 	};
 });

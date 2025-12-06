@@ -46,4 +46,5 @@ declare interface TestMaterials {
 	id?: string;
 	title: string;
 	testNumber: string;
+	isStrictFormat?: boolean;
 }

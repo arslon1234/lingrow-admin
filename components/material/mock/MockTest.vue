@@ -1,7 +1,7 @@
 <template>
     <div>
         <!-- MODALS -->
-        <TestMaterial v-model="showModal" :loading="false" @submit="handleSubmitBook" />
+        <TestMaterial v-model="showModal" :testData="testData" :loading="false" @submit="handleSubmitBook" />
 
         <!-- MAIN CONTENT -->
         <div class="flex items-center justify-between mb-6">
@@ -24,7 +24,7 @@
                         <!-- Dropdown Menu -->
                         <div v-if="openMenuId === test.id"
                             class="absolute right-0 mt-2 w-32 bg-white rounded-lg shadow-lg border border-gray-200 z-10">
-                            <button @click="handleEdit(test.id)"
+                            <button @click="handleEdit(test)"
                                 class="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 flex items-center gap-2 rounded-t-lg">
                                 <UIcon name="i-heroicons-pencil-square" class="w-4 h-4" />
                                 Edit
@@ -185,6 +185,10 @@ const router = useRouter();
 const route = useRoute();
 const { setQueries, getQueryParams } = useQueryParams(route, router);
 const { materialTests } = storeToRefs(materialsStore)
+const testData = ref<TestMaterials>({
+    testNumber: '',
+    title: ''
+})
 const props = defineProps({
     materialId: {
         type: String
@@ -218,16 +222,23 @@ const toggleMenu = (testId: string) => {
     }
 }
 
-const handleEdit = (testId: string) => {
-    console.log('Edit test ID:', testId)
+const handleEdit = (test: MaterialTestReponse) => {
+    testData.value = {
+        id: test.id,
+        title: test.title,
+        testNumber: String(test.testNumber)
+    }
+    showModal.value = true
     openMenuId.value = null
-    // Add your edit logic here
 }
 
-const handleDelete = (testId: string) => {
-    console.log('Delete test ID:', testId)
+const handleDelete = async (testId: string) => {
+    const response = await materialsStore.deleteTestByTestId(testId)
+    if (response.status === 204) {
+        addSuccess('Material test successfully deleted');
+        materialsStore.getTestsByMaterialId(props.materialId!)
+    }
     openMenuId.value = null
-    // Add your delete logic here
 }
 
 const addSection = (type: string, testId: string) => {
@@ -259,6 +270,14 @@ const handleSubmitBook = async ({ formData }: { formData: TestMaterials }) => {
         const response = await materialsStore.createMaterialTest(props.materialId!, formData)
         if (response.status === 201) {
             addSuccess('Material test successfully created');
+            showModal.value = false;
+        }
+    } else {
+        const { id, ...payloadData } = formData
+        const response = await materialsStore.updateTestByTestId(id, { ...payloadData, isStrictFormat: true })
+        if (response.status === 200) {
+            addSuccess('Material test successfully updated');
+            materialsStore.getTestsByMaterialId(props.materialId!)
             showModal.value = false;
         }
     }
