@@ -1,7 +1,7 @@
-import { z } from 'zod';
 import { useAuthStore } from '~/store/auth';
 import { useUsersStore } from '~/store/users';
 import { addError } from '~/helpers/notification';
+import { LoginValidationSchema } from '~/schemas/login/LoginSchema';
 export const useLoginComposable = async () => {
 	const authStore = useAuthStore();
 	const usersStore = useUsersStore();
@@ -10,21 +10,6 @@ export const useLoginComposable = async () => {
 	const form = reactive({
 		phoneNumber: '',
 		tempPassword: ''
-	});
-
-	const phoneRegex = /^\+998(90|91|93|94|95|97|98|99|33|88)\d{7}$/;
-
-	// Validation schema
-	const LoginValidationSchema = z.object({
-		phoneNumber: z
-			.string()
-			.min(1, 'Phone number is required')
-			.refine((val) => phoneRegex.test(val), 'Phone number must be valid Uzbekistan number (e.g., +998901234567)'),
-		tempPassword: z
-			.string()
-			.min(6, 'Temporary password must be 6 digits')
-			.max(6, 'Temporary password must be 6 digits')
-			.regex(/^\d{6}$/, 'Temporary password must contain only numbers')
 	});
 
 	const isDisabled = computed(() => {
