@@ -127,17 +127,18 @@
 
                     <!-- BOOK CONTENT BASED ON TYPE -->
                     <div class="bg-white rounded-xl shadow-md p-4">
+                        <TheMaterialContent v-if="selectedBook.materialType" :materialId="selectedBookId" :materialType="selectedBook.materialType" />
                         <!-- MOCK TEST TYPE -->
-                        <MockTest v-if="selectedBook.materialType === 'MOCK_TEST'" :materialId="selectedBookId"/>
+                        <!-- <MockTest v-if="selectedBook.materialType === 'MOCK_TEST'" :materialId="selectedBookId" /> -->
 
                         <!-- PRACTICE SET TYPE -->
-                        <PracticeTest v-else-if="selectedBook.materialType === 'PRACTICE_SET'" />
+                        <!-- <PracticeTest v-else-if="selectedBook.materialType === 'PRACTICE_SET'" /> -->
 
                         <!-- OFFICIAL TEST TYPE -->
-                        <OfficialTest v-else-if="selectedBook.materialType === 'OFFICIAL_TEST'" />
+                        <!-- <OfficialTest v-else-if="selectedBook.materialType === 'OFFICIAL_TEST'" /> -->
 
                         <!-- BOOK TYPE -->
-                        <Book v-else-if="selectedBook.materialType === 'BOOK'" />
+                        <!-- <Book v-else-if="selectedBook.materialType === 'BOOK'" /> -->
 
                         <!-- DEFAULT CONTENT -->
                         <div v-else class="text-center py-12">
@@ -153,11 +154,12 @@
 
 <script setup lang="ts">
 import MaterialBook from '~/components/modal/MaterialBook.vue';
+import TheMaterialContent from '~/components/material/TheMaterialContent.vue';
+import TheMaterialHeader from '~/components/material/TheMaterialHeader.vue';
 import MockTest from '~/components/material/mock/MockTest.vue';
 import PracticeTest from '~/components/material/practice-set/PracticeTest.vue';
 import OfficialTest from '~/components/material/official/OfficialTest.vue';
 import Book from '~/components/material/book/Book.vue';
-import TheMaterialHeader from '~/components/material/TheMaterialHeader.vue';
 import { addSuccess } from '~/helpers/notification';
 import { formatMaterialType, getStatusClass } from '@/helpers/materials'
 import { BookTypeOptions, StatusOptions } from '@/helpers/constants';
@@ -173,9 +175,9 @@ const { setQueries, getQueryParams } = useQueryParams(route, router);
 const showModal = ref(false);
 const bookData = ref<CreateMaterialBookRequest | null>(null);
 const searchQuery = ref('');
-const selectedBookType = ref<GetMaterialBookParams['type']>('MOCK_TEST');
+const selectedBookType = ref<GetMaterialBookParams['type']>(getQueryParams('materialType') || 'MOCK_TEST');
 const selectedStatus = ref<GetMaterialBookParams['status']>('DRAFT');
-const selectedBookId = ref<string | null>(getQueryParams('bookId') || null);
+const selectedBookId = ref<string | null>(getQueryParams('materialId') || null);
 const skillType = ref(getQueryParams('skillType') || 'ALL')
 
 // Computed params for API
@@ -212,9 +214,9 @@ function updateSkillType(value: string) {
 }
 
 // Select book
-function selectBook(bookId: string) {
-    selectedBookId.value = bookId;
-    setQueries({ bookId });
+function selectBook(materialId: string) {
+    selectedBookId.value = materialId;
+    setQueries({ materialId });
 }
 
 // Open create modal
@@ -273,7 +275,7 @@ async function handleDelete(materialId: string) {
         addSuccess('Material book successfully deleted');
         if (selectedBookId.value == materialId) {
             selectedBookId.value = null;
-            setQueries({ bookId: null });
+            setQueries({ materialId: null });
         }
     }
 }
@@ -282,7 +284,7 @@ async function handleDelete(materialId: string) {
 watch([selectedBookType, selectedStatus, skillType], () => {
     materialsStore.getMaterials(apiParams.value);
     selectedBookId.value = null;
-    setQueries({ bookId: null });
+    setQueries({ materialId: null, materialType: selectedBookType.value });
 });
 
 // Watch modal close

@@ -34,13 +34,13 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 
 	if (accessToken.value && isAuthPage) {
 		if (fromIsAuth) {
-			return navigateTo('/listening/books');
+			return navigateTo('/listening/materials');
 		}
 
-		return navigateTo(lastPage.value || '/listening/books');
+		return navigateTo(lastPage.value || '/listening/materials');
 	}
 
 	if (to.matched.length === 0) {
-		return navigateTo(accessToken.value ? '/listening/books' : '/auth/login');
+		return navigateTo(accessToken.value ? '/listening/materials' : '/auth/login');
 	}
 });
