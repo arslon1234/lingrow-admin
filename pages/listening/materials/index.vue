@@ -148,7 +148,7 @@ import MaterialBook from '~/components/modal/MaterialBook.vue';
 import MaterialContent from '~/components/material/MaterialContent.vue';
 import MaterialHeader from '~/components/material/MaterialHeader.vue';
 import { addSuccess } from '~/helpers/notification';
-import { formatMaterialType, getStatusClass } from '@/helpers/materials'
+import { formatMaterialType } from '@/helpers/materials'
 import { BookTypeOptions, StatusOptions } from '@/helpers/constants';
 import { useMaterialsStore } from '~/store/materials';
 
@@ -193,6 +193,16 @@ const selectedBook = computed(() => {
     if (!selectedBookId.value) return null;
     return filteredBooks.value.find((book: any) => book.id == selectedBookId.value);
 });
+
+function getStatusClass(status: string): string {
+    const classMap: Record<string, string> = {
+        DRAFT: 'bg-yellow-100 text-yellow-700 !importand',
+        PUBLISHED: 'bg-purple-100 text-purple-700 !importand',
+        UNPUBLISHED: 'bg-gray-100 text-gray-700 !importand',
+        ARCHIVED: 'bg-red-100 text-red-700 !importand'
+    };
+    return classMap[status] || 'bg-gray-100 text-gray-700';
+}
 
 function updateSkillType(value: string) {
     skillType.value = value

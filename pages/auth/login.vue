@@ -11,8 +11,18 @@
 				<div class="space-y-5">
 					<!-- Phone Number Input -->
 					<UFormGroup v-slot="{ error }" label="Phone Number" name="phoneNumber" required>
-						<FormInput type="tel" :error="error" placeholder="+998 90 123 45 67" v-model="form.phoneNumber"
-							size="xl" icon="i-heroicons-phone" />
+						<FormInput 
+							type="tel" 
+							:error="error" 
+							placeholder="+998 90 123 45 67" 
+							v-model="form.phoneNumber"
+							size="xl" 
+							icon="i-heroicons-phone"
+							maxlength="13"
+							@keypress="onlyNumbers"
+							@keydown.enter="handleEnterKey"
+							@paste="handlePaste"
+						/>
 						<template>
 							<span class="text-xs text-gray-500">Enter your Uzbekistan phone number</span>
 						</template>
@@ -20,8 +30,17 @@
 
 					<!-- Temporary Password Input -->
 					<UFormGroup v-slot="{ error }" label="Temporary Password" name="tempPassword" required>
-						<FormInput type="text" :error="error" placeholder="Enter 6-digit code"
-							v-model="form.tempPassword" size="xl" icon="i-heroicons-key" maxlength="6" />
+						<FormInput 
+							type="text" 
+							:error="error" 
+							placeholder="Enter 6-digit code"
+							v-model="form.tempPassword" 
+							size="xl" 
+							icon="i-heroicons-key" 
+							maxlength="6"
+							@keypress="onlyNumbersPassword"
+							@keydown.enter="handleEnterKey"
+						/>
 						<div class="flex items-center justify-between mt-2">
 							<span class="text-xs text-gray-500">Get code from Telegram</span>
 							<UButton :to="TELEGRAM_BOT_LINK" target="_blank" variant="link" size="xs"
@@ -31,11 +50,6 @@
 							</UButton>
 						</div>
 					</UFormGroup>
-
-					<!-- Info Alert -->
-					<UAlert icon="i-heroicons-information-circle" color="purple" variant="soft"
-						title="How to get temporary password?"
-						description="Click the 'Open Bot' link above to start our Telegram bot and receive your 6-digit temporary password." />
 
 					<UDivider class="my-6" />
 
@@ -69,10 +83,69 @@
 <script setup>
 import { useLoginComposable } from '~/composables/pages/auth/login';
 
-// Telegram bot linkini o'zgartiring
 const TELEGRAM_BOT_LINK = 'https://t.me/lingrowbot';
 
 const { LoginValidationSchema, form, handleSubmit, loading, isDisabled } = await useLoginComposable();
+
+const onlyNumbers = (event) => {
+	const allowedKeys = ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab'];
+	
+	if (allowedKeys.includes(event.key)) {
+		return true;
+	}
+	
+	if (!/^\d$/.test(event.key)) {
+		event.preventDefault();
+		return false;
+	}
+	
+	const input = event.target;
+	if (input.value.length >= 13) {
+		event.preventDefault();
+		return false;
+	}
+};
+
+const onlyNumbersPassword = (event) => {
+	const allowedKeys = ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab'];
+	
+	if (allowedKeys.includes(event.key)) {
+		return true;
+	}
+	
+	if (!/^\d$/.test(event.key)) {
+		event.preventDefault();
+		return false;
+	}
+	
+	const input = event.target;
+	if (input.value.length >= 6) {
+		event.preventDefault();
+		return false;
+	}
+};
+
+const handlePaste = (event) => {
+	event.preventDefault();
+	const pastedText = event.clipboardData?.getData('text') || '';
+	
+	const numbers = pastedText.replace(/\D/g, '');
+	
+	if (numbers) {
+		let digits = numbers;
+		if (digits.startsWith('998')) {
+			digits = digits.slice(3);
+		}
+		form.phoneNumber = '+998' + digits.slice(0, 9);
+	}
+};
+
+const handleEnterKey = (event) => {
+	if (!isDisabled.value && !loading.value) {
+		event.preventDefault();
+		handleSubmit();
+	}
+};
 
 definePageMeta({
 	layout: 'auth'
@@ -80,7 +153,6 @@ definePageMeta({
 </script>
 
 <style scoped>
-/* Qo'shimcha animatsiya */
 .fade-enter-active,
 .fade-leave-active {
 	transition: opacity 0.3s;

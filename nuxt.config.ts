@@ -63,7 +63,8 @@ export default defineNuxtConfig({
 	},
 	runtimeConfig: {
 		public: {
-			API_BASE_URL: process.env.NUXT_PUBLIC_API_BASE_URL
+			API_BASE_URL: process.env.NUXT_PUBLIC_API_BASE_URL,
+			TG_BOT_URL: process.env.TG_BOT_URL ?? 'https://t.me/YourBotUsername'
 			// BASE_URL_CHAT: process.env.BASE_URL_CHAT ?? 'wss://ai.routeeld.uz/',
 			// GOOGLE_MAPS_API_KEY: process.env.GOOGLE_MAPS_API_KEY ?? 'AIzaSyC0gkkJ9mycfaiKZO4SK7LUIvJMQp5DqDI',
 			// GOOGLE_MAPS_MAP_ID: process.env.GOOGLE_MAPS_MAP_ID ?? 'fd5c5000ce539c3b'
