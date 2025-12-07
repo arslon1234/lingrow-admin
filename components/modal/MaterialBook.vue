@@ -2,7 +2,7 @@
     <UModal v-model="internalValue" :ui="{ base: 'sm:!max-w-[500px]' }">
         <div class="w-full p-6 space-y-6">
             <div class="flex items-center justify-between">
-                <h2 class="text-xl font-semibold">{{ isEditMode ? 'Update Book' : 'Create New Book' }}</h2>
+                <h2 class="text-xl font-semibold">{{ isEditMode ? 'Update Material' : 'Create New Metarial' }}</h2>
                 <UButton color="gray" :ui="{ rounded: 'rounded-full' }" variant="ghost"
                     icon="i-heroicons-x-mark-20-solid" class="-my-1" @click="closeModal" />
             </div>
@@ -12,12 +12,12 @@
             <form @submit.prevent="handleSubmit" class="space-y-4">
                 <div class="space-y-2">
                     <label class="text-sm font-medium text-gray-700 dark:text-gray-300">
-                        Book Type <span class="text-red-500">*</span>
+                        Material Type <span class="text-red-500">*</span>
                     </label>
                     <USelectMenu 
                         v-model="selectedBookType" 
                         :options="BookTypeOptions" 
-                        placeholder="Select book type" 
+                        placeholder="Select material type" 
                         size="lg"
                         option-attribute="label"
                         :ui="{
@@ -26,7 +26,7 @@
                         }" 
                     >
                         <template #label>
-                            {{ selectedBookType?.label || 'Select book type' }}
+                            {{ selectedBookType?.label || 'Select material type' }}
                         </template>
                     </USelectMenu>
                     <p v-if="errors.type" class="text-xs text-red-500">{{ errors.type }}</p>
@@ -34,7 +34,7 @@
 
                 <div class="space-y-2">
                     <label class="text-sm font-medium text-gray-700 dark:text-gray-300">
-                        Book Name <span class="text-red-500">*</span>
+                        Material Name <span class="text-red-500">*</span>
                     </label>
                     <UInput v-model="formData.title" placeholder="Enter book name" size="lg" :ui="{
                         rounded: 'rounded-lg',

@@ -7,7 +7,7 @@
                 </UButton>
             </div>
         </div>
-        <UButton @click="openCreateModal" icon="i-heroicons-plus" size="md" color="primary"> Create Book
+        <UButton @click="openCreateModal" icon="i-heroicons-plus" size="md" color="primary"> Create Material
         </UButton>
     </section>
 </template>

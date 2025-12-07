@@ -4,7 +4,7 @@
         <MaterialBook v-model="showModal" :loading="isLoading" :book-data="bookData" @submit="handleSubmitBook" />
 
         <!-- MATERIAL HEADER -->
-        <TheMaterialHeader @open="openCreateModal" :skillType="skillType" @updateSkillType="updateSkillType" />
+        <MaterialHeader @open="openCreateModal" :skillType="skillType" @updateSkillType="updateSkillType" />
 
         <!-- MAIN CONTENT -->
         <div class="flex flex-1 overflow-hidden">
@@ -12,7 +12,7 @@
             <aside class="w-80 bg-white border-r border-gray-200 flex flex-col">
                 <!-- SEARCH & FILTER -->
                 <div class="p-4 space-y-3 border-b border-gray-200">
-                    <UInput v-model="searchQuery" icon="i-heroicons-magnifying-glass" placeholder="Search books..."
+                    <UInput v-model="searchQuery" icon="i-heroicons-magnifying-glass" placeholder="Search materials..."
                         size="md" />
 
                     <!-- TYPE FILTER -->
@@ -127,18 +127,9 @@
 
                     <!-- BOOK CONTENT BASED ON TYPE -->
                     <div class="bg-white rounded-xl shadow-md p-4">
-                        <TheMaterialContent v-if="selectedBook.materialType" :materialId="selectedBookId" :materialType="selectedBook.materialType" />
-                        <!-- MOCK TEST TYPE -->
-                        <!-- <MockTest v-if="selectedBook.materialType === 'MOCK_TEST'" :materialId="selectedBookId" /> -->
-
-                        <!-- PRACTICE SET TYPE -->
-                        <!-- <PracticeTest v-else-if="selectedBook.materialType === 'PRACTICE_SET'" /> -->
-
-                        <!-- OFFICIAL TEST TYPE -->
-                        <!-- <OfficialTest v-else-if="selectedBook.materialType === 'OFFICIAL_TEST'" /> -->
-
-                        <!-- BOOK TYPE -->
-                        <!-- <Book v-else-if="selectedBook.materialType === 'BOOK'" /> -->
+                        <!-- MATERIAL CONTENT -->
+                        <MaterialContent v-if="selectedBook.materialType" :materialId="selectedBookId"
+                            :materialType="selectedBook.materialType" />
 
                         <!-- DEFAULT CONTENT -->
                         <div v-else class="text-center py-12">
@@ -154,12 +145,8 @@
 
 <script setup lang="ts">
 import MaterialBook from '~/components/modal/MaterialBook.vue';
-import TheMaterialContent from '~/components/material/TheMaterialContent.vue';
-import TheMaterialHeader from '~/components/material/TheMaterialHeader.vue';
-import MockTest from '~/components/material/mock/MockTest.vue';
-import PracticeTest from '~/components/material/practice-set/PracticeTest.vue';
-import OfficialTest from '~/components/material/official/OfficialTest.vue';
-import Book from '~/components/material/book/Book.vue';
+import MaterialContent from '~/components/material/MaterialContent.vue';
+import MaterialHeader from '~/components/material/MaterialHeader.vue';
 import { addSuccess } from '~/helpers/notification';
 import { formatMaterialType, getStatusClass } from '@/helpers/materials'
 import { BookTypeOptions, StatusOptions } from '@/helpers/constants';
