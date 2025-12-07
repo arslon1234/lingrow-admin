@@ -1,19 +1,19 @@
 <template>
     <div>
         <!-- MODALS -->
-        <TestMaterial v-model="showModal" :testData="testData" :loading="false" @submit="handleSubmitBook" />
+        <TestMaterial v-model="showModal" :testData="testData" :materialType="materialType!" :loading="false" @submit="handleSubmitBook" />
 
         <!-- MAIN CONTENT -->
         <div class="flex items-center justify-between mb-6">
-            <h3 class="text-xl font-semibold text-gray-900">Mock Test Content</h3>
-            <UButton icon="i-heroicons-plus" size="md" @click="openCreateTestModal">Add Test</UButton>
+            <h3 class="text-xl font-semibold text-gray-900">{{ materialType === 'MOCK_TEST' ? 'Mock Test Content' : 'Practice Unit content' }}</h3>
+            <UButton icon="i-heroicons-plus" size="md" @click="openCreateTestModal">{{ materialType === 'MOCK_TEST' ? 'Add Test' : 'Add Unit' }}</UButton>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <div v-for="(test, testIndex) in materialTests" :key="test.id"
-                class="border border-gray-200 rounded-lg overflow-hidden bg-white">
-                <!-- Test Header -->
-                <div class="bg-slate-800 text-white p-4 flex items-center justify-between">
+                class="border border-gray-200 rounded-lg overflow-hidden bg-white shadow-sm">
+                <!-- Test Header - Yangi gradient rang -->
+                <div class="bg-gradient-to-r from-slate-700 to-slate-800 text-white p-4 flex items-center justify-between">
                     <h4 class="text-lg font-semibold"> {{ `${test.testNumber}. ${test.title}` || `Test ${testIndex + 1}`
                         }}</h4>
                     <div class="relative">
@@ -40,7 +40,7 @@
 
                 <!-- Test Content -->
                 <div class="p-4 space-y-3">
-                    <!-- Listening Section -->
+                    <!-- Listening Section - YASHIL -->
                     <div class="border border-gray-200 rounded-lg"
                         :class="{ 'border-l-4 border-l-green-500 bg-green-50': expandedSections[test.id]?.listening }">
                         <div class="flex items-center justify-between p-3">
@@ -49,7 +49,7 @@
                                 <UIcon
                                     :name="expandedSections[test.id]?.listening ? 'i-heroicons-chevron-down' : 'i-heroicons-chevron-right'"
                                     class="w-5 h-5 text-gray-400" />
-                                <UIcon name="i-heroicons-musical-note" class="w-5 h-5 text-gray-500" />
+                                <UIcon name="i-heroicons-musical-note" class="w-5 h-5 text-green-600" />
                                 <div>
                                     <p class="font-medium text-gray-900">Listening</p>
                                     <p class="text-sm text-gray-500">4 sections</p>
@@ -72,16 +72,16 @@
                         </div>
                     </div>
 
-                    <!-- Reading Section -->
+                    <!-- Reading Section - MOVIY -->
                     <div class="border border-gray-200 rounded-lg"
-                        :class="{ 'border-l-4 border-l-green-500 bg-green-50': expandedSections[test.id]?.reading }">
+                        :class="{ 'border-l-4 border-l-blue-500 bg-blue-50': expandedSections[test.id]?.reading }">
                         <div class="flex items-center justify-between p-3">
                             <div class="flex items-center gap-3 flex-1 cursor-pointer"
                                 @click="toggleSection(test.id, 'reading')">
                                 <UIcon
                                     :name="expandedSections[test.id]?.reading ? 'i-heroicons-chevron-down' : 'i-heroicons-chevron-right'"
                                     class="w-5 h-5 text-gray-400" />
-                                <UIcon name="i-heroicons-book-open" class="w-5 h-5 text-gray-500" />
+                                <UIcon name="i-heroicons-book-open" class="w-5 h-5 text-blue-600" />
                                 <div>
                                     <p class="font-medium text-gray-900">Reading</p>
                                     <p class="text-sm text-gray-500">3 passages</p>
@@ -104,16 +104,16 @@
                         </div>
                     </div>
 
-                    <!-- Writing Section -->
+                    <!-- Writing Section - BINAFSHA -->
                     <div class="border border-gray-200 rounded-lg"
-                        :class="{ 'border-l-4 border-l-green-500 bg-green-50': expandedSections[test.id]?.writing }">
+                        :class="{ 'border-l-4 border-l-purple-500 bg-purple-50': expandedSections[test.id]?.writing }">
                         <div class="flex items-center justify-between p-3">
                             <div class="flex items-center gap-3 flex-1 cursor-pointer"
                                 @click="toggleSection(test.id, 'writing')">
                                 <UIcon
                                     :name="expandedSections[test.id]?.writing ? 'i-heroicons-chevron-down' : 'i-heroicons-chevron-right'"
                                     class="w-5 h-5 text-gray-400" />
-                                <UIcon name="i-heroicons-pencil" class="w-5 h-5 text-gray-500" />
+                                <UIcon name="i-heroicons-pencil" class="w-5 h-5 text-purple-600" />
                                 <div>
                                     <p class="font-medium text-gray-900">Writing</p>
                                     <p class="text-sm text-gray-500">2 tasks</p>
@@ -136,16 +136,16 @@
                         </div>
                     </div>
 
-                    <!-- Speaking Section -->
+                    <!-- Speaking Section - TO'Q QIZIL -->
                     <div class="border border-gray-200 rounded-lg"
-                        :class="{ 'border-l-4 border-l-green-500 bg-green-50': expandedSections[test.id]?.speaking }">
+                        :class="{ 'border-l-4 border-l-orange-500 bg-orange-50': expandedSections[test.id]?.speaking }">
                         <div class="flex items-center justify-between p-3">
                             <div class="flex items-center gap-3 flex-1 cursor-pointer"
                                 @click="toggleSection(test.id, 'speaking')">
                                 <UIcon
                                     :name="expandedSections[test.id]?.speaking ? 'i-heroicons-chevron-down' : 'i-heroicons-chevron-right'"
                                     class="w-5 h-5 text-gray-400" />
-                                <UIcon name="i-heroicons-microphone" class="w-5 h-5 text-gray-500" />
+                                <UIcon name="i-heroicons-microphone" class="w-5 h-5 text-orange-600" />
                                 <div>
                                     <p class="font-medium text-gray-900">Speaking</p>
                                     <p class="text-sm text-gray-500">3 parts</p>
@@ -180,9 +180,6 @@ import { addSuccess } from '~/helpers/notification';
 import { useMaterialsStore } from '~/store/materials';
 const materialsStore = useMaterialsStore()
 
-const router = useRouter();
-const route = useRoute();
-const { setQueries, getQueryParams } = useQueryParams(route, router);
 const { materialTests } = storeToRefs(materialsStore)
 const testData = ref<TestMaterials>({
     testNumber: '',
@@ -209,6 +206,16 @@ watch(() => props.materialId, (val) => {
         materialsStore.getTestsByMaterialId(val)
     }
 })
+
+watch(showModal, (val) => {
+    if (!val) {
+        testData.value = {
+            testNumber: '',
+            title: ''
+        };
+    }
+});
+
 const toggleSection = (testId: string, sectionType: string) => {
     if (!expandedSections.value[testId]) {
         expandedSections.value[testId] = {}
@@ -250,17 +257,14 @@ const addSection = (type: string, testId: string) => {
 
 const addPassage = (testId: string) => {
     console.log('Add passage for Test ID:', testId)
-    // Add your logic here
 }
 
 const addTask = (testId: string) => {
     console.log('Add task for Test ID:', testId)
-    // Add your logic here
 }
 
 const addPart = (testId: string) => {
     console.log('Add part for Test ID:', testId)
-    // Add your logic here
 }
 
 const openCreateTestModal = () => {
@@ -272,6 +276,7 @@ const handleSubmitBook = async ({ formData }: { formData: TestMaterials }) => {
         const response = await materialsStore.createMaterialTest(props.materialId!, formData)
         if (response.status === 201) {
             addSuccess('Material test successfully created');
+            materialsStore.getTestsByMaterialId(props.materialId!)
             showModal.value = false;
         }
     } else {

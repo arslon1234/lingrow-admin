@@ -10,10 +10,10 @@ export function formatMaterialType(type: string): string {
 
 export function getStatusClass(status: string): string {
     const classMap: Record<string, string> = {
-        DRAFT: 'bg-yellow-100 text-yellow-700',
-        PUBLISHED: 'bg-purple-100 text-purple-700',
-        UNPUBLISHED: 'bg-gray-100 text-gray-700',
-        ARCHIVED: 'bg-red-100 text-red-700'
+        DRAFT: 'bg-yellow-100 text-yellow-700 !importand',
+        PUBLISHED: 'bg-purple-100 text-purple-700 !importand',
+        UNPUBLISHED: 'bg-gray-100 text-gray-700 !importand',
+        ARCHIVED: 'bg-red-100 text-red-700 !importand'
     };
     return classMap[status] || 'bg-gray-100 text-gray-700';
 }

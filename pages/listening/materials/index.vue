@@ -89,8 +89,8 @@
                             class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-white shadow-sm mb-4">
                             <UIcon name="i-heroicons-book-open" class="w-10 h-10 text-gray-300" />
                         </div>
-                        <h2 class="text-xl font-semibold text-gray-900 mb-2">Select a book</h2>
-                        <p class="text-gray-500">Choose a book from the sidebar to view details</p>
+                        <h2 class="text-xl font-semibold text-gray-900 mb-2">Select a material</h2>
+                        <p class="text-gray-500">Choose a material from the sidebar to view details</p>
                     </div>
                 </div>
 
@@ -178,7 +178,6 @@ const apiParams = computed<GetMaterialBookParams>(() => ({
 const filteredBooks = computed(() => {
     let books = materials.value || [];
 
-    // Filter by search query
     if (searchQuery.value) {
         const query = searchQuery.value.toLowerCase();
         books = books.filter(

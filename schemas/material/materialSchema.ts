@@ -23,7 +23,12 @@ export const materialTestSchema = z.object({
         .max(100, { message: 'Book name must not exceed 100 characters' })
         .trim(),
     testNumber: z
-        .number()
-        .min(1, { message: 'Test number is required' })
-        .max(200, { message: 'Test number must not exceed 100 characters' })
+        .union([z.string(), z.number()])
+        .transform((val) => {
+            const num = typeof val === 'string' ? parseInt(val, 10) : val;
+            return num;
+        })
+        .refine((val) => !isNaN(val) && val > 0, {
+            message: 'Test number must be a positive number'
+        })
 });

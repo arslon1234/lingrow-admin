@@ -38,6 +38,6 @@ declare interface CreateMaterialBookRequest {
 declare interface TestMaterials {
 	id?: string;
 	title: string;
-	testNumber: string;
+	testNumber: number | string;
 	isStrictFormat?: boolean;
 }
