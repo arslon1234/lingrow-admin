@@ -1,16 +1,3 @@
-export const BookTypes = [
-	{
-		key: 'MOCK_TEST',
-		label: 'Mock test',
-		description: "Make changes to your account here. Click save when you're done."
-	},
-	{
-		key: 'PRACTICE_SET',
-		label: 'Practice',
-		description: "Change your password here. After saving, you'll be logged out."
-	}
-];
-
 export const SkillTypes = [
 	{ label: 'All', value: 'ALL' },
 	{ label: 'Listening', value: 'LISTENING' },

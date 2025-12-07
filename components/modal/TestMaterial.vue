@@ -98,7 +98,7 @@ const formData = ref<TestMaterials>({
 });
 
 // Selected book type object
-const selectedBookType = ref<MaterialBookType | undefined>(undefined);
+const selectedBookType = ref<{ value: GetMaterialBookParams['type']; label: string } | undefined>(undefined);
 
 // File handling
 const selectedFile = ref<File | null>(null);

@@ -16,7 +16,7 @@
                     </label>
                     <USelectMenu 
                         v-model="selectedBookType" 
-                        :options="BookTypes" 
+                        :options="BookTypeOptions" 
                         placeholder="Select book type" 
                         size="lg"
                         option-attribute="label"
@@ -69,7 +69,7 @@
 <script setup lang="ts">
 import { computed, ref, watch } from "vue";
 import { z } from "zod";
-import { BookTypes } from "~/helpers/constants";
+import { BookTypeOptions } from "~/helpers/constants";
 import { materialBookSchema } from "~/schemas/material/materialSchema";
 
 const props = defineProps<{
@@ -105,7 +105,7 @@ const formData = ref<MaterialBookData>({
 });
 
 // Selected book type object
-const selectedBookType = ref<MaterialBookType | undefined>(undefined);
+const selectedBookType = ref<{ value: GetMaterialBookParams['type']; label: string } | undefined>(undefined);
 
 // File handling
 const selectedFile = ref<File | null>(null);
@@ -120,7 +120,7 @@ const errors = ref<Record<string, string>>({
 // Watch selectedBookType and update formData.type
 watch(selectedBookType, (newType) => {
     if (newType) {
-        formData.value.materialType = newType.key;
+        formData.value.materialType = newType.value;
         // Clear type error when selection is made
         errors.value.materialType = '';
     } else {
@@ -211,7 +211,7 @@ watch(
                 materialType: props.bookData.materialType || '',
             };
             // Find and set the selected book type
-            selectedBookType.value = BookTypes.find(bt => bt.key === props.bookData?.materialType);
+            selectedBookType.value = BookTypeOptions.find(bt => bt.value === props.bookData?.materialType);
         } else if (!newVal) {
             // Reset form when modal closes
             setTimeout(() => resetForm(), 300);
@@ -229,7 +229,7 @@ watch(
                 materialType: newData.materialType || '',
             };
             // Find and set the selected book type
-            selectedBookType.value = BookTypes.find(bt => bt.key === newData.materialType);
+            selectedBookType.value = BookTypeOptions.find(bt => bt.value === newData.materialType);
         }
     },
     { deep: true }

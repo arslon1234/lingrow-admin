@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { BookTypes } from '~/helpers/constants';
+import { BookTypeOptions } from '~/helpers/constants';
 
 export const materialBookSchema = z.object({
     title: z
@@ -11,7 +11,7 @@ export const materialBookSchema = z.object({
     materialType: z
         .string()
         .min(1, { message: 'Book type is required' })
-        .refine((val) => BookTypes.some((bt) => bt.key === val), {
+        .refine((val) => BookTypeOptions.some((bt) => bt.value === val), {
             message: 'Invalid book type selected'
         })
 });
