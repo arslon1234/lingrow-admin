@@ -1,8 +1,8 @@
 export function formatMaterialType(type: string): string {
 	const typeMap: Record<string, string> = {
 		BOOK: 'Book',
-		MOCK_TEST: 'Mock Test',
-		PRACTICE_SET: 'Practice Set',
+		MOCK: 'Mock',
+		PRACTICE: 'Practice',
 		OFFICIAL_TEST: 'Official Test'
 	};
 	return typeMap[type] || type;

@@ -5,8 +5,8 @@
 
         <!-- MAIN CONTENT -->
         <div class="flex items-center justify-between mb-6">
-            <h3 class="text-xl font-semibold text-gray-900">{{ materialType === 'MOCK_TEST' ? 'Mock Test Content' : 'Practice Unit content' }}</h3>
-            <UButton icon="i-heroicons-plus" size="md" @click="openCreateTestModal">{{ materialType === 'MOCK_TEST' ? 'Add Test' : 'Add Unit' }}</UButton>
+            <h3 class="text-xl font-semibold text-gray-900">{{ materialType === 'MOCK' ? 'Mock Test Content' : 'Practice Unit content' }}</h3>
+            <UButton icon="i-heroicons-plus" size="md" @click="openCreateTestModal">{{ materialType === 'MOCK' ? 'Add Test' : 'Add Unit' }}</UButton>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">

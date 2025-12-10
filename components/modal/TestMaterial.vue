@@ -2,8 +2,8 @@
     <UModal v-model="internalValue" :ui="{ base: 'sm:!max-w-[500px]' }">
         <div class="w-full p-6 space-y-6">
             <div class="flex items-center justify-between">
-                <h2 class="text-xl font-semibold">{{ isEditMode ? `Update ${materialType === 'MOCK_TEST' ? 'Test' :
-                    'Unit'}` : `Create New ${materialType === 'MOCK_TEST' ? 'Test' : 'Unit'}` }}</h2>
+                <h2 class="text-xl font-semibold">{{ isEditMode ? `Update ${materialType === 'MOCK' ? 'Test' :
+                    'Unit'}` : `Create New ${materialType === 'MOCK' ? 'Test' : 'Unit'}` }}</h2>
                 <UButton color="gray" :ui="{ rounded: 'rounded-full' }" variant="ghost"
                     icon="i-heroicons-x-mark-20-solid" class="-my-1" @click="closeModal" />
             </div>
@@ -13,7 +13,7 @@
             <form @submit.prevent="handleSubmit" class="space-y-4" id="form">
                 <div class="space-y-2">
                     <label class="text-sm font-medium text-gray-700 dark:text-gray-300">
-                        {{ `${materialType === 'MOCK_TEST' ? 'Test' : 'Unit'}` }} number <span class="text-red-500">*</span>
+                        {{ `${materialType === 'MOCK' ? 'Test' : 'Unit'}` }} number <span class="text-red-500">*</span>
                     </label>
                     <UInput v-model="formData.testNumber" type="number" placeholder="Enter test number" size="lg" :ui="{
                         rounded: 'rounded-lg',

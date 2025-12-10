@@ -7,10 +7,10 @@ export const SkillTypes = [
 ];
 
 export const BookTypeOptions: Array<{ value: GetMaterialBookParams['type']; label: string }> = [
-	{ value: 'BOOK', label: 'Book' },
-	{ value: 'MOCK_TEST', label: 'Mock Test' },
-	{ value: 'PRACTICE_SET', label: 'Practice Set' },
-	{ value: 'OFFICIAL_TEST', label: 'Official Test' }
+	// { value: 'BOOK', label: 'Book' },
+	{ value: 'MOCK', label: 'Mock' },
+	{ value: 'PRACTICE', label: 'Practice' },
+	// { value: 'OFFICIAL_TEST', label: 'Official Test' }
 ];
 
 export const StatusOptions: Array<{ value: GetMaterialBookParams['status']; label: string }> = [

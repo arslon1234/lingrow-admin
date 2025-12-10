@@ -1,6 +1,6 @@
 declare interface GetMaterialBookParams {
 	status: 'DRAFT' | 'PUBLISHED' | 'UNPUBLISHED' | 'ARCHIVED';
-	type: 'BOOK' | 'MOCK_TEST' | 'PRACTICE_SET' | 'OFFICIAL_TEST';
+	type: 'MOCK' | 'PRACTICE';
 	pageable?: {
 		page: number;
 		size: number;
