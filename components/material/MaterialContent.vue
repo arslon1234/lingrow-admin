@@ -57,7 +57,7 @@
                             </div>
                             <button
                                 class="text-sm text-gray-600 hover:text-gray-900 px-3 py-1 rounded hover:bg-gray-100"
-                                @click.stop="addSection('listening', test.id)">
+                                @click.stop="addQuestion('Listening', test.id)">
                                 + Section
                             </button>
                         </div>
@@ -89,7 +89,7 @@
                             </div>
                             <button
                                 class="text-sm text-gray-600 hover:text-gray-900 px-3 py-1 rounded hover:bg-gray-100"
-                                @click.stop="addPassage(test.id)">
+                                @click.stop="addQuestion('Reading', test.id)">
                                 + Passage
                             </button>
                         </div>
@@ -250,9 +250,8 @@ const handleDelete = async (testId: string) => {
     openMenuId.value = null
 }
 
-const addSection = (type: string, testId: string) => {
-    console.log('Add section for:', type, 'Test ID:', testId)
-    // Add your logic here
+const addQuestion = (type: string, testId: string) => {
+    navigateTo({path: `/materials/${testId}`, query: {skillType: type}})
 }
 
 const addPassage = (testId: string) => {
