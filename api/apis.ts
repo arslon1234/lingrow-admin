@@ -9,10 +9,10 @@ export class ApiUrls {
 	public static AUDIO_UPLOAD: string = '/api/v1/files/upload';
 
 	// MATERIALS
-	public static MATERIALS: string = '/api/materials';
+	public static MATERIALS: string = '/api/admin/materials';
 
 	// TESTS
-	public static TESTS: string = '/api/tests';
+	public static TESTS: string = '/api/admin/tests';
 
 	// USERS
 	public static USERS_URL: string = '/api/auth/me';
