@@ -20,7 +20,7 @@
 			</div>
 			<div class="mt-6 space-y-2 text-white dark:text-white/[0.8]">
 				<!-- Listening with submenu -->
-				<div>
+				<!-- <div>
 					<UButton @click="toggleListening" active-class="!text-white"
 						:class="{ '!text-white': route.path.includes('listening') }" variant="ghost"
 						:label="sidebarOpen ? 'Listening' : ''" block size="xl" :ui="{
@@ -42,7 +42,6 @@
 						</template>
 					</UButton>
 
-					<!-- Submenu items -->
 					<div v-if="sidebarOpen" class="overflow-hidden transition-all duration-300"
 						:class="listeningOpen ? 'max-h-32 opacity-100 mt-1' : 'max-h-0 opacity-0'">
 						<UButton to="/listening/books" active-class="!text-white"
@@ -69,7 +68,24 @@
 								variant: { ghost: 'hover:bg-brown-0 text-white/[0.7] dark:hover:bg-white/[0.1] dark:text-white/[0.7]' }
 							}" />
 					</div>
-				</div>
+				</div> -->
+
+				<!-- Writing -->
+				<UButton to="/materials" active-class="!text-white"
+					:class="{ '!text-white': route.path.includes('writing') }" variant="ghost"
+					:label="sidebarOpen ? 'Materials' : ''" block size="xl" :ui="{
+						rounded: 'rounded-lg',
+						block: 'justify-start',
+						padding: { xl: 'px-3 py-2.5' },
+						size: { xl: 'text-xs' },
+						font: 'font-medium',
+						base: 'uppercase tracking-wide',
+						variant: { ghost: 'hover:bg-brown-0 text-white/[0.7] dark:hover:bg-white/[0.1] dark:text-white/[0.7]' }
+					}">
+					<template #leading>
+						<MessageIcon class="w-5 shrink-0" />
+					</template>
+				</UButton>
 
 				<!-- Reading -->
 				<UButton to="/reading" active-class="!text-white"
@@ -87,24 +103,6 @@
 						<FileIcon class="w-5 shrink-0" />
 					</template>
 				</UButton>
-
-				<!-- Writing -->
-				<UButton to="/writing" active-class="!text-white"
-					:class="{ '!text-white': route.path.includes('writing') }" variant="ghost"
-					:label="sidebarOpen ? 'Writing' : ''" block size="xl" :ui="{
-						rounded: 'rounded-lg',
-						block: 'justify-start',
-						padding: { xl: 'px-3 py-2.5' },
-						size: { xl: 'text-xs' },
-						font: 'font-medium',
-						base: 'uppercase tracking-wide',
-						variant: { ghost: 'hover:bg-brown-0 text-white/[0.7] dark:hover:bg-white/[0.1] dark:text-white/[0.7]' }
-					}">
-					<template #leading>
-						<MessageIcon class="w-5 shrink-0" />
-					</template>
-				</UButton>
-
 			</div>
 		</div>
 
