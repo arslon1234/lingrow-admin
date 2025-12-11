@@ -251,7 +251,7 @@ const handleDelete = async (testId: string) => {
 }
 
 const addQuestion = (type: string, testId: string) => {
-    navigateTo({path: `/materials/${testId}`, query: {skillType: type}})
+    navigateTo({path: `/materials/${testId}`, query: {skillType: type, materialType: props.materialType}})
 }
 
 const addPassage = (testId: string) => {

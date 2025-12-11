@@ -12,10 +12,10 @@
 				}" color="white" icon="i-heroicons-magnifying-glass-20-solid" size="lg" placeholder="Search listening" /> -->
             </div>
         </section>
-        <section class="main-layout mt-4">
+        <section class="main-layout mt-4 flex flex-col gap-4">
             <QuestionComposer />
-            <div class="w-full mt-4 grid grid-cols-12 gap-4">
-                <QuestionComponents class="col-span-3 sticky top-64" />
+            <div class="w-full grid grid-cols-12 gap-4">
+                <QuestionComponents class="col-span-3" />
                 <QuestionLayout class="col-span-9" />
             </div>
         </section>
@@ -27,12 +27,13 @@ import AudioUpload from '~/components/modal/AudioUpload.vue';
 import QuestionComposer from '~/components/listening/QuestionComposer.vue';
 import QuestionComponents from '~/components/listening/QuestionComponents.vue';
 import QuestionLayout from '~/components/listening/QuestionLayout.vue';
+import MaterialQuestionForm from '~/components/material/MaterualQuestionForm.vue'
 import { useListeningComposable } from '~/composables/pages/listening';
 
 const { audioUpload, statusModal, handleFileUpload } = await useListeningComposable()
 
 const route = useRoute()
 
-const { skillType } = route.query
+const { skillType, materialType } = route.query
 
 </script>
