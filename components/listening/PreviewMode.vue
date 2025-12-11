@@ -49,7 +49,6 @@
             <!-- TABLE_GRID Preview -->
             <table-grid-preview v-else-if="component.type === 'TABLE_GRID'" :component="component" />
 
-
             <!-- NUMBERED_LIST Preview -->
             <numbered-list-preview v-else-if="component.type === 'NUMBERED_LIST'" :component="component" />
 

@@ -72,7 +72,7 @@
 
 				<!-- Writing -->
 				<UButton to="/materials" active-class="!text-white"
-					:class="{ '!text-white': route.path.includes('writing') }" variant="ghost"
+					:class="{ '!text-white': route.path.includes('materials') }" variant="ghost"
 					:label="sidebarOpen ? 'Materials' : ''" block size="xl" :ui="{
 						rounded: 'rounded-lg',
 						block: 'justify-start',

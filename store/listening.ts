@@ -6,7 +6,7 @@ import { addSuccess } from '~/helpers/notification';
 export const useListeningStore = defineStore('listening', () => {
 	const components = reactive<Component[]>([]);
 	const previewMode = ref(false);
-	const questionType = ref('MULTIPLE_CHOICE');
+	const questionType = ref('FORM_COMPLETION');
 	
 	async function audioUpload(formData: FormData) {
 		const result = await useAxios().postRequest(ApiUrls.AUDIO_UPLOAD, formData);
