@@ -62,3 +62,35 @@ interface QuestionData {
     createdAt: string
   }
 }
+
+declare interface QuestionTypeMetadata {
+	startingQuestionNumber: number;
+	endingQuestionNumber: number;
+}
+
+declare interface Component {
+	id: number;
+	type: string;
+	questionType?: string; // Which question type this component belongs to
+	config: ComponentConfig;
+}
+
+declare interface BackendComponent {
+	type: string;
+	displayOrder: number;
+	questionNumber: number | null;
+	correctAnswer: string | null;
+	data: Record<string, any>;
+}
+
+declare interface BackendQuestionType {
+	type: string;
+	displayOrder: number;
+	startingQuestionNumber: number;
+	endingQuestionNumber: number;
+	components: BackendComponent[];
+}
+
+declare interface BackendQuestionData {
+	questionTypes: BackendQuestionType[];
+}

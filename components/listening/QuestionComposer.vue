@@ -26,20 +26,14 @@
                         <USelect v-model="formState.level" :options="levelOptions" placeholder="Select level" />
                     </UFormGroup>
                 </div>
-
-                <!-- Submit Button -->
-                <!-- <div class="flex justify-end">
-                <UButton type="submit" color="primary">
-                    Submit
-                </UButton>
-            </div> -->
             </UForm>
+            
             <div className="flex gap-4 mt-4">
                 <div className="flex-1">
                     <label className="block text-sm font-medium mb-2">Question Type</label>
                     <USelect v-model="questionType" :options="IELTS_LISTENING_QUESTION_TYPES" option-attribute="name"
-                        value-attribute="key" placeholder="Select question type" size="lg" class="w-wull"
-                        @change="handleChange" />
+                        value-attribute="key" placeholder="Select question type" size="lg" class="w-full"
+                        @change="handleQuestionTypeChange" />
                 </div>
 
                 <div className="flex gap-2 items-end">
@@ -49,11 +43,21 @@
                         {{ previewMode ? 'Edit' : 'Preview' }}
                     </UButton>
 
-                    <UButton variant="solid" class="bg-green-3 hover:bg-green-700" size="lg" @click="saveQuestion">
+                    <UButton variant="solid" class="bg-green-500 hover:bg-green-700" size="lg" @click="handleSave">
                         <save-icon />
                         Save
                     </UButton>
                 </div>
+            </div>
+
+            <!-- Question Number Range for Current Type -->
+            <div v-if="questionType" className="grid grid-cols-2 gap-4 mt-4 p-4 bg-gray-50 rounded-lg">
+                <UFormGroup label="Starting Question Number" name="startNumber">
+                    <UInput v-model.number="questionNumberRange.start" size="lg" type="number" min="1" />
+                </UFormGroup>
+                <UFormGroup label="Ending Question Number" name="endNumber">
+                    <UInput v-model.number="questionNumberRange.end" size="lg" type="number" min="1" />
+                </UFormGroup>
             </div>
         </div>
     </div>
@@ -65,10 +69,10 @@ import { useListeningStore } from '~/store/listening'
 import EditIcon from '~/components/icons/EditIcon.vue'
 import PreviewIcon from '~/components/icons/PreviewIcon.vue'
 import SaveIcon from '~/components/icons/SaveIcon.vue'
+
 const listeningStore = useListeningStore()
-
 const route = useRoute()
-
+const { previewMode, components, questionType } = storeToRefs(listeningStore)
 const materialType = computed(() => route.query.materialType as string || 'MOCK')
 
 interface FormState {
@@ -84,6 +88,12 @@ const formState = ref<FormState>({
 })
 
 const selectedSection = ref('')
+
+// Question number range for current question type
+const questionNumberRange = ref({
+    start: 1,
+    end: 10
+})
 
 // Section options for MOCK type
 const sectionOptions = [
@@ -118,29 +128,62 @@ watch(materialType, () => {
     selectedSection.value = ''
 })
 
+// Watch question type change to load saved metadata
+watch(() => questionType.value, (newType) => {
+    const metadata = listeningStore.getQuestionTypeMetadata(newType)
+    questionNumberRange.value = {
+        start: metadata.startingQuestionNumber,
+        end: metadata.endingQuestionNumber
+    }
+})
+
+// Update metadata when question numbers change
+watch(questionNumberRange, (newRange) => {
+    if (questionType.value) {
+        listeningStore.setQuestionTypeMetadata(
+            questionType.value,
+            newRange.start,
+            newRange.end
+        )
+    }
+}, { deep: true })
+
 const onSubmit = () => {
     console.log('Form submitted:', formState.value)
-    // Emit event or handle submission
 }
 
-const { previewMode, components, questionType } = storeToRefs(listeningStore)
 
-const saveQuestion = () => {
-    const questionData: QuestionData = {
-        questionType: questionType.value,
-        components: components.value,
-        metadata: {
-            totalComponents: components.value.length,
-            createdAt: new Date().toISOString()
-        }
+
+const handleQuestionTypeChange = (event: any) => {
+    console.log('Question type changed:', event)
+    // Load metadata for the new question type
+    const metadata = listeningStore.getQuestionTypeMetadata(event.target.value)
+    questionNumberRange.value = {
+        start: metadata.startingQuestionNumber,
+        end: metadata.endingQuestionNumber
     }
-
-    console.log('Question Data:', questionData)
-}
-const handleChange = (event: any) => {
-    console.log(event)
 }
 
+const handleSave = async () => {
+    try {
+        // Update metadata before saving
+        if (questionType.value) {
+            listeningStore.setQuestionTypeMetadata(
+                questionType.value,
+                questionNumberRange.value.start,
+                questionNumberRange.value.end
+            )
+        }
+
+        const backendData = await listeningStore.saveQuestion()
+        console.log(backendData)        
+        // Show success notification
+        // addSuccess('Question saved successfully')
+    } catch (error) {
+        console.error('Error saving question:', error)
+        // addError('Failed to save question')
+    }
+}
 </script>
 
 <style lang="scss" scoped></style>
