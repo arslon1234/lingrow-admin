@@ -4,7 +4,7 @@ import { ApiUrls } from '~/api/apis';
 import { addSuccess } from '~/helpers/notification';
 
 export const useListeningStore = defineStore('listening', () => {
-	const components = reactive<Component[]>([]);
+	const components = reactive<Component[]>([]); 
 	const previewMode = ref(false);
 	const questionType = ref('FORM_COMPLETION');
 	
@@ -31,7 +31,7 @@ export const useListeningStore = defineStore('listening', () => {
 		}
 	}
 
-	function updateComponent(id: number, config: ComponentConfig) {
+	function updateComponent(id: number, config: any) {
 		const index = components.findIndex((c) => c.id === id);
 		if (index !== -1) {
 			components[index].config = config;

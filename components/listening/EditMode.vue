@@ -51,25 +51,7 @@
             </div>
 
             <!-- INPUT_LINE -->
-            <div v-else-if="component.type === 'INPUT_LINE'" class="space-y-3">
-                <UFormGroup label="Question Label" size="sm">
-                    <UInput :model-value="component.config.label"
-                        @update:model-value="listeningStore.updateComponent(component.id, { ...component.config, label: $event })"
-                        placeholder="Question 1 or Name:" size="sm" />
-                </UFormGroup>
-
-                <UFormGroup label="Input Placeholder" size="sm">
-                    <UInput :model-value="component.config.placeholder"
-                        @update:model-value="listeningStore.updateComponent(component.id, { ...component.config, placeholder: $event })"
-                        placeholder="Answer or ___________" size="sm" />
-                </UFormGroup>
-
-                <UFormGroup label="Correct Answer" size="sm">
-                    <UInput :model-value="component.config.correctAnswer"
-                        @update:model-value="listeningStore.updateComponent(component.id, { ...component.config, correctAnswer: $event })"
-                        placeholder="Enter correct answer" icon="i-heroicons-check-circle" color="green" size="sm" />
-                </UFormGroup>
-            </div>
+            <EditInputLine v-else-if="component.type === 'INPUT_LINE'" :component="component" />
 
             <!-- INPUT_INLINE -->
             <div v-else-if="component.type === 'INPUT_INLINE'" class="space-y-3">
@@ -133,6 +115,7 @@ import DownIcon from '~/components/icons/DownIcon.vue';
 import Images from './question-types/image/EditImage.vue';
 import MCQ from './question-types/mcq/EditMCQ.vue';
 import Table from './question-types/table/EditTable.vue';
+import EditInputLine from './question-types/input-line/EditInputLine.vue';
 import NumberedList from './question-types/numbered-list/EditNumberedList.vue';
 import BulletList from './question-types/bullet-list/EditBulletList.vue';
 import EditMap from './question-types/map/EditMap.vue';
