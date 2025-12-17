@@ -4,3 +4,5 @@ export const capitalizeStrict = (str?: string | null): string => {
 	const lower = str.toLowerCase();
 	return lower[0].toUpperCase() + lower.slice(1);
 };
+
+

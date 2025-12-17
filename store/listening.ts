@@ -142,7 +142,7 @@ export const useListeningStore = defineStore('listening', () => {
 			
 			const transformedComponents: BackendComponent[] = typeComponents.map((component, index) => ({
 				type: component.type,
-				displayOrder: index,
+				displayOrder: index + 1,
 				questionNumber: component.config.questionNumber || null,
 				correctAnswer: formatCorrectAnswer(component),
 				data: formatComponentData(component)

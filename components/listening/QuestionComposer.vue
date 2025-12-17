@@ -27,7 +27,7 @@
                     </UFormGroup>
                 </div>
             </UForm>
-            
+
             <div className="flex gap-4 mt-4">
                 <div className="flex-1">
                     <label className="block text-sm font-medium mb-2">Question Type</label>
@@ -152,12 +152,8 @@ const onSubmit = () => {
     console.log('Form submitted:', formState.value)
 }
 
-
-
-const handleQuestionTypeChange = (event: any) => {
-    console.log('Question type changed:', event)
-    // Load metadata for the new question type
-    const metadata = listeningStore.getQuestionTypeMetadata(event.target.value)
+const handleQuestionTypeChange = () => {
+    const metadata = listeningStore.getQuestionTypeMetadata(questionType.value)
     questionNumberRange.value = {
         start: metadata.startingQuestionNumber,
         end: metadata.endingQuestionNumber
@@ -165,6 +161,8 @@ const handleQuestionTypeChange = (event: any) => {
 }
 
 const handleSave = async () => {
+    const { level, title, sectionNumber } = formState.value
+    const { materialType, skillType } = route.query
     try {
         // Update metadata before saving
         if (questionType.value) {
@@ -175,8 +173,16 @@ const handleSave = async () => {
             )
         }
 
-        const backendData = await listeningStore.saveQuestion()
-        console.log(backendData)        
+        const formattedData = await listeningStore.saveQuestion()
+        const payloadData = {
+            ...formattedData,
+            testId: route.params.testId,
+            skillType: skillType,
+            level: level,
+            title: materialType == 'PRACTICE' ? title : null,
+            sectionNumber: materialType == 'MOCK' ? sectionNumber : null
+        }
+        console.log(payloadData)
         // Show success notification
         // addSuccess('Question saved successfully')
     } catch (error) {
