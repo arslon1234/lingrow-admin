@@ -33,8 +33,8 @@
 					<XCircleIcon class="text-background-grey_1" />
 				</template>
 				<template v-else-if="props.type === 'password' && !disabled" #leading>
-					<EyeIcon v-show="formType === 'text'" class="text-background-grey_1" />
-					<EyeOffIcon v-show="formType === 'password'" class="text-background-grey_1" />
+					<!-- <EyeIcon v-show="formType === 'text'" class="text-background-grey_1" /> -->
+					<!-- <EyeOffIcon v-show="formType === 'password'" class="text-background-grey_1" /> -->
 				</template>
 			</UButton>
 			<UIcon v-show="error" class="text-red-0 h-5 w-5" name="i-heroicons-exclamation-triangle-20-solid" />

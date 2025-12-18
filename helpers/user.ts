@@ -32,7 +32,7 @@ class UserService {
       //   providerId: user.providerId,
       //   roles: user.roles
       // });
-      mergeObjectValues(this._user, user as any);
+      // mergeObjectValues(this._user, user as any);
     }
   }
 

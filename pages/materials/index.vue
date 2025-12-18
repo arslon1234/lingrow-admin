@@ -211,7 +211,7 @@ function updateSkillType(value: string) {
 
 // Select book
 function selectBook(materialId: string) {
-    selectedBookId.value = materialId;
+    selectedBookId.value = String(materialId);
     setQueries({ materialId });
 }
 

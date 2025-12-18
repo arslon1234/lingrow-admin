@@ -67,7 +67,7 @@ export const useLoginComposable = async () => {
 			console.log(isAdmin);
 			
 			if (isAdmin) {
-				router.push('/listening/books');
+				router.push('/materials');
 			} else {
 				authStore.logout();
 				addError('But you have no permission');

@@ -176,8 +176,8 @@ const handleSave = async () => {
         const formattedData = await listeningStore.saveQuestion()
         const payloadData = {
             ...formattedData,
-            testId: route.params.testId,
-            skillType: skillType,
+            testId: Number(route.params.testId),
+            skillType: `${skillType}`.toUpperCase(),
             level: level,
             title: materialType == 'PRACTICE' ? title : null,
             sectionNumber: materialType == 'MOCK' ? sectionNumber : null

@@ -5,11 +5,11 @@
 			<h1 class="title">Reading</h1>
 			<div class="flex items-center gap-3">
 				<UButton variant="solid" size="sm" label="Upload Audio" @click="statusModal = true" />
-				<UInput class="min-w-[264px]" v-model="search" :ui="{
+				<!-- <UInput class="min-w-[264px]" v-model="search" :ui="{
 					base: 'placeholder:font-medium',
 					rounded: 'rounded-lg',
 					color: { white: { outline: 'shadow-none ring-grey-border' } }
-				}" color="white" icon="i-heroicons-magnifying-glass-20-solid" size="lg" placeholder="Search listening" />
+				}" color="white" icon="i-heroicons-magnifying-glass-20-solid" size="lg" placeholder="Search listening" /> -->
 			</div>
 		</section>
 		<section class="main-layout mt-4">
