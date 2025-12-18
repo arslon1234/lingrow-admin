@@ -5,7 +5,6 @@ import utc from 'dayjs/plugin/utc';
 
 export default defineNuxtPlugin((nuxtApp) => {
 	nuxtApp.hook('app:created', () => {
-		scheduleTokenRefresh();
 
     // dayjs
 		dayjs.extend(utc);

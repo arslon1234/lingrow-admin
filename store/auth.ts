@@ -41,8 +41,6 @@ export const useAuthStore = defineStore('auth', () => {
 				await usersStore.getUsers()
 				// saveUserData(user);
 
-				// // Initialize services
-				// scheduleTokenRefresh();
 				// userService.updateUser();
 				addSuccess('Successfully Logged in');
 				// navigateTo('/');
