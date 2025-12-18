@@ -79,7 +79,7 @@ declare interface BackendComponent {
 	type: string;
 	displayOrder: number;
 	questionNumber: number | null;
-	correctAnswer: string | null;
+	correctAnswers: string[];
 	data: Record<string, any>;
 }
 
