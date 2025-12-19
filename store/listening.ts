@@ -116,45 +116,6 @@ export const useListeningStore = defineStore('listening', () => {
 		};
 	}
 
-	// Transform components to backend format
-	// function transformToBackendFormat(): BackendQuestionData {
-	// 	// Group components by question type
-	// 	const groupedByType = new Map<string, Component[]>();
-
-	// 	components.forEach(component => {
-	// 		const type = component.questionType || questionType.value;
-	// 		if (!groupedByType.has(type)) {
-	// 			groupedByType.set(type, []);
-	// 		}
-	// 		groupedByType.get(type)!.push(component);
-	// 	});
-
-	// 	// Transform to backend format
-	// 	const questionTypes: BackendQuestionType[] = [];
-	// 	let displayOrder = 0;
-
-	// 	groupedByType.forEach((typeComponents, type) => {
-	// 		const metadata = getQuestionTypeMetadata(type);
-
-	// 		const transformedComponents: BackendComponent[] = typeComponents.map((component, index) => ({
-	// 			type: component.type,
-	// 			displayOrder: index + 1,
-	// 			questionNumber: component.config.questionNumber || null,
-	// 			correctAnswer: formatCorrectAnswer(component),
-	// 			data: formatComponentData(component)
-	// 		}));
-
-	// 		questionTypes.push({
-	// 			type,
-	// 			displayOrder: displayOrder++,
-	// 			startingQuestionNumber: metadata.startingQuestionNumber,
-	// 			endingQuestionNumber: metadata.endingQuestionNumber,
-	// 			components: transformedComponents
-	// 		});
-	// 	});
-
-	// 	return { questionTypes };
-	// }
 	function transformToBackendFormat(): BackendQuestionData {
 		const groupedByType = new Map<string, Component[]>();
 
@@ -169,7 +130,7 @@ export const useListeningStore = defineStore('listening', () => {
 
 		// Transform each question type using its specific formatter
 		const questionTypes: BackendQuestionType[] = [];
-		let displayOrder = 0;
+		let displayOrder = 1;
 
 		groupedByType.forEach((typeComponents, type) => {
 			const metadata = getQuestionTypeMetadata(type);
@@ -190,38 +151,18 @@ export const useListeningStore = defineStore('listening', () => {
 		return { questionTypes };
 	}
 
-	// Format correct answer based on component type
-	function formatCorrectAnswer(component: Component): string | null {
-		const answer = component.config.correctAnswer;
-
-		if (!answer) return null;
-
-		// If it's an array, join with commas
-		if (Array.isArray(answer)) {
-			return answer.join(',');
-		}
-
-		return String(answer);
-	}
-
-	// Format component data (remove correctAnswer and other metadata)
-	function formatComponentData(component: Component): Record<string, any> {
-		const { correctAnswer, questionNumber, ...otherConfig } = component.config;
-		return otherConfig;
-	}
-
-	// Save question with transformed data
-	async function saveQuestion() {
+	async function saveQuestion(baseData: MaterialTestSectionRequestBase) {
 		try {
-			const backendData = transformToBackendFormat();
-
+			const formattedData = transformToBackendFormat();
+			const pendingData = {...formattedData, ...baseData}
 			// API call
-			// const result = await useAxios().postRequest(ApiUrls.SAVE_QUESTION, backendData);
+			const result = await useAxios().postRequest(ApiUrls.TEST_SECTIONS, pendingData);
+			console.log(result)
 			// if (result.status === 200) {
 			// 	addSuccess('Question saved successfully');
 			// }
 
-			return backendData;
+			
 		} catch (error) {
 			console.error('Error saving question:', error);
 			throw error;

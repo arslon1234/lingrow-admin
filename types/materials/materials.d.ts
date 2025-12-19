@@ -19,7 +19,7 @@ declare interface MaterialReponse {
 declare interface MaterialTestReponse {
 	id: string;
 	title: string;
-	testNumber: number | string
+	testNumber: number | string;
 }
 declare interface MaterialBookData {
 	id?: string;
@@ -40,4 +40,12 @@ declare interface TestMaterials {
 	title: string;
 	testNumber: number | string;
 	isStrictFormat?: boolean;
+}
+
+declare interface MaterialTestSectionRequestBase {
+	testId: number;
+	skillType: string;
+	level: string;
+	title: string | null;
+	sectionNumber: number | null;
 }

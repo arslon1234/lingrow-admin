@@ -163,32 +163,21 @@ const handleQuestionTypeChange = () => {
 const handleSave = async () => {
     const { level, title, sectionNumber } = formState.value
     const { materialType, skillType } = route.query
-    try {
-        // Update metadata before saving
-        if (questionType.value) {
-            listeningStore.setQuestionTypeMetadata(
-                questionType.value,
-                questionNumberRange.value.start,
-                questionNumberRange.value.end
-            )
-        }
-
-        const formattedData = await listeningStore.saveQuestion()
-        const payloadData = {
-            ...formattedData,
-            testId: Number(route.params.testId),
-            skillType: `${skillType}`.toUpperCase(),
-            level: level,
-            title: materialType == 'PRACTICE' ? title : null,
-            sectionNumber: materialType == 'MOCK' ? sectionNumber : null
-        }
-        console.log(payloadData)
-        // Show success notification
-        // addSuccess('Question saved successfully')
-    } catch (error) {
-        console.error('Error saving question:', error)
-        // addError('Failed to save question')
+    if (questionType.value) {
+        listeningStore.setQuestionTypeMetadata(
+            questionType.value,
+            questionNumberRange.value.start,
+            questionNumberRange.value.end
+        )
     }
+    const baseData = {
+        testId: Number(route.params.testId),
+        skillType: `${skillType}`.toUpperCase(),
+        level: level,
+        title: materialType == 'PRACTICE' ? title : null,
+        sectionNumber: materialType == 'MOCK' ? sectionNumber : null
+    }
+    const response = await listeningStore.saveQuestion(baseData)
 }
 </script>
 

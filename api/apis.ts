@@ -14,6 +14,9 @@ export class ApiUrls {
 	// TESTS
 	public static TESTS: string = '/api/admin/tests';
 
+	// TEST SECTION
+	public static TEST_SECTIONS: string = '/api/admin/test-sections';
+
 	// USERS
 	public static USERS_URL: string = '/api/auth/me';
 }
