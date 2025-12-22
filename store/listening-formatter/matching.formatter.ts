@@ -11,8 +11,9 @@ export function formatMatchingComponents(components: Component[]): BackendCompon
     if (component.type === 'MATCHING') {
       // 1. Create MATCHING_OPTIONS component
       backendComponents.push({
-        type: 'MATCHING_OPTIONS',
+        type: 'ADVANCED_OPTIONS_LIST',
         displayOrder: displayOrder++,
+        
         questionNumber: null,
         correctAnswers: [],
         data: {
@@ -22,7 +23,8 @@ export function formatMatchingComponents(components: Component[]): BackendCompon
           options: (component.config.matchingOptions || []).map((opt: any) => ({
             label: opt.id,
             text: opt.text
-          }))
+          })),
+          displayStyle: component.config.displayStyle,
         }
       });
 

@@ -5,7 +5,7 @@ import { getFormatterForType } from './listening-formatter';
 export const useListeningStore = defineStore('listening', () => {
 	const components = reactive<Component[]>([]);
 	const previewMode = ref(false);
-	const questionType = ref('FORM_COMPLETION');
+	const questionType = ref('MATCHING');
 
 	// Question type metadata storage
 	const questionTypeMetadata = reactive<Map<string, QuestionTypeMetadata>>(new Map());

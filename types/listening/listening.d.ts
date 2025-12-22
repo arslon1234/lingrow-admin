@@ -45,7 +45,9 @@ declare interface ComponentConfig {
   itemsTitle?: string
   matchingOptions?: MatchingOption[]
   matchingItems?: MatchingItem[]
-  questionNumberEnd?: any
+  questionNumberEnd?: any,
+  displayStyle?: string,
+  maxLines?: number
 }
 
 declare interface Component {

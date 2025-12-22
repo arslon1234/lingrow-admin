@@ -107,7 +107,7 @@ const sectionOptions = [
 const levelOptions = [
     { label: 'Easy', value: 'EASY' },
     { label: 'Medium', value: 'MEDIUM' },
-    { label: 'Difficult', value: 'DIFFICULT' }
+    { label: 'Hard', value: 'HARD' }
 ]
 
 // Watch selected section and update form state (only for MOCK)
@@ -174,7 +174,7 @@ const handleSave = async () => {
         testId: Number(route.params.testId),
         skillType: `${skillType}`.toUpperCase(),
         level: level,
-        title: materialType == 'PRACTICE' ? title : null,
+        title: materialType == 'PRACTICE' ? title : `Section${sectionNumber}`,
         sectionNumber: materialType == 'MOCK' ? sectionNumber : null
     }
     const response = await listeningStore.saveQuestion(baseData)

@@ -81,7 +81,7 @@ export const COMPONENT_CATEGORIES = {
 export const QUESTION_TYPE_COMPONENTS: Record<string, string[]> = {
 	MULTIPLE_CHOICE: ['HEADER', 'SUBHEADER', 'PARAGRAPH', 'INSTRUCTION_BOX', 'MCQ_OPTIONS', 'IMAGE'],
 
-	MATCHING: ['HEADER', 'SUBHEADER', 'INSTRUCTION_BOX', 'PARAGRAPH', 'TABLE_GRID', 'NUMBERED_LIST', 'MATCHING'],
+	MATCHING: ['HEADER', 'SUBHEADER', 'INSTRUCTION_BOX', 'PARAGRAPH', 'NUMBERED_LIST', 'MATCHING'],
 
 	PLAN_LABELLING: ['HEADER', 'INSTRUCTION_BOX', 'IMAGE', 'INPUT_LINE', 'NUMBERED_LIST'],
 
@@ -136,6 +136,8 @@ export const defaults: Record<string, ComponentConfig> = {
 		startNumber: 25,
 		optionsTitle: 'Opinions',
 		itemsTitle: 'Items',
+		displayStyle: '',
+		maxLines: 3,
 		matchingOptions: [
 			{ id: 'A', text: 'This is only relevant to young people.' },
 			{ id: 'B', text: 'This may have disappointing results.' },
