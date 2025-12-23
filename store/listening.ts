@@ -2,10 +2,11 @@ import { useAxios } from '~/api';
 import { ApiUrls } from '~/api/apis';
 import { addSuccess } from '~/helpers/notification';
 import { getFormatterForType } from './listening-formatter';
+import { detectMCQQuestionType } from './listening-formatter/mcq-options.formatter';
 export const useListeningStore = defineStore('listening', () => {
 	const components = reactive<Component[]>([]);
 	const previewMode = ref(false);
-	const questionType = ref('MATCHING');
+	const questionType = ref('MULTIPLE_CHOICE');
 
 	// Question type metadata storage
 	const questionTypeMetadata = reactive<Map<string, QuestionTypeMetadata>>(new Map());
@@ -117,39 +118,45 @@ export const useListeningStore = defineStore('listening', () => {
 	}
 
 	function transformToBackendFormat(): BackendQuestionData {
-		const groupedByType = new Map<string, Component[]>();
+    const groupedByType = new Map<string, Component[]>();
+    
+    // Group components by question type
+    components.forEach(component => {
+      const type = component.questionType || questionType.value;
+      if (!groupedByType.has(type)) {
+        groupedByType.set(type, []);
+      }
+      groupedByType.get(type)!.push(component);
+    });
 
-		// Group components by question type
-		components.forEach((component) => {
-			const type = component.questionType || questionType.value;
-			if (!groupedByType.has(type)) {
-				groupedByType.set(type, []);
-			}
-			groupedByType.get(type)!.push(component);
-		});
+    // Transform each question type using its specific formatter
+    const questionTypes: BackendQuestionType[] = [];
+    let displayOrder = 1;
 
-		// Transform each question type using its specific formatter
-		const questionTypes: BackendQuestionType[] = [];
-		let displayOrder = 1;
+    groupedByType.forEach((typeComponents, type) => {
+      const metadata = getQuestionTypeMetadata(type);
+      
+      // 🔥 KEY CHANGE: Detect actual question type for MCQ
+      let finalQuestionType = type;
+      if (type === 'MULTIPLE_CHOICE') {
+        finalQuestionType = detectMCQQuestionType(typeComponents);
+      }
+      
+      // Get the appropriate formatter
+      const formatter = getFormatterForType(type);
+      const transformedComponents = formatter(typeComponents);
 
-		groupedByType.forEach((typeComponents, type) => {
-			const metadata = getQuestionTypeMetadata(type);
+      questionTypes.push({
+        type: finalQuestionType, // ✅ Use detected type
+        displayOrder: displayOrder++,
+        startingQuestionNumber: metadata.startingQuestionNumber,
+        endingQuestionNumber: metadata.endingQuestionNumber,
+        components: transformedComponents
+      });
+    });
 
-			// Get the appropriate formatter for this question type
-			const formatter = getFormatterForType(type);
-			const transformedComponents = formatter(typeComponents);
-
-			questionTypes.push({
-				type,
-				displayOrder: displayOrder++,
-				startingQuestionNumber: metadata.startingQuestionNumber,
-				endingQuestionNumber: metadata.endingQuestionNumber,
-				components: transformedComponents
-			});
-		});
-
-		return { questionTypes };
-	}
+    return { questionTypes };
+  }
 
 	async function saveQuestion(baseData: MaterialTestSectionRequestBase) {
 		try {

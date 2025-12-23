@@ -2,6 +2,8 @@
 import { formatDefaultComponents } from './base';
 import { formatMatchingComponents } from './matching.formatter';
 import { formatFormCompletionComponents } from './form-completion.formatter';
+import { formatMultipleChoiceComponents } from './mcq-options.formatter';
+
 
 /**
  * Component formatter function type
@@ -17,6 +19,8 @@ export const questionTypeFormatters: Record<string, ComponentFormatter> = {
   NOTE_COMPLETION: formatDefaultComponents,
   TABLE_COMPLETION: formatDefaultComponents,
   SENTENCE_COMPLETION: formatDefaultComponents,
+  MULTIPLE_CHOICE: formatMultipleChoiceComponents,
+  MULTIPLE_CHOICE_GROUPED: formatMultipleChoiceComponents
   // ... boshqa typelar uchun default formatter yoki maxsus formatter
 };
 

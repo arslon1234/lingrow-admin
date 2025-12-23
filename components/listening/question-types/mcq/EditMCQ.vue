@@ -186,37 +186,6 @@
                     :title="`${getSelectedAnswersCount()} correct answer${getSelectedAnswersCount() > 1 ? 's' : ''} selected`" />
             </div>
         </div>
-
-        <UDivider />
-
-        <!-- Preview -->
-        <!-- <div class="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
-            <p class="text-xs font-medium text-gray-500 mb-3">Preview</p>
-            <div class="space-y-3">
-                <p v-if="component.config.questionText" class="font-medium text-sm">
-                    <span v-if="component.config.multiSelect">
-                        Questions {{ component.config.questionNumber }}-{{ component.config.questionNumberEnd || component.config.questionNumber }}
-                    </span>
-                    <span v-else>
-                        {{ component.config.questionNumber }}.
-                    </span>
-                    {{ component.config.questionText }}
-                </p>
-                <div class="space-y-2">
-                    <label v-for="(option, idx) in component.config.options" :key="`preview-${idx}`"
-                        class="flex items-center gap-2 text-sm cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 p-2 rounded">
-                        <input 
-                            :type="component.config.multiSelect ? 'checkbox' : 'radio'"
-                            :name="`preview-mcq-${component.id}`"
-                            class="cursor-pointer" />
-                        <span>{{ String.fromCharCode(65 + idx) }}) {{ option }}</span>
-                        <UBadge v-if="isCorrectAnswer(option)" color="green" variant="soft" size="xs">
-                            ✓ Correct
-                        </UBadge>
-                    </label>
-                </div>
-            </div>
-        </div> -->
     </div>
 </template>
 

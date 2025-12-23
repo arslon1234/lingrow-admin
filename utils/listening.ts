@@ -115,7 +115,7 @@ export const defaults: Record<string, ComponentConfig> = {
 	INPUT_LINE: { label: 'Question 1', placeholder: 'Answer', maxLength: 50 },
 	INPUT_INLINE: { beforeText: 'The answer is', afterText: 'here', placeholder: '___', correctAnswer: '', questionNumber: 1 },
 	MCQ_OPTIONS: {
-		options: ['A) ', 'B) ', 'C) ', 'D) '],
+		options: ['option1 ', 'option2', 'option3'],
 		multiSelect: false,
 		questionText: '',
 		questionNumber: 1,
