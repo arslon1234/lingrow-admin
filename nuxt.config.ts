@@ -33,12 +33,6 @@ export default defineNuxtConfig({
 		port: parseInt(process.env.LOCAL_PORT as string) ?? 8001
 	},
 	modules: ['@pinia/nuxt', '@nuxt/ui', '@nuxtjs/tailwindcss', 'dayjs-nuxt', 'nuxt-rating', '@nuxt/image'],
-	dayjs: {
-		locales: ['en', 'fr'],
-		plugins: ['relativeTime', 'utc', 'timezone'],
-		defaultLocale: 'en',
-		defaultTimezone: 'America/New_York'
-	},
 	css: ['~/assets/css/main.css'],
 	colorMode: {
 		preference: 'light'

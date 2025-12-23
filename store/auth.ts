@@ -11,7 +11,6 @@ import { useUsersStore } from './users';
 
 // importing helpers
 import { addSuccess } from '~/helpers/notification';
-import { userService } from '~/helpers/user';
 
 export const useAuthStore = defineStore('auth', () => {
 	// Token cookies
@@ -37,7 +36,7 @@ export const useAuthStore = defineStore('auth', () => {
 				const { accessToken, refreshToken } = result.data;
 
 				// Save tokens and user data
-				await setSession(accessToken, refreshToken, add(dayjs(), 10, 'hour').format());
+				await setSession(accessToken, refreshToken);
 				await usersStore.getUsers()
 				// saveUserData(user);
 
@@ -60,7 +59,6 @@ export const useAuthStore = defineStore('auth', () => {
 	 */
 	function logout() {
 		clearSession();
-		clearUserData();
 		navigateTo('/auth/login');
 	}
 
@@ -77,7 +75,7 @@ export const useAuthStore = defineStore('auth', () => {
 				const { accessToken, refreshToken } = result.data;
 
 				// Update tokens
-				setSession(accessToken, refreshToken, add(dayjs(), 10, 'hour').format());
+				setSession(accessToken, refreshToken);
 			} else {
 				throw new Error('Invalid token refresh response.');
 			}
@@ -93,39 +91,16 @@ export const useAuthStore = defineStore('auth', () => {
 	 * @param refreshToken - Refresh token
 	 * @param expireTime - Token expiration time
 	 */
-	async function setSession(accessToken: string, refreshToken: string, expireTime: string) {
+	async function setSession(accessToken: string, refreshToken: string) {
 		accessTokenCookie.value = accessToken;
 		refreshTokenCookie.value = refreshToken;
-		setExpireTime(expireTime);
 	}
 	/**
-	 * Clears tokens and expiration time.
+	 * Clears tokens
 	 */
 	function clearSession() {
 		accessTokenCookie.value = null;
 		refreshTokenCookie.value = null;
-		removeExpireTime();
-		removeCarrierId();
-		removeCarrierTimeZoneId();
-	}
-
-	/**
-	 * Saves user data to localStorage.
-	 * @param user - User object
-	 */
-	function saveUserData(user: UserAuth) {
-		setUser(user);
-		setRoles(user?.roles);
-		setProviderId(user?.providerId);
-	}
-
-	/**
-	 * Clears user data from localStorage.
-	 */
-	function clearUserData() {
-		removeUser();
-		removeRoles();
-		removeProviderId();
 	}
 
 	return {
