@@ -21,7 +21,7 @@ export function formatFormCompletionComponents(components: Component[]): Backend
         type: 'INPUT_LINE',
         displayOrder: displayOrder++,
         questionNumber: component.config.questionNumber || null,
-        correctAnswers: component.config.correctAnswer ? [component.config.correctAnswer] : [],
+        correctAnswers: component.config.correctAnswer ? component.config.correctAnswer : [],
         data: {
           label: component.config.label || '',
           placeholder: component.config.placeholder || '',

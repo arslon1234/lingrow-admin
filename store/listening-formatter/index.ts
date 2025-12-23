@@ -15,7 +15,7 @@ export type ComponentFormatter = (components: Component[]) => BackendComponent[]
  */
 export const questionTypeFormatters: Record<string, ComponentFormatter> = {
   MATCHING: formatMatchingComponents,
-  // FORM_COMPLETION: formatFormCompletionComponents,
+  FORM_COMPLETION: formatFormCompletionComponents,
   NOTE_COMPLETION: formatDefaultComponents,
   TABLE_COMPLETION: formatDefaultComponents,
   SENTENCE_COMPLETION: formatDefaultComponents,
