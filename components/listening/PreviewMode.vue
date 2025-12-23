@@ -2,17 +2,17 @@
     <div class="border-2 border-dashed border-gray-300 rounded-lg p-6">
         <div v-for="component in components" :key="component.id">
             <!-- Header -->
-            <component v-if="component.type === 'HEADER'" is="h3" class="font-bold mb-2 text-center">
+            <component v-if="component.type === 'HEADER'" is="h1" class="font-bold mb-2 text-center">
                 {{ component.config.text }}
             </component>
 
             <!-- Subheader -->
-            <h4 v-else-if="component.type === 'SUBHEADER'" class="text-gray-700 mb-2 font-semibold">
+            <h4 v-else-if="component.type === 'SUBHEADER'" is="h2" class="text-gray-700 mb-2 font-semibold">
                 {{ component.config.text }}
             </h4>
 
             <!-- Paragraph or Text Line -->
-            <p v-else-if="component.type === 'PARAGRAPH' || component.type === 'TEXT_LINE'" class="mb-2 text-gray-800">
+            <p v-else-if="component.type === 'PARAGRAPH' || component.type === 'TEXT_LINE'" class="mb-2 text-gray-800 text-justify">
                 {{ component.config.text }}
             </p>
 
@@ -26,20 +26,21 @@
             <!-- Instruction Box -->
             <div v-else-if="component.type === 'INSTRUCTION_BOX'"
                 class="mb-4 p-4 rounded-lg bg-gray-50 border-l-4 border-gray-400">
-                <p class="text-sm text-gray-700 italic">
+                <p class="text-md text-gray-900 italic">
                     {{ component.config.text }}
                 </p>
             </div>
 
             <!-- Input Inline -->
-            <p v-else-if="component.type === 'INPUT_INLINE'" class="mb-2">
+            <!-- <p v-else-if="component.type === 'INPUT_INLINE'" class="mb-2">
                 {{ component.config.beforeText }}
                 <span class="font-bold">{{ component.config.questionNumber || 1 }}.</span>
                 <input type="text" :placeholder="component.config.placeholder || '___'"
                     class="border-b-2 border-gray-400 px-2 py-1 mx-1 w-32 bg-gray-50" />
                 {{ component.config.afterText }}
-            </p>
-
+            </p> -->
+            <input-in-line v-else-if="component.type === 'INPUT_INLINE'" :component="component"/>
+            
             <!-- Multiple Choice Qustion Options -->
             <mcq-preview v-else-if="component.type === 'MCQ_OPTIONS'" :component="component" />
 
@@ -77,6 +78,7 @@ import BulletListPreview from './question-types/bullet-list/PreviewBulletList.vu
 import McqPreview from './question-types/mcq/PreviewMCQ.vue';
 import MapPreview from './question-types/map/PreviewMap.vue';
 import MatchingPreview from './question-types/matching/preview.vue'
+import InputInLine from './question-types/input-inline/preview.vue'
 
 defineProps(['components'])
 

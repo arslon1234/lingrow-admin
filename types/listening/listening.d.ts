@@ -37,7 +37,8 @@ declare interface ComponentConfig {
   data?: any[][]
   title?: string
   startNumber?: number
-  bulletStyle?: string
+  bulletStyle?: string,
+  blanks?: any[] // INPUT INLINE
   
   // Matching component uchun alohida fieldlar
   instruction?: string

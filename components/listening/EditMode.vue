@@ -22,7 +22,7 @@
 
             <!-- HEADER -->
             <div v-if="component.type === 'HEADER'" class="space-y-2">
-                <UFormGroup label="Header Text" size="sm">
+                <UFormGroup label="Header Text" size="lg">
                     <UInput :model-value="component.config.text"
                         @update:model-value="listeningStore.updateComponent(component.id, { ...component.config, text: $event })"
                         placeholder="Enter header text" size="md" />
@@ -43,7 +43,7 @@
 
             <!-- INSTRUCTION_BOX -->
             <div v-else-if="component.type === 'INSTRUCTION_BOX'" class="space-y-2">
-                <UFormGroup label="Instructions" size="md">
+                <UFormGroup label="Instructions" size="lg">
                     <UTextarea :model-value="component.config.text"
                         @update:model-value="listeningStore.updateComponent(component.id, { ...component.config, text: $event })"
                         placeholder="Write NO MORE THAN TWO WORDS for each answer..." :rows="2" size="sm" />
@@ -54,7 +54,7 @@
             <EditInputLine v-else-if="component.type === 'INPUT_LINE'" :component="component" />
 
             <!-- INPUT_INLINE -->
-            <div v-else-if="component.type === 'INPUT_INLINE'" class="space-y-3">
+            <!-- <div v-else-if="component.type === 'INPUT_INLINE'" class="space-y-3">
                 <UFormGroup label="Text Before Blank" size="sm">
                     <UInput :model-value="component.config.beforeText"
                         @update:model-value="listeningStore.updateComponent(component.id, { ...component.config, beforeText: $event })"
@@ -81,7 +81,9 @@
                             size="sm" />
                     </UFormGroup>
                 </div>
-            </div>
+            </div> -->
+
+            <EditInputInLine v-else-if="component.type === 'INPUT_INLINE'" :component="component" />
 
             <!-- MCQ_OPTIONS -->
             <MCQ v-else-if="component.type === 'MCQ_OPTIONS'" :component="component" />
@@ -120,7 +122,7 @@ import NumberedList from './question-types/numbered-list/EditNumberedList.vue';
 import BulletList from './question-types/bullet-list/EditBulletList.vue';
 import EditMap from './question-types/map/EditMap.vue';
 import EditMatching from './question-types/matching/edit.vue'
-
+import EditInputInLine from './question-types/input-inline/edit.vue';
 const listeningStore = useListeningStore()
 
 defineProps(['components'])

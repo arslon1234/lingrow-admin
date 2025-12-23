@@ -1,9 +1,9 @@
 // store/formatters/index.ts
 import { formatDefaultComponents } from './base';
 import { formatMatchingComponents } from './matching.formatter';
-import { formatFormCompletionComponents } from './form-completion.formatter';
+// import { formatFormCompletionComponents } from './form-completion.formatter';
 import { formatMultipleChoiceComponents } from './mcq-options.formatter';
-
+import { formatFormCompletionComponents } from './summary-completion';
 
 /**
  * Component formatter function type
@@ -15,12 +15,13 @@ export type ComponentFormatter = (components: Component[]) => BackendComponent[]
  */
 export const questionTypeFormatters: Record<string, ComponentFormatter> = {
   MATCHING: formatMatchingComponents,
-  FORM_COMPLETION: formatFormCompletionComponents,
+  // FORM_COMPLETION: formatFormCompletionComponents,
   NOTE_COMPLETION: formatDefaultComponents,
   TABLE_COMPLETION: formatDefaultComponents,
   SENTENCE_COMPLETION: formatDefaultComponents,
   MULTIPLE_CHOICE: formatMultipleChoiceComponents,
-  MULTIPLE_CHOICE_GROUPED: formatMultipleChoiceComponents
+  MULTIPLE_CHOICE_GROUPED: formatMultipleChoiceComponents,
+  SUMMARY_COMPLETION: formatFormCompletionComponents
   // ... boshqa typelar uchun default formatter yoki maxsus formatter
 };
 

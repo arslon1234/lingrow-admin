@@ -6,7 +6,7 @@ import { detectMCQQuestionType } from './listening-formatter/mcq-options.formatt
 export const useListeningStore = defineStore('listening', () => {
 	const components = reactive<Component[]>([]);
 	const previewMode = ref(false);
-	const questionType = ref('MULTIPLE_CHOICE');
+	const questionType = ref('SUMMARY_COMPLETION');
 
 	// Question type metadata storage
 	const questionTypeMetadata = reactive<Map<string, QuestionTypeMetadata>>(new Map());

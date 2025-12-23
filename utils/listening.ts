@@ -97,7 +97,7 @@ export const QUESTION_TYPE_COMPONENTS: Record<string, string[]> = {
 
 	FLOW_CHART_COMPLETION: ['HEADER', 'INSTRUCTION_BOX', 'IMAGE', 'INPUT_INLINE', 'TEXT_LINE'],
 
-	SUMMARY_COMPLETION: ['HEADER', 'INSTRUCTION_BOX', 'PARAGRAPH', 'INPUT_INLINE'],
+	SUMMARY_COMPLETION: ['HEADER', 'INSTRUCTION_BOX', 'TEXT_LINE', 'INPUT_INLINE'],
 
 	SENTENCE_COMPLETION: ['HEADER', 'INSTRUCTION_BOX', 'INPUT_INLINE', 'NUMBERED_LIST', 'TEXT_LINE'],
 
@@ -113,7 +113,15 @@ export const defaults: Record<string, ComponentConfig> = {
 	PARAGRAPH: { text: 'Enter paragraph text...' },
 	TEXT_LINE: { text: 'Text line' },
 	INPUT_LINE: { label: 'Question 1', placeholder: 'Answer', maxLength: 50 },
-	INPUT_INLINE: { beforeText: 'The answer is', afterText: 'here', placeholder: '___', correctAnswer: '', questionNumber: 1 },
+	INPUT_INLINE: {
+		text: 'Documentation of past weather conditions is limited: our main sources of knowledge of conditions in the distant past are ___ and ___. We can deduce that the Little Ice Age was a time of ___, rather than of consistent freezing.',
+		blanks: [
+			{ id: 1, questionNumber: 18, correctAnswer: '', placeholder: '___' },
+			{ id: 2, questionNumber: 19, correctAnswer: '', placeholder: '___' },
+			{ id: 3, questionNumber: 20, correctAnswer: '', placeholder: '___' }
+		]
+	},
+	// INPUT_INLINE: { beforeText: 'The answer is', afterText: 'here', placeholder: '___', correctAnswer: '', questionNumber: 1 },
 	MCQ_OPTIONS: {
 		options: ['option1 ', 'option2', 'option3'],
 		multiSelect: false,
