@@ -156,20 +156,10 @@
 
 <script setup>
 //icon
-import BellIcon from '~/assets/icons/bell-03.svg';
 import MessageIcon from '~/assets/icons/message-text-square-01.svg';
 import FileIcon from '~/assets/icons/file-02.svg';
-import IftaIcon from '~/assets/icons/ifta.svg';
-import ListIcon from '~/assets/icons/list.svg';
 import LogautIcon from '~/assets/icons/log-out-02.svg';
-import MapIcon from '~/assets/icons/map-01.svg';
 import SettengsIcon from '~/assets/icons/settings-02.svg';
-import ToolIcon from '~/assets/icons/tool-02.svg';
-import TruckIcon from '~/assets/icons/truck-02.svg';
-import UserIcon from '~/assets/icons/user-01.svg';
-import UsersIcon from '~/assets/icons/users-01.svg';
-import User1Icon from '../assets/icons/user-02.svg';
-
 
 // stores
 import { useIndex } from '~/store';
