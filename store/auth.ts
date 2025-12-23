@@ -32,7 +32,6 @@ export const useAuthStore = defineStore('auth', () => {
 
 			const result = await useAxios().postRequest(ApiUrls.AUTH_LOGIN_URL, modelRequest);
 			if (result?.status === 200) {
-				console.log(result);
 				const { accessToken, refreshToken } = result.data;
 
 				// Save tokens and user data
