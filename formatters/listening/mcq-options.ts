@@ -1,5 +1,5 @@
 // store/formatters/multiple-choice.formatter.ts
-import { formatDefaultComponent } from './base';
+import { formatDefaultComponent } from '../base';
 
 /**
  * MULTIPLE_CHOICE question type formatter

@@ -1,5 +1,5 @@
 // store/formatters/form-completion.formatter.ts
-import { formatDefaultComponents } from './base';
+import { formatDefaultComponents } from '../base';
 
 /**
  * FORM_COMPLETION question type formatter

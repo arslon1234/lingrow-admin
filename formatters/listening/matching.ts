@@ -1,4 +1,4 @@
-// store/formatters/matching.formatter.ts
+// formatters/matching.ts
 /**
  * MATCHING question type formatter
  * Converts 1 MATCHING component -> MATCHING_OPTIONS + multiple MATCHING_ITEMs

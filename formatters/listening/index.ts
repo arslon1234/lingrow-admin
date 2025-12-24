@@ -1,8 +1,8 @@
 // store/formatters/index.ts
-import { formatDefaultComponents } from './base';
-import { formatMatchingComponents } from './matching.formatter';
+import { formatDefaultComponents } from '../base';
+import { formatMatchingComponents } from './matching';
 // import { formatFormCompletionComponents } from './form-completion.formatter';
-import { formatMultipleChoiceComponents } from './mcq-options.formatter';
+import { formatMultipleChoiceComponents } from './mcq-options';
 import { formatFormCompletionComponents } from './summary-completion';
 
 /**
@@ -22,7 +22,6 @@ export const questionTypeFormatters: Record<string, ComponentFormatter> = {
   MULTIPLE_CHOICE: formatMultipleChoiceComponents,
   MULTIPLE_CHOICE_GROUPED: formatMultipleChoiceComponents,
   SUMMARY_COMPLETION: formatFormCompletionComponents
-  // ... boshqa typelar uchun default formatter yoki maxsus formatter
 };
 
 /**
@@ -35,7 +34,7 @@ export function getFormatterForType(type: string): ComponentFormatter {
 /**
  * Export all formatters
  */
-export * from './base';
-export * from './matching.formatter';
-// export * from './multiple-choice.formatter';
-export * from './form-completion.formatter';
+export * from '../base';
+export * from './matching';
+export * from './mcq-options';
+export * from './form-completion';

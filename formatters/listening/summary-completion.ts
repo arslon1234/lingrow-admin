@@ -1,6 +1,6 @@
 // store/formatters/form-completion.formatter.ts
-import { formatDefaultComponent } from './base';
-import { formatInputInlineComponent } from '@/helpers/input-inline';
+import { formatDefaultComponent } from '../base';
+import { formatInputInlineComponent } from './input-inline';
 
 /**
  * FORM_COMPLETION question type formatter

@@ -1,8 +1,8 @@
 import { useAxios } from '~/api';
 import { ApiUrls } from '~/api/apis';
 import { addSuccess } from '~/helpers/notification';
-import { getFormatterForType } from './listening-formatter';
-import { detectMCQQuestionType } from './listening-formatter/mcq-options.formatter';
+import { getFormatterForType } from '@/formatters/listening';
+import { detectMCQQuestionType } from '@/formatters/listening/mcq-options';
 export const useListeningStore = defineStore('listening', () => {
 	const components = reactive<Component[]>([]);
 	const previewMode = ref(false);
@@ -164,10 +164,9 @@ export const useListeningStore = defineStore('listening', () => {
 			const pendingData = {...formattedData, ...baseData}
 			// API call
 			const result = await useAxios().postRequest(ApiUrls.TEST_SECTIONS, pendingData);
-			console.log(result)
-			// if (result.status === 200) {
-			// 	addSuccess('Question saved successfully');
-			// }
+			if (result.status === 201) {
+				addSuccess('Question saved successfully');
+			}
 
 			
 		} catch (error) {
