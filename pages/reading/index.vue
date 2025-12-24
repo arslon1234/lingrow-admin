@@ -27,7 +27,7 @@ import AudioUpload from '~/components/modal/AudioUpload.vue';
 import QuestionComposer from '~/components/listening/QuestionComposer.vue';
 import QuestionComponents from '~/components/listening/QuestionComponents.vue';
 import QuestionLayout from '~/components/listening/QuestionLayout.vue';
-import { useListeningComposable } from '~/composables/pages/listening';
+import { useListeningComposable } from '~/composables/materials/listening';
 
 const { audioUpload, statusModal, handleFileUpload } = await useListeningComposable()
 </script>

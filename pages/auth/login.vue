@@ -81,7 +81,7 @@
 </template>
 
 <script setup>
-import { useLoginComposable } from '~/composables/pages/auth/login';
+import { useLoginComposable } from '~/composables/auth/login';
 
 const TELEGRAM_BOT_LINK = 'https://t.me/lingrowbot';
 
