@@ -44,8 +44,8 @@
 
 <script setup>
 // importing icons
-import ChevronDownIcon from '~/assets/icons/chevron-down.svg';
-import ChevronUpIcon from '~/assets/icons/chevron-up.svg';
+import ChevronDownIcon from '~/components/icons/ChevronDownIcon.vue';
+import ChevronUpIcon from '~/components/icons/ChevronUpIcon.vue';
 import XCircleIcon from '~/assets/icons/x-circle.svg';
 
 const emits = defineEmits(['update:modelValue']);
