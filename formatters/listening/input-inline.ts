@@ -1,3 +1,4 @@
+// formatters/listening/input-inline.ts
 
 /**
  * Format INPUT_INLINE component (can have multiple blanks)
@@ -9,7 +10,7 @@ export function formatInputInlineComponent(
 ): BackendComponent[] {
   const blanks = component.config.blanks || [];
   
-  // If no blanks configured, return single component
+  // If no blanks configured, return single component (fallback)
   if (blanks.length === 0) {
     return [{
       type: 'INPUT_INLINE',
@@ -25,7 +26,7 @@ export function formatInputInlineComponent(
     }];
   }
   
-  // Multiple blanks: create separate component for each
+  // Multiple blanks: create separate component for each blank
   return blanks.map((blank: any, index: number) => ({
     type: 'INPUT_INLINE',
     displayOrder: startDisplayOrder + index,
@@ -33,11 +34,14 @@ export function formatInputInlineComponent(
     correctAnswers: [
       blank.correctAnswer,
       ...(blank.alternativeAnswers || [])
-    ].filter(Boolean),
+    ].filter((ans: string) => ans && ans.trim() !== ''), // Remove empty values
     data: {
       text: component.config.text || '',
-      blankIndex: index,
-      placeholder: blank.placeholder || '___'
+      blankIndex: index, // Track which blank this is
+      placeholder: blank.placeholder || '___',
+      // Optional: Include formatting metadata
+      hasLineBreaks: (component.config.text || '').includes('\n'),
+      hasParagraphBreaks: (component.config.text || '').includes('[p]')
     }
   }));
 }
