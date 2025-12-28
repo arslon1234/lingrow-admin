@@ -1,61 +1,8 @@
 <!-- components/listening/question-types/input-inline/EditInputInlineMultiple.vue -->
 <template>
     <div class="space-y-3">
-        <!-- Editor Type Toggle -->
-        <div class="flex items-center justify-between">
-            <label class="text-sm font-medium text-gray-700">Text Input Mode</label>
-            <UButtonGroup size="xs" orientation="horizontal">
-                <UButton 
-                    :color="!useRichEditor ? 'primary' : 'gray'"
-                    :variant="!useRichEditor ? 'solid' : 'outline'"
-                    @click="switchToSimpleMode">
-                    <UIcon name="i-heroicons-document-text" class="w-4 h-4 mr-1" />
-                    Simple
-                </UButton>
-                <UButton 
-                    :color="useRichEditor ? 'primary' : 'gray'"
-                    :variant="useRichEditor ? 'solid' : 'outline'"
-                    @click="switchToRichMode">
-                    <UIcon name="i-heroicons-sparkles" class="w-4 h-4 mr-1" />
-                    Rich Editor
-                </UButton>
-            </UButtonGroup>
-        </div>
-
-        <!-- Simple Textarea Mode -->
-        <UFormGroup v-if="!useRichEditor" label="Text with Blanks" size="lg">
-            <UTextarea 
-                :model-value="component.config.text" 
-                @update:model-value="updateText"
-                placeholder="Enter text with ___ for each blank. Press Enter for new lines..." 
-                :rows="8" 
-                size="lg" 
-            />
-            <template #hint>
-                <div class="flex items-center gap-2 mt-2">
-                    <UPopover :popper="{ placement: 'right' }">
-                        <UButton icon="i-heroicons-information-circle" size="xs" variant="soft" color="gray">
-                            Guide
-                        </UButton>
-                        <template #panel>
-                            <div class="p-3 space-y-2">
-                                <p class="text-sm font-semibold">Simple Mode:</p>
-                                <ul class="ml-4 space-y-1 list-disc text-sm">
-                                    <li>Use <code class="bg-gray-200 px-1 rounded">___</code> for blanks</li>
-                                    <li>Press <kbd class="bg-gray-200 px-1 rounded">Enter</kbd> for line breaks</li>
-                                </ul>
-                            </div>
-                        </template>
-                    </UPopover>
-                    <span class="text-xs text-gray-500">
-                        Need formatting? Switch to Rich Editor
-                    </span>
-                </div>
-            </template>
-        </UFormGroup>
-
         <!-- Rich Text Editor Mode -->
-        <div v-else class="space-y-2">
+        <div class="space-y-2">
             <label class="text-sm font-medium text-gray-700">Text with Blanks (Rich Editor)</label>
             
             <!-- Editor Toolbar -->
@@ -305,18 +252,6 @@
             </div>
         </div>
 
-        <!-- Live Preview -->
-        <div class="border-2 border-dashed border-purple-200 rounded-lg p-4 bg-purple-50">
-            <div class="flex items-center justify-between mb-3">
-                <label class="text-sm font-semibold text-purple-900 flex items-center gap-2">
-                    <UIcon name="i-heroicons-eye" class="w-4 h-4" />
-                    Live Preview
-                </label>
-                <UBadge color="purple" variant="soft" size="xs">Real-time</UBadge>
-            </div>
-            <div v-html="renderLivePreview" class="prose max-w-none"></div>
-        </div>
-
         <!-- Blanks Configuration -->
         <div class="space-y-2">
             <div class="flex items-center justify-between">
@@ -493,23 +428,6 @@ const insertBlank = () => {
     editor.value?.chain().focus().insertContent('___').run()
 }
 
-// Switch modes
-const switchToSimpleMode = () => {
-    useRichEditor.value = false
-    // Convert HTML to plain text
-    if (editor.value) {
-        const plainText = editor.value.getText()
-        updateText(plainText)
-    }
-}
-
-const switchToRichMode = () => {
-    useRichEditor.value = true
-    nextTick(() => {
-        editor.value?.commands.setContent(props.component.config.text || '')
-    })
-}
-
 // Detect blanks
 const detectedBlanksCount = computed(() => {
     const text = props.component.config.text || ''
@@ -521,34 +439,6 @@ const allBlanksConfigured = computed(() => {
     return blanks.value.every((blank: any) =>
         blank.questionNumber && blank.correctAnswer?.trim()
     )
-})
-
-// Live preview
-const renderLivePreview = computed(() => {
-    let text = props.component.config.text || ''
-    const currentBlanks = blanks.value
-
-    if (!useRichEditor.value) {
-        text = text
-            .replace(/&/g, '&amp;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;')
-            .replace(/\n/g, '<br>')
-    }
-
-    let blankIndex = 0
-    text = text.replace(/___/g, () => {
-        if (blankIndex < currentBlanks.length) {
-            const blank = currentBlanks[blankIndex++]
-            return `<span class="inline-flex items-baseline gap-1 mx-1 px-2 py-1 bg-white border-2 border-purple-300 rounded">
-                <span class="text-xs font-bold text-purple-600">${blank.questionNumber || '?'}</span>
-                <span class="text-gray-400 italic text-sm">_________</span>
-            </span>`
-        }
-        return '<span class="text-red-500 font-bold">___</span>'
-    })
-
-    return useRichEditor.value ? text : `<p>${text}</p>`
 })
 
 // Update text
