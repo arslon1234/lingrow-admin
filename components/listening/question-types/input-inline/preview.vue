@@ -11,16 +11,16 @@ const props = defineProps(['component'])
 const renderTextWithBlanks = computed(() => {
     let text = props.component.config.text || ''
     const blanks = props.component.config.blanks || []
-    const isRichText = props.component.config.useRichEditor || false
+    // const isRichText = props.component.config.useRichEditor || false
 
     // If not rich text, process as before
-    if (!isRichText) {
-        text = text
-            .replace(/&/g, '&amp;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;')
-            .replace(/\n/g, '<br>')
-    }
+    // if (!isRichText) {
+    //     text = text
+    //         .replace(/&/g, '&amp;')
+    //         .replace(/</g, '&lt;')
+    //         .replace(/>/g, '&gt;')
+    //         .replace(/\n/g, '<br>')
+    // }
     // If rich text, HTML is already formatted - just use it
 
     // Replace blanks with inputs
@@ -42,7 +42,8 @@ const renderTextWithBlanks = computed(() => {
         return '<span class="text-red-500">___</span>'
     })
 
-    return isRichText ? text : `<p>${text}</p>`
+    // return isRichText ? text : `<p>${text}</p>`
+    return `<p>${text}</p>`
 })
 </script>
 

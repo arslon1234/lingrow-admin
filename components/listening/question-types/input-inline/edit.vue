@@ -2,7 +2,7 @@
 <template>
     <div class="space-y-3">
         <!-- Rich Text Editor Mode -->
-        <div class="space-y-2">
+        <div class="">
             <label class="text-sm font-medium text-gray-700">Text with Blanks (Rich Editor)</label>
             
             <!-- Editor Toolbar -->
@@ -393,7 +393,7 @@ const editor = useEditor({
                 levels: [1, 2, 3, 4]
             }
         }),
-        Underline,
+        // Underline,
         TextAlign.configure({
             types: ['heading', 'paragraph'],
         }),
