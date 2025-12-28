@@ -6,7 +6,7 @@
             <label class="text-sm font-medium text-gray-700">Text with Blanks (Rich Editor)</label>
             
             <!-- Editor Toolbar -->
-            <div v-if="editor" class="border border-gray-300 rounded-t-lg bg-gray-50 p-2 space-y-2">
+            <div v-if="editor" class="border border-gray-300 rounded-t-lg bg-gray-50 p-2 space-y-2 mt-1">
                 <!-- Row 1: Text Formatting -->
                 <div class="flex flex-wrap gap-1">
                     <UButton 
@@ -225,18 +225,6 @@
                         size="xs"
                         title="Redo (Ctrl+Y)">
                         <UIcon name="i-heroicons-arrow-uturn-right" class="w-4 h-4" />
-                    </UButton>
-
-                    <UDivider orientation="vertical" class="h-6" />
-
-                    <!-- Clear Formatting -->
-                    <UButton 
-                        @click="editor.chain().focus().clearNodes().unsetAllMarks().run()"
-                        color="red"
-                        variant="soft"
-                        size="xs"
-                        title="Clear formatting">
-                        <UIcon name="i-heroicons-x-circle" class="w-4 h-4" />
                     </UButton>
                 </div>
             </div>
@@ -536,7 +524,7 @@ onBeforeUnmount(() => {
 <style scoped>
 /* TipTap Editor Custom Styles */
 :deep(.ProseMirror) {
-    min-height: 250px;
+    min-height: 220px;
     outline: none;
 }
 
